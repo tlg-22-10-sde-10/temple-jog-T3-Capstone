@@ -4,7 +4,12 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        clearScreen();
         Scanner scanner = new Scanner(System.in);
+        System.out.println(TitleScreen.displaySetup());
+        scanner.nextLine();
+        clearScreen();
+        System.out.println(TitleScreen.displayTitle());
         System.out.println("Start Game? y/n");
         String playerInput = scanner.nextLine();
         playerInput = playerInput.toLowerCase().substring(0,1);
@@ -22,6 +27,12 @@ public class Main {
         }
         else System.out.println("Good Bye");
         System.out.println("Game End");
+        clearScreen();
+    }
+
+    private static void clearScreen(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
 }

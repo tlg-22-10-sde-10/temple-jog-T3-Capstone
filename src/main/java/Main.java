@@ -7,6 +7,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/*TODO
+    - TEXT PARSER:
+        - handle incomplete verb/noun entries
+        - create synonyms map/list for accepted verbs
+*/
+
 public class Main {
 
     public static void main(String[] args) throws IOException {

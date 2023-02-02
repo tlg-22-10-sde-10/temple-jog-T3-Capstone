@@ -19,7 +19,7 @@
       "name": "Weapon Zone",
       "description": "You are in room-2. You have collected Desert Eagle for your safety. You have options to go either north or east.",
       "west": "",
-      "south": "",
+      "south": "room01",
       "north": "room03",
       "east": "room05",
       "items": [
@@ -245,6 +245,3 @@
     "story": "A temple in remote location, but it's actually an Alien ship They’re trying to contact their home world so they can invade Earth. A Major Government power is looking to Nuke the whole area because “It’s the only way to be sure” they don’t contact their home world. You are a part of a special ops team that has intel that states even if the site is nuked, the signal will still be sent. \n Your mission (and you already chose to accept it) is to infiltrate the temple and find a means to disable the communication device and get out before the nuke drops. You will be dropped to the south of the temple nearby. Your exfiltration route will be back the way you came in. Ensure you get back to the pick up with enough time for us to pick you up. If you miss the window, we will not be able to safely extract you."
   }
 }
-
-
-

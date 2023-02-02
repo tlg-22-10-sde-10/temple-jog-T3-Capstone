@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -28,7 +27,6 @@ public class Game {
         String verb = choice[0];
         String noun = "";
         if( choice.length > 1 ) noun = choice[1];
-
         if(verb.equals("quit") || noun.equals("quit")) processQuitting(verb);
         if(verb.equals("go")) processNavigating(noun);
         if(verb.equals("get")) System.out.println("getting "+ noun);
@@ -40,8 +38,17 @@ public class Game {
 // Engines
     private String processNavigating(String noun){
         System.out.println("going "+ noun);
-
-        return "";
+        String accessableRoom = "";
+        String directionValue = getCurrentRoom().checkDirection(noun);
+        if( directionValue.length() > 1  ) {
+            accessableRoom = directionValue;
+            Room validRoom = getRooms().get(accessableRoom);
+            setCurrentRoom( validRoom );
+            System.out.println("Going to"+ getCurrentRoom().name);
+            return accessableRoom;
+        };
+        System.out.println("cannot go in that direction");
+        return accessableRoom;
     }
     private String processGetting(String noun){return "";}
     private String processUsing(String noun){return "";}

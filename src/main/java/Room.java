@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Room {
@@ -10,6 +11,17 @@ public class Room {
     boolean hasBeenVisited;
 
     public Room(){}
+
+    public String checkDirection(String noun){
+        HashMap<String, String> directions = new HashMap<>();
+        directions.put("west",getWest());
+        directions.put("north",getNorth());
+        directions.put("south",getSouth());
+        directions.put("east",getEast());
+
+        String dir = directions.get(noun);
+        return dir;
+    }
 
     public Integer getNumber() { return number;}
     public void setNumber(Integer number) { this.number = number;}

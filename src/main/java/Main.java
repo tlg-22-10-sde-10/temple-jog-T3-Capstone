@@ -10,7 +10,6 @@ import java.util.Scanner;
 /*TODO
     - TEXT PARSER:
         - handle incomplete verb/noun entries
-        - create synonyms map/list for accepted verbs
 */
 
 public class Main {
@@ -31,6 +30,7 @@ public class Main {
 //
             HashMap<Object, Object> roomsMap = new HashMap<>();
             HashMap<Object, Object> encountersMap = new HashMap<>();
+
 // PARSE JSON -> CLASS
             File jsonFile = new File("src/maps.json");
             ObjectMapper objectMapper = new ObjectMapper();
@@ -51,6 +51,7 @@ public class Main {
             do{
                 System.out.println("*"+game.getCurrentRoom().name);
                 System.out.println("What do you want to do");
+                game.isNewRoom();
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 game.processChoice(choice);

@@ -6,6 +6,7 @@ public class TextParser {
     /*              CONSTANT FIELDS                         */
     public static final List<String> GO_SYNONYMS = Arrays.asList("move", "walk", "travel", "skip");
     public static final List<String> GET_SYNONYMS = Arrays.asList("pickup", "grab", "obtain");
+    public static final List<String> USE_SYNONYMS = Arrays.asList("utilize", "");
     public static final List<String> QUIT_SYNONYMS = Arrays.asList("exit", "end", "quit");
     public static final List<String> LOOK_SYNONYMS = Arrays.asList("inspect","view","observe","peek");
 
@@ -26,6 +27,8 @@ public class TextParser {
             parsed[0] = "quit";
         } else if(LOOK_SYNONYMS.contains(verb)) {
             parsed[0] = "look";
+        } else if(USE_SYNONYMS.contains(verb)) {
+            parsed[0] = "use";
         }
         return parsed;
     }

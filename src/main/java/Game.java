@@ -23,6 +23,14 @@ public class Game {
         setScannerString(scannerString);
     }
 
+    public Boolean isNewRoom(){
+        Boolean hasBeenVisited = getCurrentRoom().hasBeenVisited;
+
+        if( hasBeenVisited && )
+
+        return false;
+    }
+
     public void processChoice(String[] choice){
         String verb = choice[0];
         String noun = "";
@@ -30,12 +38,22 @@ public class Game {
         if(verb.equals("quit") || noun.equals("quit")) processQuitting(verb);
         if(verb.equals("go")) processNavigating(noun);
         if(verb.equals("get")) System.out.println("getting "+ noun);
+        if(verb.equals("look")) processLooking(noun);
         if(verb.equals("use")) System.out.println("using "+ noun);
         if(verb.equals("help")) System.out.println("helping "+ noun);
 
     }
 
 // Engines
+    private String processQuitting(String noun){
+    System.out.println("Are you sure you want to quit?");
+    updateScannerString();
+    String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
+    if( playerResponse.equals("y") ){
+        setQuitGame(!getQuitGame());
+    }
+    return "quitting";
+}
     private String processNavigating(String noun){
         System.out.println("going "+ noun);
         String accessableRoom = "";
@@ -50,19 +68,17 @@ public class Game {
         System.out.println("cannot go in that direction");
         return accessableRoom;
     }
+    private String processLooking(String noun){
+
+        return "";
+    }
     private String processGetting(String noun){return "";}
     private String processUsing(String noun){return "";}
-    private String processQuitting(String noun){
-        System.out.println("Are you sure you want to quit?");
-        updateScannerString();
-        String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
-        if( playerResponse.equals("y") ){
-            setQuitGame(!getQuitGame());
-        }
-        return "quitting";
-    }
     private String processHelping(String noun){return "";}
 
+
+
+//    ACCESSOR METHODS
     public Room getCurrentRoom() { return currentRoom;}
     public void setCurrentRoom(Room currentRoom) { this.currentRoom = currentRoom;}
     public Player getPlayer() { return player; }

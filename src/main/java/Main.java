@@ -3,7 +3,7 @@ import java.util.Scanner;
 // ENUM OF QUESTIONS
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         clearScreen();
         Scanner scanner = new Scanner(System.in);
         System.out.println(TitleScreen.displaySetup());
@@ -17,17 +17,20 @@ public class Main {
         if( playerInput.equals("y") ){
         // LOAD GAME
             Game game = new Game();
+            clearScreen();
+            TitleScreen.displayIntro();
+            scanner.nextLine();
+            clearScreen();
         // WELCOME
             do{
                 System.out.println("What do you want to do");
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 game.processChoice(choice);
-            }while( game.quitGame != true );
+            }while(!game.quitGame);
         }
         else System.out.println("Good Bye");
         System.out.println("Game End");
-        clearScreen();
     }
 
     private static void clearScreen(){

@@ -26,22 +26,23 @@ public class Game {
     public Boolean isNewRoom(){
         Boolean hasBeenVisited = getCurrentRoom().hasBeenVisited;
 
-        if( hasBeenVisited && )
+//        if( hasBeenVisited && )
 
         return false;
     }
 
-    public void processChoice(String[] choice){
+    public String processChoice(String[] choice){
         String verb = choice[0];
         String noun = "";
         if( choice.length > 1 ) noun = choice[1];
         if(verb.equals("quit") || noun.equals("quit")) processQuitting(verb);
         if(verb.equals("go")) processNavigating(noun);
         if(verb.equals("get")) System.out.println("getting "+ noun);
-        if(verb.equals("look")) processLooking(noun);
+        if(verb.equals("look")) return processLooking(noun);
         if(verb.equals("use")) System.out.println("using "+ noun);
         if(verb.equals("help")) System.out.println("helping "+ noun);
-
+    
+        return "";
     }
 
 // Engines
@@ -69,13 +70,12 @@ public class Game {
         return accessableRoom;
     }
     private String processLooking(String noun){
-
+        // description of item
         return "";
     }
     private String processGetting(String noun){return "";}
     private String processUsing(String noun){return "";}
     private String processHelping(String noun){return "";}
-
 
 
 //    ACCESSOR METHODS

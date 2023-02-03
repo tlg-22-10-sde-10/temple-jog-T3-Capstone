@@ -14,8 +14,6 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-
-
         clearScreen();
 // ENTRY
         Scanner scanner = new Scanner(System.in);
@@ -35,7 +33,7 @@ public class Main {
         HashMap<Object, Object> encountersMap = new HashMap<>();
 
 // PARSE JSON -> CLASS
-        File jsonFile = new File("src/maps.json");
+        File jsonFile = new File("./src/maps.json");
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode root = objectMapper.readTree(jsonFile);
         for (JsonNode rm : root.get("easymap")) {

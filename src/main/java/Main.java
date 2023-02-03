@@ -10,21 +10,21 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-//        clearScreen();
 // ENTRY
+        clearScreen();
         Scanner scanner = new Scanner(System.in);
-//        System.out.println(TitleScreen.displaySetup());
-//        scanner.nextLine();
-//
-//        clearScreen();
-//        System.out.println(TitleScreen.displayTitle());
-//        System.out.println("Start Game? y/n");
-//        String playerInput = scanner.nextLine();
-//        playerInput = playerInput.toLowerCase().substring(0, 1);
-//        clearScreen();
+        System.out.println(TitleScreen.displaySetup());
+        scanner.nextLine();
 
-        HashMap<Object, Object> roomsMap = new HashMap<>();
-        HashMap<Object, Object> encountersMap = new HashMap<>();
+        clearScreen();
+        System.out.println(TitleScreen.displayTitle());
+        System.out.println("Start Game? y/n");
+        String playerInput = scanner.nextLine();
+        playerInput = playerInput.toLowerCase().substring(0, 1);
+        clearScreen();
+
+        HashMap<String, Room> roomsMap = new HashMap<>();
+        HashMap<String, Encounter> encountersMap = new HashMap<>();
 
 // PARSE JSON -> CLASS
         File jsonFile = new File("src/maps.json");
@@ -39,20 +39,18 @@ public class Main {
             encountersMap.put(encounterObj.name, encounterObj);
         }
 
-
 // LOAD GAME
-
-//        if (playerInput.equals("y")) {
+        if (playerInput.equals("y")) {
             // LOAD GAME
             Game game = new Game(new Player(), roomsMap, encountersMap);
-            // new TitleScreen(game)
-//            clearScreen();
-//            TitleScreen.displayIntro();
-//            scanner.nextLine();
-//            clearScreen();
+            //TEMP new TitleScreen(game)
+            clearScreen();
+            TitleScreen.displayIntro();
+            scanner.nextLine();
+            clearScreen();
             // WELCOME
             do {
-                // TitleScreen.displayScene() : void
+                //TEMP TitleScreen.displayScene()
                 // - items , player info, monster info
                 System.out.println("*" + game.getCurrentRoom().name + "    Items:"+ game.getPlayer().inventory.toString());
                 System.out.println("What do you want to do? go,look,get,use,quit,help");
@@ -63,13 +61,12 @@ public class Main {
                 System.out.println("Press any key when ready...");
                 scanner.nextLine();
             } while ( !game.quitGame );
-//        }
-//            else System.out.println("Good Bye");
-//            System.out.println("Game End");
-//
+        }
+        else System.out.println("Good Bye");
+
     }
-//        private static void clearScreen () {
-//            System.out.print("\033[H\033[2J");
-//            System.out.flush();
-//        }
+    private static void clearScreen () {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 }

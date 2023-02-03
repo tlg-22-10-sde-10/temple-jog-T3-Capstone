@@ -4,11 +4,11 @@ import java.util.List;
 public class TextParser {
 
     /*              CONSTANT FIELDS                         */
-    public static final List<String> GO_SYNONYMS = Arrays.asList("move", "walk", "travel", "skip");
-    public static final List<String> GET_SYNONYMS = Arrays.asList("pickup", "grab", "obtain");
-    public static final List<String> USE_SYNONYMS = Arrays.asList("utilize", "activate", "manipulate", "consume", "apply");
-    public static final List<String> QUIT_SYNONYMS = Arrays.asList("exit", "end", "quit");
-    public static final List<String> LOOK_SYNONYMS = Arrays.asList("inspect","view","observe","peek");
+    public static final List<String> GO_SYNONYMS = Arrays.asList("go","move", "walk", "travel", "skip");
+    public static final List<String> GET_SYNONYMS = Arrays.asList("get","pickup", "grab", "obtain");
+    public static final List<String> USE_SYNONYMS = Arrays.asList("use","utilize", "activate", "manipulate", "consume", "apply");
+    public static final List<String> QUIT_SYNONYMS = Arrays.asList("quit","exit", "end", "quit");
+    public static final List<String> LOOK_SYNONYMS = Arrays.asList("look","inspect","view","observe","peek");
 
     /*              PRIVATE CONSTRUCTOR                     */
     private TextParser() {}

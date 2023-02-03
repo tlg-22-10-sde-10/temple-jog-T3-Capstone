@@ -1,17 +1,15 @@
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
 // MODEL
     Boolean quitGame;
     String scannerString;
-    Map<String, Room> rooms;
-    Map<String, Encounter> encounters;
+    HashMap<String, Room> rooms;
+    HashMap<String, Encounter> encounters;
     Player player;
     Room currentRoom;
 
-    public Game(Player player, Map rooms, Map encounters){
+    public Game(Player player, HashMap<String, Room> rooms, HashMap<String, Encounter> encounters){
         this.quitGame = false;
         this.player = player;
         this.rooms = rooms;
@@ -20,11 +18,9 @@ public class Game {
     }
 
 // CONTROLLERS
-//    perhaps 1 for state change 0 for no change
     public String processChoice(String[] choice){
         String verb = choice[0];
         String noun = verb;
-        System.out.println("VERB: "+verb);
         if( choice.length > 1 ) noun = choice[1];
         if(verb.equals("quit") || noun.equals("quit")) return processQuitting( verb );
         if(verb.equals("go")) return processNavigating( noun );
@@ -115,7 +111,7 @@ public class Game {
     public Player getPlayer() { return player; }
     public void setPlayer(Player player) { this.player = player; }
     public Map<String, Room> getRooms() { return rooms; }
-    public void setRooms(Map<String, Room> rooms) { this.rooms = rooms; }
+    public void setRooms(HashMap<String, Room> rooms) { this.rooms = rooms; }
     public Boolean getQuitGame() { return quitGame; }
     public void setQuitGame(Boolean quitGame) { this.quitGame = quitGame; }
     public String getScannerString() {return scannerString;}

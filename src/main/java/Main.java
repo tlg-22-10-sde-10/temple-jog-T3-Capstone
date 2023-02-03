@@ -15,14 +15,17 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
+
         clearScreen();
 // ENTRY
         Scanner scanner = new Scanner(System.in);
-        System.out.println(TitleScreen.displaySetup());
+        System.out.println(ConsoleInterface.displaySetup());
         scanner.nextLine();
+        // Load and Parse JSON with Title and Intro data and then pass it to ConsoleInterface
+        ConsoleInterface console = new ConsoleInterface();
 
         clearScreen();
-        System.out.println(TitleScreen.displayTitle());
+        console.displayTitle();
         System.out.println("Start Game? y/n");
         String playerInput = scanner.nextLine();
         playerInput = playerInput.toLowerCase().substring(0, 1);
@@ -50,16 +53,17 @@ public class Main {
         if (playerInput.equals("y")) {
             // LOAD GAME
             Game game = new Game(new Player(), roomsMap, encountersMap);
+
             // new TitleScreen(game)
             clearScreen();
-            TitleScreen.displayIntro();
+            console.displayIntro();
             scanner.nextLine();
             clearScreen();
             // WELCOME
             do {
                 // sout: TitleScreen.displayScene()
                 // - items , player info, monster info
-                System.out.println("*" + game.getCurrentRoom().name);
+                console.displayScene();
                 System.out.println("What do you want to do");
                 //
                 game.isNewRoom();

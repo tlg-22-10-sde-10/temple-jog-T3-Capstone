@@ -65,6 +65,11 @@
       <artifactId>jackson-databind</artifactId>
       <version>2.13.3</version>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.13.3</version>
+    </dependency>
 
 <!--
     To use JUnit4 instead of JUnit5, comment out the previous 2 dependency elements and uncomment
@@ -160,11 +165,11 @@
   <reporting>
     <plugins>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>${maven-surefire-report-plugin.version}</version>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-surefire-report-plugin</artifactId>-->
+<!--        <version>${maven-surefire-report-plugin.version}</version>-->
+<!--      </plugin>-->
 
     </plugins>
   </reporting>

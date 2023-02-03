@@ -3,6 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -29,7 +30,7 @@ public class Main {
         HashMap<String, Encounter> encountersMap = new HashMap<>();
 
 // PARSE JSON -> CLASS
-        File jsonFile = new File("./src/maps.json");
+        InputStream jsonFile = Main.class.getResourceAsStream("/maps.json");
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode root = objectMapper.readTree(jsonFile);
         for (JsonNode rm : root.get("easymap")) {

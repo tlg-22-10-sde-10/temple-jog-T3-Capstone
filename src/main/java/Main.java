@@ -40,7 +40,9 @@ public class Main {
             Encounter encounterObj = objectMapper.treeToValue(encounter, Encounter.class);
             encountersMap.put(encounterObj.name, encounterObj);
         }
-
+        for (JsonNode item : root.get("items")){
+            System.out.println("ITEM "+item);
+        }
 // LOAD GAME
         if (playerInput.equals("y")) {
             Game game = new Game(new Player(), roomsMap, encountersMap);

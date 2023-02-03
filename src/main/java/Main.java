@@ -6,16 +6,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
-/*TODO
-    - TEXT PARSER:
-        - handle incomplete verb/noun entries
-*/
-
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        clearScreen();
+
 // ENTRY
+        clearScreen();
         Scanner scanner = new Scanner(System.in);
         ConsoleInterface.displaySetup();
         scanner.nextLine();
@@ -29,8 +25,8 @@ public class Main {
         playerInput = playerInput.toLowerCase().substring(0, 1);
 
 
-        HashMap<Object, Object> roomsMap = new HashMap<>();
-        HashMap<Object, Object> encountersMap = new HashMap<>();
+        HashMap<String, Room> roomsMap = new HashMap<>();
+        HashMap<String, Encounter> encountersMap = new HashMap<>();
 
 // PARSE JSON -> CLASS
         File jsonFile = new File("./src/maps.json");
@@ -45,40 +41,33 @@ public class Main {
             encountersMap.put(encounterObj.name, encounterObj);
         }
 
-
 // LOAD GAME
-
         if (playerInput.equals("y")) {
-            // LOAD GAME
             Game game = new Game(new Player(), roomsMap, encountersMap);
+            //TEMP new TitleScreen(game)
             console.setGame(game);
             // new TitleScreen(game)
             clearScreen();
             console.displayIntro();
             scanner.nextLine();
             clearScreen();
-            // WELCOME
             do {
-                // sout: TitleScreen.displayScene()
-                // - items , player info, monster info
                 clearScreen();
                 console.displayScene();
-                System.out.println("What do you want to do");
+                System.out.println("What do you want to do? go,look,get,use,quit,help");
                 //
-                game.isNewRoom();
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 System.out.println(game.processChoice(choice));
                 System.out.println("Press any key when ready...");
                 scanner.nextLine();
-            } while (!game.quitGame);
+            } while ( !game.quitGame );
         }
-            else System.out.println("Good Bye");
-            System.out.println("Game End");
+        else System.out.println("Good Bye");
 
     }
-        private static void clearScreen () {
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-        }
+    private static void clearScreen () {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 }

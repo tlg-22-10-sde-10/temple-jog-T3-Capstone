@@ -8,7 +8,7 @@ public class Room {
     List<String> items = new ArrayList<>();
     List<String> encounters_to = new ArrayList<>();
     List<String> encounters_from = new ArrayList<>();
-    boolean hasBeenVisited;
+    Boolean hasBeenVisited;
 
     public Room(){}
 
@@ -43,6 +43,6 @@ public class Room {
     public void setEncounters_to(List<String> encounters_to) { this.encounters_to = encounters_to;}
     public List<String> getEncounters_from() { return encounters_from;}
     public void setEncounters_from(List<String> encounters_from) { this.encounters_from = encounters_from;}
-    public boolean isHasBeenVisited() { return hasBeenVisited;}
-    public void setHasBeenVisited(boolean hasBeenVisited) { this.hasBeenVisited = hasBeenVisited;}
+    public boolean getHasBeenVisited() { return hasBeenVisited;}
+    public void setHasBeenVisited(Boolean hasBeenVisited) { this.hasBeenVisited = hasBeenVisited;}
 }

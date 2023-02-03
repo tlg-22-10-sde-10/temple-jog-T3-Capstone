@@ -1,7 +1,9 @@
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Game {
+// MODEL
     Boolean quitGame;
     String scannerString;
     Map<String, Room> rooms;
@@ -17,35 +19,21 @@ public class Game {
         setCurrentRoom(getRooms().get("room01"));
     }
 
-    public void updateScannerString(){
-        Scanner scanner = new Scanner(System.in);
-        String scannerString = scanner.nextLine();
-        setScannerString(scannerString);
-    }
-
-    public Boolean isNewRoom(){
-        Boolean hasBeenVisited = getCurrentRoom().hasBeenVisited;
-
-//        if( hasBeenVisited && )
-
-        return false;
-    }
-
     public String processChoice(String[] choice){
         String verb = choice[0];
-        String noun = "";
+        String noun = verb;
         if( choice.length > 1 ) noun = choice[1];
-        if(verb.equals("quit") || noun.equals("quit")) processQuitting(verb);
-        if(verb.equals("go")) processNavigating(noun);
-        if(verb.equals("get")) System.out.println("getting "+ noun);
-        if(verb.equals("look")) return processLooking(noun);
-        if(verb.equals("use")) System.out.println("using "+ noun);
-        if(verb.equals("help")) System.out.println("helping "+ noun);
-    
+        if(verb.equals("quit") || noun.equals("quit")) return processQuitting( verb );
+        if(verb.equals("go")) return processNavigating( noun );
+        if(verb.equals("get")) return processGetting( noun );
+        if(verb.equals("look")) return processLooking( noun );
+        if(verb.equals("use")) return processUsing( noun );
+        if(verb.equals("help")) return processHelping( noun );
         return "";
     }
 
-// Engines
+// CONTROLLERS
+//    perhaps 1 for state change 0 for no change
     private String processQuitting(String noun){
     System.out.println("Are you sure you want to quit?");
     updateScannerString();
@@ -53,7 +41,7 @@ public class Game {
     if( playerResponse.equals("y") ){
         setQuitGame(!getQuitGame());
     }
-    return "quitting";
+    return noun;
 }
     private String processNavigating(String noun){
         System.out.println("going "+ noun);
@@ -62,6 +50,7 @@ public class Game {
         if( directionValue.length() > 1  ) {
             accessableRoom = directionValue;
             Room validRoom = getRooms().get(accessableRoom);
+            validRoom.setHasBeenVisited(!validRoom.getHasBeenVisited());
             setCurrentRoom( validRoom );
             System.out.println("Going to"+ getCurrentRoom().name);
             return accessableRoom;
@@ -70,13 +59,57 @@ public class Game {
         return accessableRoom;
     }
     private String processLooking(String noun){
+        // if room has item
         // description of item
+        if( roomHasNoun(noun) ) return "description of " + noun;
+        else return " not found " + noun;
+    }
+    private String processGetting(String noun){
+        // if present in room
+        // add to inventory
+        // remove item from room
+        if( roomHasNoun( noun )) {
+            Boolean isAdded = getPlayer().addToInventory(noun);
+            if( isAdded ) {
+                getCurrentRoom().getItems().remove(noun);
+                return noun + "added to inventory";
+            }
+
+        };
+        return noun+" not found";
+    }
+    private String processUsing(String noun){
+        // if in inventory
+        // use item , then dispose of empty
+
+        if( getPlayer().getInventory().contains( noun ) ){
+            // pop if single use
+            // update number of uses
+
+            getPlayer().removeFromInventory(noun);
+            // some action
+            return "Using " + noun;
+        }
+        return noun + "not used";
+    }
+    private String processHelping(String noun){
+        System.out.println("listing commands...");
         return "";
     }
-    private String processGetting(String noun){return "";}
-    private String processUsing(String noun){return "";}
-    private String processHelping(String noun){return "";}
 
+//  Helper Methods
+    public void updateScannerString(){
+        Scanner scanner = new Scanner(System.in);
+        String scannerString = scanner.nextLine();
+        setScannerString(scannerString);
+    }
+    public Boolean roomHasNoun(String noun){
+        Boolean foundNoun = false;
+        List<String> tempItems = getCurrentRoom().getItems();
+        tempItems.addAll(getCurrentRoom().getEncounters_to());
+        tempItems.addAll(getCurrentRoom().getEncounters_from());
+        return  ( tempItems.contains(noun) )? !foundNoun: foundNoun;
+    }
 
 //    ACCESSOR METHODS
     public Room getCurrentRoom() { return currentRoom;}

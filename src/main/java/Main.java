@@ -19,7 +19,7 @@ public class Main {
         ConsoleInterface console = new ConsoleInterface();
 
         clearScreen();
-        console.displayTitle();
+        ConsoleInterface.displayTitle();
         System.out.println("Start Game? y/n");
         String playerInput = scanner.nextLine();
         playerInput = playerInput.toLowerCase().substring(0, 1);

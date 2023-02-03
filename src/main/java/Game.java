@@ -19,9 +19,12 @@ public class Game {
         setCurrentRoom(getRooms().get("room01"));
     }
 
+// CONTROLLERS
+//    perhaps 1 for state change 0 for no change
     public String processChoice(String[] choice){
         String verb = choice[0];
         String noun = verb;
+        System.out.println("VERB: "+verb);
         if( choice.length > 1 ) noun = choice[1];
         if(verb.equals("quit") || noun.equals("quit")) return processQuitting( verb );
         if(verb.equals("go")) return processNavigating( noun );
@@ -29,18 +32,14 @@ public class Game {
         if(verb.equals("look")) return processLooking( noun );
         if(verb.equals("use")) return processUsing( noun );
         if(verb.equals("help")) return processHelping( noun );
+        if(verb.equals("invalid")) return processInvalid();
         return "";
     }
-
-// CONTROLLERS
-//    perhaps 1 for state change 0 for no change
     private String processQuitting(String noun){
     System.out.println("Are you sure you want to quit?");
     updateScannerString();
     String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
-    if( playerResponse.equals("y") ){
-        setQuitGame(!getQuitGame());
-    }
+    if( playerResponse.equals("y") ) setQuitGame(!getQuitGame());
     return noun;
 }
     private String processNavigating(String noun){
@@ -81,20 +80,20 @@ public class Game {
     private String processUsing(String noun){
         // if in inventory
         // use item , then dispose of empty
-
         if( getPlayer().getInventory().contains( noun ) ){
             // pop if single use
             // update number of uses
-
             getPlayer().removeFromInventory(noun);
             // some action
             return "Using " + noun;
         }
-        return noun + "not used";
+        return noun+" not in your inventory";
     }
     private String processHelping(String noun){
-        System.out.println("listing commands...");
-        return "";
+        return "listing commands";
+    }
+    private String processInvalid(){
+        return "Invalid Input, Type \'Help\' for more information.";
     }
 
 //  Helper Methods
@@ -104,11 +103,10 @@ public class Game {
         setScannerString(scannerString);
     }
     public Boolean roomHasNoun(String noun){
-        Boolean foundNoun = false;
         List<String> tempItems = getCurrentRoom().getItems();
         tempItems.addAll(getCurrentRoom().getEncounters_to());
         tempItems.addAll(getCurrentRoom().getEncounters_from());
-        return  ( tempItems.contains(noun) )? !foundNoun: foundNoun;
+        return tempItems.contains(noun);
     }
 
 //    ACCESSOR METHODS
@@ -118,7 +116,6 @@ public class Game {
     public void setPlayer(Player player) { this.player = player; }
     public Map<String, Room> getRooms() { return rooms; }
     public void setRooms(Map<String, Room> rooms) { this.rooms = rooms; }
-
     public Boolean getQuitGame() { return quitGame; }
     public void setQuitGame(Boolean quitGame) { this.quitGame = quitGame; }
     public String getScannerString() {return scannerString;}

@@ -6,11 +6,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
-/*TODO
-    - TEXT PARSER:
-        - handle incomplete verb/noun entries
-*/
-
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {

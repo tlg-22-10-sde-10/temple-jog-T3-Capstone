@@ -41,20 +41,16 @@ public class Main {
 
 // LOAD GAME
         if (playerInput.equals("y")) {
-            // LOAD GAME
             Game game = new Game(new Player(), roomsMap, encountersMap);
             //TEMP new TitleScreen(game)
             clearScreen();
             TitleScreen.displayIntro();
             scanner.nextLine();
             clearScreen();
-            // WELCOME
             do {
-                //TEMP TitleScreen.displayScene()
-                // - items , player info, monster info
+                //TEMP TitleScreen.displayScene() - items , player info, monster info
                 System.out.println("*" + game.getCurrentRoom().name + "    Items:"+ game.getPlayer().inventory.toString());
                 System.out.println("What do you want to do? go,look,get,use,quit,help");
-                //
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 System.out.println(game.processChoice(choice));

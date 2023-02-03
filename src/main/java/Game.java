@@ -47,6 +47,8 @@ public class Game {
             Room validRoom = getRooms().get(accessableRoom);
             validRoom.setHasBeenVisited(!validRoom.getHasBeenVisited());
             setCurrentRoom( validRoom );
+            getCurrentRoom().setHasBeenVisited(true);
+            player.steps++;
             System.out.println("Going to"+ getCurrentRoom().name);
             return accessableRoom;
         };

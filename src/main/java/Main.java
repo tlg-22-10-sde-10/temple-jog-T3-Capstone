@@ -13,21 +13,23 @@ public class Main {
 // ENTRY
         clearScreen();
         Scanner scanner = new Scanner(System.in);
-        System.out.println(TitleScreen.displaySetup());
+        ConsoleInterface.displaySetup();
         scanner.nextLine();
+        // Load and Parse JSON with Title and Intro data and then pass it to ConsoleInterface
+        ConsoleInterface console = new ConsoleInterface();
 
         clearScreen();
-        System.out.println(TitleScreen.displayTitle());
+        ConsoleInterface.displayTitle();
         System.out.println("Start Game? y/n");
         String playerInput = scanner.nextLine();
         playerInput = playerInput.toLowerCase().substring(0, 1);
-        clearScreen();
+
 
         HashMap<String, Room> roomsMap = new HashMap<>();
         HashMap<String, Encounter> encountersMap = new HashMap<>();
 
 // PARSE JSON -> CLASS
-        File jsonFile = new File("src/maps.json");
+        File jsonFile = new File("./src/maps.json");
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode root = objectMapper.readTree(jsonFile);
         for (JsonNode rm : root.get("easymap")) {
@@ -43,14 +45,17 @@ public class Main {
         if (playerInput.equals("y")) {
             Game game = new Game(new Player(), roomsMap, encountersMap);
             //TEMP new TitleScreen(game)
+            console.setGame(game);
+            // new TitleScreen(game)
             clearScreen();
-            TitleScreen.displayIntro();
+            console.displayIntro();
             scanner.nextLine();
             clearScreen();
             do {
-                //TEMP TitleScreen.displayScene() - items , player info, monster info
-                System.out.println("*" + game.getCurrentRoom().name + "    Items:"+ game.getPlayer().inventory.toString());
+                clearScreen();
+                console.displayScene();
                 System.out.println("What do you want to do? go,look,get,use,quit,help");
+                //
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 System.out.println(game.processChoice(choice));

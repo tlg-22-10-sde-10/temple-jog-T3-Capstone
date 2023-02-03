@@ -21,10 +21,12 @@ public class Main {
 
         clearScreen();
         ConsoleInterface.displayTitle();
-        System.out.println("Start Game? y/n");
-        String playerInput = scanner.nextLine();
+        String playerInput = "";
+        while(playerInput.isEmpty()){
+            System.out.println("Start Game? y/n");
+            playerInput = scanner.nextLine();
+        }
         playerInput = playerInput.toLowerCase().substring(0, 1);
-
 
         HashMap<String, Room> roomsMap = new HashMap<>();
         HashMap<String, Encounter> encountersMap = new HashMap<>();
@@ -60,7 +62,7 @@ public class Main {
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 System.out.println(game.processChoice(choice));
-                System.out.println("Press any key when ready...");
+                System.out.println("Press <ENTER> key when ready...");
                 scanner.nextLine();
             } while ( !game.quitGame );
         }

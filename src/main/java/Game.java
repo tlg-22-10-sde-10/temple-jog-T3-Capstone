@@ -63,6 +63,8 @@ public class Game {
             accessableRoom = directionValue;
             Room validRoom = getRooms().get(accessableRoom);
             setCurrentRoom( validRoom );
+            getCurrentRoom().setHasBeenVisited(true);
+            player.steps++;
             System.out.println("Going to"+ getCurrentRoom().name);
             return accessableRoom;
         };

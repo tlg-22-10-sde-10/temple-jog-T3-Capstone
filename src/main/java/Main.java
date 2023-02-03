@@ -19,7 +19,7 @@ public class Main {
         clearScreen();
 // ENTRY
         Scanner scanner = new Scanner(System.in);
-        System.out.println(ConsoleInterface.displaySetup());
+        ConsoleInterface.displaySetup();
         scanner.nextLine();
         // Load and Parse JSON with Title and Intro data and then pass it to ConsoleInterface
         ConsoleInterface console = new ConsoleInterface();
@@ -29,7 +29,7 @@ public class Main {
         System.out.println("Start Game? y/n");
         String playerInput = scanner.nextLine();
         playerInput = playerInput.toLowerCase().substring(0, 1);
-        clearScreen();
+
 
         HashMap<Object, Object> roomsMap = new HashMap<>();
         HashMap<Object, Object> encountersMap = new HashMap<>();
@@ -53,7 +53,7 @@ public class Main {
         if (playerInput.equals("y")) {
             // LOAD GAME
             Game game = new Game(new Player(), roomsMap, encountersMap);
-
+            console.setGame(game);
             // new TitleScreen(game)
             clearScreen();
             console.displayIntro();
@@ -63,6 +63,7 @@ public class Main {
             do {
                 // sout: TitleScreen.displayScene()
                 // - items , player info, monster info
+                clearScreen();
                 console.displayScene();
                 System.out.println("What do you want to do");
                 //

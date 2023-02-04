@@ -3,7 +3,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -21,14 +20,16 @@ public class Main {
 
         clearScreen();
         ConsoleInterface.displayTitle();
-        System.out.println("Start Game? y/n");
-        String playerInput = scanner.nextLine();
+        String playerInput = "";
+        while(playerInput.isEmpty()){
+            System.out.println("Start Game? y/n");
+            playerInput = scanner.nextLine();
+        }
         playerInput = playerInput.toLowerCase().substring(0, 1);
 
         HashMap<String, Room> roomsMap = new HashMap<>();
         HashMap<String, Encounter> encountersMap = new HashMap<>();
         HashMap<String, Item> itemsMap = new HashMap<>();
-
 // PARSE JSON -> CLASS
         File jsonFile = new File("./src/maps.json");
         ObjectMapper objectMapper = new ObjectMapper();
@@ -45,6 +46,7 @@ public class Main {
             Item itemObj = objectMapper.treeToValue(item, Item.class);
             itemsMap.put(itemObj.getName(),itemObj);
         }
+
 // LOAD GAME
         if (playerInput.equals("y")) {
             Game game = new Game(new Player(), roomsMap, encountersMap, itemsMap);
@@ -60,7 +62,7 @@ public class Main {
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 System.out.println(game.processChoice(choice));
-                System.out.println("Press <Enter> when ready...");
+                System.out.println("Press <ENTER> key when ready...");
                 scanner.nextLine();
             } while ( !game.quitGame );
         }

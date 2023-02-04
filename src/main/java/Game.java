@@ -22,7 +22,8 @@ public class Game {
 // CONTROLLERS
     public String processChoice(String[] choice){
         String verb = choice[0];
-        String noun = verb;
+//        String noun = verb; // why assigning?
+        String noun = "";
         if( choice.length > 1 ) noun = choice[1];
         if(verb.equals("quit") || noun.equals("quit")) return processQuitting( verb );
         if(verb.equals("go")) return processNavigating( noun );
@@ -34,14 +35,19 @@ public class Game {
         return "";
     }
     private String processQuitting(String noun){
-    System.out.println("Are you sure you want to quit?");
-    updateScannerString();
-    String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
-    if( playerResponse.equals("y") ) setQuitGame(!getQuitGame());
-    return noun;
-}
+        System.out.println("Are you sure you want to quit? [Type 'y' or 'n']");
+        updateScannerString();
+        String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
+        if( playerResponse.equals("y") ) setQuitGame(!getQuitGame());
+        else { return "Invalid input"; }
+
+        return noun;
+    }
     private String processNavigating(String noun){
-        System.out.println("going "+ noun);
+        if(noun == ""){
+            return "Invalid command. Please provide direction or type 'help'.";
+        };
+        System.out.println("going "+ noun + " ....");
         String accessableRoom = "";
         String directionValue = getCurrentRoom().checkDirection(noun);
         if( directionValue.length() > 1  ) {
@@ -52,11 +58,17 @@ public class Game {
             getCurrentRoom().setHasBeenVisited(true);
             player.steps++;
             return accessableRoom;
-        };
-        System.out.println("cannot go in that direction");
-        return accessableRoom;
+        } else {
+            System.out.println("Cannot go in that direction");
+            return accessableRoom;
+        }
     }
     private String processLooking(String noun){
+        // if room has item
+        // description of item
+        if(noun == ""){
+            return "Invalid command. Please provide item name to look for or type 'help'.";
+        };
         Integer itemIndex = getPlayer().inventoryHasItem(noun);
         if( itemIndex >= 0 ){
             return getPlayer().getInventory().get(itemIndex).getDescription();
@@ -67,6 +79,9 @@ public class Game {
         else return " not found " + noun;
     }
     private String processGetting(String noun){
+        if(noun == ""){
+            return "Invalid command. Please provide the item name trying to get or type 'help'.";
+        };
         // if present in room
         // add to inventory, pop from map -> inventory
         // remove item from room items and map of items
@@ -79,6 +94,7 @@ public class Game {
         return noun+" not found in current room";
     }
     private String processUsing(String noun){
+        if(noun == "") return "Invalid command. Please provide the item name to use or type 'help'.";
         // if in inventory
         // use item , then dispose of empty
         Integer itemIndex = getPlayer().inventoryHasItem(noun);
@@ -94,7 +110,7 @@ public class Game {
             else item.setReuse( item.getReuse() - 1 );
             return "Using " + noun;
         }
-        return noun+" not in your inventory";
+        return noun + " not in your inventory";
     }
     private String processHelping(String noun){
         return "listing commands";

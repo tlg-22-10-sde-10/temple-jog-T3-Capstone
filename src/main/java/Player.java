@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Player {
     Integer health, steps;
-    List<String> inventory = new ArrayList<>();
+    List<Item> inventory = new ArrayList<>();
 
     /*              CONSTRUCTORS                    */
     public Player() {
@@ -11,15 +11,24 @@ public class Player {
         steps = 0;
     }
 
-    public Boolean addToInventory( String item ){
-        List<String> inventory = getInventory();
-        return inventory.add( item );
-    }
-    public Boolean removeFromInventory(String item){
-        List<String> inventory = getInventory();
-        return inventory.remove(item);
+    public Integer inventoryHasItem(String itemName){
+        for( Item item : getInventory() ){
+            if( item.getName().equals(itemName) ) return getInventory().indexOf(item);
+        }
+        return -1;
     }
 
-    public List<String> getInventory() { return inventory; }
-    public void setInventory(List<String> inventory) {this.inventory = inventory;}
+    public Item useItemFromInventory( String itemName ){
+        Integer itemIndex = inventoryHasItem(itemName);
+        return getInventory().get(itemIndex);
+    }
+
+    public Boolean removeFromInventory(String itemName){
+        Integer itemIndex = inventoryHasItem(itemName);
+        System.out.println("IDX"+itemIndex);
+        return getInventory().remove(itemIndex);
+    }
+
+    public List<Item> getInventory() { return inventory; }
+    public void setInventory(List<Item> inventory) {this.inventory = inventory;}
 }

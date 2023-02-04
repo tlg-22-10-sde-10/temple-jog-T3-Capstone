@@ -3,6 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -24,9 +25,9 @@ public class Main {
         String playerInput = scanner.nextLine();
         playerInput = playerInput.toLowerCase().substring(0, 1);
 
-
         HashMap<String, Room> roomsMap = new HashMap<>();
         HashMap<String, Encounter> encountersMap = new HashMap<>();
+        HashMap<String, Item> itemsMap = new HashMap<>();
 
 // PARSE JSON -> CLASS
         File jsonFile = new File("./src/maps.json");
@@ -34,18 +35,19 @@ public class Main {
         JsonNode root = objectMapper.readTree(jsonFile);
         for (JsonNode rm : root.get("easymap")) {
             Room roomObj = objectMapper.treeToValue(rm, Room.class);
-            roomsMap.put(roomObj.number >= 10 ? ("room" + roomObj.number) : ("room0" + roomObj.number), roomObj);
+            roomsMap.put( roomObj.number >= 10 ? ("room" + roomObj.number) : ("room0" + roomObj.number), roomObj );
         }
         for (JsonNode encounter : root.get("encounters")) {
             Encounter encounterObj = objectMapper.treeToValue(encounter, Encounter.class);
             encountersMap.put(encounterObj.name, encounterObj);
         }
         for (JsonNode item : root.get("items")){
-            System.out.println("ITEM "+item);
+            Item itemObj = objectMapper.treeToValue(item, Item.class);
+            itemsMap.put(itemObj.getName(),itemObj);
         }
 // LOAD GAME
         if (playerInput.equals("y")) {
-            Game game = new Game(new Player(), roomsMap, encountersMap);
+            Game game = new Game(new Player(), roomsMap, encountersMap, itemsMap);
             //TEMP new TitleScreen(game)
             console.setGame(game);
             // new TitleScreen(game)
@@ -57,7 +59,8 @@ public class Main {
                 clearScreen();
                 console.displayScene();
                 System.out.println("What do you want to do? go,look,get,use,quit,help");
-                //
+                System.out.println("inventory"+Arrays.toString(game.getPlayer().getInventory().toArray()));
+                System.out.println("Items"+game.getItems().keySet());
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 System.out.println(game.processChoice(choice));

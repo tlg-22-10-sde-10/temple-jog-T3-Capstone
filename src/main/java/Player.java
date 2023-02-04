@@ -17,16 +17,9 @@ public class Player {
         }
         return -1;
     }
-
     public Item useItemFromInventory( String itemName ){
         Integer itemIndex = inventoryHasItem(itemName);
         return getInventory().get(itemIndex);
-    }
-
-    public Boolean removeFromInventory(String itemName){
-        Integer itemIndex = inventoryHasItem(itemName);
-        System.out.println("IDX"+itemIndex);
-        return getInventory().remove(itemIndex);
     }
 
     public List<Item> getInventory() { return inventory; }

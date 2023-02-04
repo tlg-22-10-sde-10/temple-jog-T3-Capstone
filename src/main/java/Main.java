@@ -48,9 +48,7 @@ public class Main {
 // LOAD GAME
         if (playerInput.equals("y")) {
             Game game = new Game(new Player(), roomsMap, encountersMap, itemsMap);
-            //TEMP new TitleScreen(game)
             console.setGame(game);
-            // new TitleScreen(game)
             clearScreen();
             console.displayIntro();
             scanner.nextLine();
@@ -59,12 +57,10 @@ public class Main {
                 clearScreen();
                 console.displayScene();
                 System.out.println("What do you want to do? go,look,get,use,quit,help");
-                System.out.println("inventory"+Arrays.toString(game.getPlayer().getInventory().toArray()));
-                System.out.println("Items"+game.getItems().keySet());
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 System.out.println(game.processChoice(choice));
-                System.out.println("Press any key when ready...");
+                System.out.println("Press <Enter> when ready...");
                 scanner.nextLine();
             } while ( !game.quitGame );
         }

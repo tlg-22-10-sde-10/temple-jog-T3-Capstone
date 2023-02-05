@@ -1,3 +1,5 @@
+package com.game.templejog;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,22 @@ public class Player {
     public Boolean removeFromInventory(String item){
         List<String> inventory = getInventory();
         return inventory.remove(item);
+    }
+
+    public Integer getHealth() {
+        return health;
+    }
+
+    public void setHealth(Integer health) {
+        this.health = health;
+    }
+
+    public Integer getSteps() {
+        return steps;
+    }
+
+    public void setSteps(Integer steps) {
+        this.steps = steps;
     }
 
     public List<String> getInventory() { return inventory; }

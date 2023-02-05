@@ -1,3 +1,5 @@
+package com.game.templejog;
+
 import java.util.*;
 
 public class Game {
@@ -137,4 +139,6 @@ public class Game {
     public void setQuitGame(Boolean quitGame) { this.quitGame = quitGame; }
     public String getScannerString() {return scannerString;}
     public void setScannerString(String scannerString) { this.scannerString = scannerString;}
+    public HashMap<String, Encounter> getEncounters() { return encounters; }
+    public void setEncounters(HashMap<String, Encounter> encounters) {this.encounters = encounters;}
 }

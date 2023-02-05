@@ -1,9 +1,14 @@
+package com.game.templejog.client;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.game.templejog.Encounter;
+import com.game.templejog.Game;
+import com.game.templejog.Player;
+import com.game.templejog.Room;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -16,14 +21,14 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         ConsoleInterface.displaySetup();
         scanner.nextLine();
-        // Load and Parse JSON with Title and Intro data and then pass it to ConsoleInterface
+        // TODO: Load and Parse JSON with Intro data and then pass it to com.game.templejog.client.ConsoleInterface
         ConsoleInterface console = new ConsoleInterface();
 
         clearScreen();
         ConsoleInterface.displayTitle();
         String playerInput = "";
         while(playerInput.isEmpty()){
-            System.out.println("Start Game? y/n");
+            System.out.println("Start com.game.templejog.Game? y/n");
             playerInput = scanner.nextLine();
         }
         playerInput = playerInput.toLowerCase().substring(0, 1);
@@ -32,43 +37,43 @@ public class Main {
         HashMap<String, Encounter> encountersMap = new HashMap<>();
 
 // PARSE JSON -> CLASS
-        InputStream jsonFile = Main.class.getResourceAsStream("/maps.json");
+        InputStream jsonFile =  Main.class.getResourceAsStream("/JSON/maps.json");
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode root = objectMapper.readTree(jsonFile);
         for (JsonNode rm : root.get("easymap")) {
             Room roomObj = objectMapper.treeToValue(rm, Room.class);
-            roomsMap.put(roomObj.number >= 10 ? ("room" + roomObj.number) : ("room0" + roomObj.number), roomObj);
+            roomsMap.put(roomObj.getNumber() >= 10 ? ("room" + roomObj.getNumber()) : ("room0" + roomObj.getNumber()), roomObj);
         }
         for (JsonNode encounter : root.get("encounters")) {
             Encounter encounterObj = objectMapper.treeToValue(encounter, Encounter.class);
-            encountersMap.put(encounterObj.name, encounterObj);
+            encountersMap.put(encounterObj.getName(), encounterObj);
         }
 
 // LOAD GAME
         if (playerInput.equals("y")) {
             Game game = new Game(new Player(), roomsMap, encountersMap);
-            //TEMP new TitleScreen(game)
             console.setGame(game);
-            // new TitleScreen(game)
             clearScreen();
+
             console.displayIntro();
             scanner.nextLine();
             clearScreen();
+// GAME LOOP
             do {
                 clearScreen();
                 console.displayScene();
-                System.out.println("What do you want to do? go,look,get,use,quit,help");
-                //
+                System.out.print("What do you want to do? go,look,get,use,quit,help\n>");
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 System.out.println(game.processChoice(choice));
                 System.out.println("Press <ENTER> key when ready...");
                 scanner.nextLine();
-            } while ( !game.quitGame );
+            } while ( !game.getQuitGame() );
         }
-        else System.out.println("Good Bye");
+        System.out.println("Good Bye");
 
     }
+
     private static void clearScreen () {
         System.out.print("\033[H\033[2J");
         System.out.flush();

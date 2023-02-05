@@ -1,6 +1,6 @@
 package com.game.templejog.client;
 
-import com.game.templejog.Game;
+import com.game.templejog.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,15 +118,16 @@ public class ConsoleInterface { // Previously TitleScreen
                 .append(inventory)
                 .append("\n")
                 .append("█".repeat(CONSOLE_WIDTH))
-                .append("\n")
-                .append(roomDescription)
-                .append("█".repeat(CONSOLE_WIDTH))
                 .append("\n");
         if (hasEncounters) {
             scene.append(encounterDescription)
                     .append("█".repeat(CONSOLE_WIDTH))
                     .append("\n");
         }
+        scene.append(roomDescription)
+                .append("█".repeat(CONSOLE_WIDTH))
+                .append("\n");
+
         int displayLines = scene.length() / 80;
         scene.append("\n".repeat(22-displayLines));
         System.out.println(scene);

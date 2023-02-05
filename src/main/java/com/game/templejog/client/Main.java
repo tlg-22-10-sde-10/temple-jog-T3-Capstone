@@ -25,33 +25,35 @@ public class Main {
         ConsoleInterface.displayTitle();
         String playerInput = "";
         while(playerInput.isEmpty()){
-            System.out.println("Start com.game.templejog.Game? y/n");
+            System.out.println("Start a new Game? y/n");
             playerInput = scanner.nextLine();
         }
         playerInput = playerInput.toLowerCase().substring(0, 1);
 
-        HashMap<String, Room> roomsMap = new HashMap<>();
-        HashMap<String, Encounter> encountersMap = new HashMap<>();
-        HashMap<String, Item> itemsMap = new HashMap<>();
-// PARSE JSON -> CLASS
-        InputStream jsonFile =  Main.class.getResourceAsStream("/JSON/maps.json");
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode root = objectMapper.readTree(jsonFile);
-        for (JsonNode rm : root.get("easymap")) {
-            Room roomObj = objectMapper.treeToValue(rm, Room.class);
-            roomsMap.put(roomObj.getNumber() >= 10 ? ("room" + roomObj.getNumber()) : ("room0" + roomObj.getNumber()), roomObj);
-        }
-        for (JsonNode encounter : root.get("encounters")) {
-            Encounter encounterObj = objectMapper.treeToValue(encounter, Encounter.class);
-            encountersMap.put(encounterObj.getName(), encounterObj);
-        }
-        for (JsonNode item : root.get("items")){
-            Item itemObj = objectMapper.treeToValue(item, Item.class);
-            itemsMap.put(itemObj.getName(),itemObj);
-        }
+
 
 // LOAD GAME
         if (playerInput.equals("y")) {
+            HashMap<String, Room> roomsMap = new HashMap<>();
+            HashMap<String, Encounter> encountersMap = new HashMap<>();
+            HashMap<String, Item> itemsMap = new HashMap<>();
+// PARSE JSON -> CLASS
+            InputStream jsonFile =  Main.class.getResourceAsStream("/JSON/maps.json");
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode root = objectMapper.readTree(jsonFile);
+            for (JsonNode rm : root.get("easymap")) {
+                Room roomObj = objectMapper.treeToValue(rm, Room.class);
+                roomsMap.put(roomObj.getNumber() >= 10 ? ("room" + roomObj.getNumber()) : ("room0" + roomObj.getNumber()), roomObj);
+            }
+            for (JsonNode encounter : root.get("encounters")) {
+                Encounter encounterObj = objectMapper.treeToValue(encounter, Encounter.class);
+                encountersMap.put(encounterObj.getName(), encounterObj);
+            }
+            for (JsonNode item : root.get("items")){
+                Item itemObj = objectMapper.treeToValue(item, Item.class);
+                itemsMap.put(itemObj.getName(),itemObj);
+            }
+
             Game game = new Game(new Player(), roomsMap, encountersMap, itemsMap);
             console.setGame(game);
             clearScreen();

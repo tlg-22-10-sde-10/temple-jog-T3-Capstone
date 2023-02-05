@@ -136,7 +136,8 @@ public class Game {
         HashMap<String, Item> itemsMap = getItems();
         Item targetItem = new Item();
         if( itemsMap.containsKey(targetName) ){
-            return itemsMap.remove(targetName);
+            Item removed = itemsMap.remove(targetName);
+            return removed;
         }
         return targetItem;
     }

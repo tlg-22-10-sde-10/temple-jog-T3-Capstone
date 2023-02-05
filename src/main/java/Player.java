@@ -13,22 +13,14 @@ public class Player {
 
     public Integer inventoryHasItem(String itemName){
         for( Item item : getInventory() ){
-            if( item.getName().equals(itemName) ) return getInventory().indexOf(item);
+            if( item.getName().equals(itemName) ) {
+                Integer itemIndex = getInventory().indexOf(item);
+                return itemIndex;
+            }
         }
         return -1;
     }
-    public Item useItemFromInventory( String itemName ){
-        Integer itemIndex = inventoryHasItem(itemName);
-        return getInventory().get(itemIndex);
-    }
 
-    public ArrayList<String> listInventoryNames(){
-        ArrayList<String> inventoryNames = new ArrayList<>();
-        for(Item item : getInventory()){
-            inventoryNames.add(item.getName());
-        }
-        return inventoryNames;
-    }
 
     public List<Item> getInventory() { return inventory; }
     public void setInventory(List<Item> inventory) {this.inventory = inventory;}

@@ -44,10 +44,15 @@ public class Game {
         return noun;
     }
     private String processNavigating(String noun){
-        if(noun == ""){
+        noun = noun.toLowerCase();
+        // Valid Noun Check
+        List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
+        if( noun.isEmpty() || !standardDirections.contains(noun) ){
             return "Invalid command. Please provide direction or type 'help'.";
         };
+
         System.out.println("going "+ noun + " ....");
+
         String accessableRoom = "";
         String directionValue = getCurrentRoom().checkDirection(noun);
         if( directionValue.length() > 1  ) {
@@ -57,11 +62,10 @@ public class Game {
             setCurrentRoom( validRoom );
             getCurrentRoom().setHasBeenVisited(true);
             player.steps++;
-            return accessableRoom;
         } else {
             System.out.println("Cannot go in that direction");
-            return accessableRoom;
         }
+        return accessableRoom;
     }
     private String processLooking(String noun){
         // if room has item
@@ -91,25 +95,28 @@ public class Game {
             Boolean removedRoomItem = getCurrentRoom().getItems().remove(noun);
             return "added "+noun+" to inventory";
         };
+        // check inventory
+        if( getPlayer().inventoryHasItem(noun) >= 0 ){
+            return noun + "already in your inventory";
+        }
         return noun+" not found in current room";
     }
     private String processUsing(String noun){
         if(noun == "") return "Invalid command. Please provide the item name to use or type 'help'.";
-        // if in inventory
-        // use item , then dispose of empty
-        Integer itemIndex = getPlayer().inventoryHasItem(noun);
-        if( itemIndex >= 0 ){
-            // pop if single use
-            // update number of uses
-            Item item = getPlayer().useItemFromInventory(noun);
-            if( item.getReuse() == 1 ) System.out.println("last chance, make it count");
-            if( item.getReuse() == 0 ) {
-                Item itemRemoved = getPlayer().getInventory().remove(0);
-                return noun+" removed from your inventory ";
+
+        Integer inventoryIndex = getPlayer().inventoryHasItem(noun);
+        if( inventoryIndex >= 0 ){
+            Item inventoryItem = getPlayer().getInventory().get(inventoryIndex);
+            Integer reuse = inventoryItem.getReuse();
+
+            if( reuse == 0 ){
+                getPlayer().getInventory().remove(inventoryItem);
+                System.out.println("Removed "+" from inventory");
             }
-            else item.setReuse( item.getReuse() - 1 );
-            return "Using " + noun;
+            if( reuse > 0 )inventoryItem.setReuse( inventoryItem.getReuse() - 1 );
+            return "Using "+ noun;
         }
+
         return noun + " not in your inventory";
     }
     private String processHelping(String noun){

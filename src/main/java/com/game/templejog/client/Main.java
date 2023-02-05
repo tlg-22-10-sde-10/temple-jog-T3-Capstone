@@ -2,10 +2,7 @@ package com.game.templejog.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.game.templejog.Encounter;
-import com.game.templejog.Game;
-import com.game.templejog.Player;
-import com.game.templejog.Room;
+import com.game.templejog.*;
 
 import java.io.InputStream;
 import java.io.IOException;
@@ -35,7 +32,7 @@ public class Main {
 
         HashMap<String, Room> roomsMap = new HashMap<>();
         HashMap<String, Encounter> encountersMap = new HashMap<>();
-
+        HashMap<String, Item> itemsMap = new HashMap<>();
 // PARSE JSON -> CLASS
         InputStream jsonFile =  Main.class.getResourceAsStream("/JSON/maps.json");
         ObjectMapper objectMapper = new ObjectMapper();
@@ -48,10 +45,14 @@ public class Main {
             Encounter encounterObj = objectMapper.treeToValue(encounter, Encounter.class);
             encountersMap.put(encounterObj.getName(), encounterObj);
         }
+        for (JsonNode item : root.get("items")){
+            Item itemObj = objectMapper.treeToValue(item, Item.class);
+            itemsMap.put(itemObj.getName(),itemObj);
+        }
 
 // LOAD GAME
         if (playerInput.equals("y")) {
-            Game game = new Game(new Player(), roomsMap, encountersMap);
+            Game game = new Game(new Player(), roomsMap, encountersMap, itemsMap);
             console.setGame(game);
             clearScreen();
 

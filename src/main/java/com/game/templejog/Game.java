@@ -8,13 +8,15 @@ public class Game {
     String scannerString;
     HashMap<String, Room> rooms;
     HashMap<String, Encounter> encounters;
+    HashMap<String, Item> items;
     Player player;
     Room currentRoom;
 
-    public Game(Player player, HashMap<String, Room> rooms, HashMap<String, Encounter> encounters){
+    public Game( Player player, HashMap<String, Room> rooms, HashMap<String, Encounter> encounters, HashMap<String, Item> items){
         this.quitGame = false;
         this.player = player;
         this.rooms = rooms;
+        this.items = items;
         this.encounters = encounters;
         setCurrentRoom(getRooms().get("room01"));
     }
@@ -35,21 +37,24 @@ public class Game {
         return "";
     }
     private String processQuitting(String noun){
-    System.out.println("Are you sure you want to quit? [Type 'y' or 'n']");
-    updateScannerString();
-    String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
-    if( playerResponse.equals("y") ) {
-        setQuitGame(!getQuitGame());
-    } else {
-        return "Invalid input";
+        System.out.println("Are you sure you want to quit? [Type 'y' or 'n']");
+        updateScannerString();
+        String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
+        if( playerResponse.equals("y") ) setQuitGame(!getQuitGame());
+        else { return "Invalid input"; }
+
+        return noun;
     }
-    return noun;
-}
     private String processNavigating(String noun){
-        if(noun == ""){
+        noun = noun.toLowerCase();
+        // Valid Noun Check
+        List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
+        if( noun.isEmpty() || !standardDirections.contains(noun) ){
             return "Invalid command. Please provide direction or type 'help'.";
         };
+
         System.out.println("going "+ noun + " ....");
+
         String accessableRoom = "";
         String directionValue = getCurrentRoom().checkDirection(noun);
         if( directionValue.length() > 1  ) {
@@ -59,13 +64,10 @@ public class Game {
             setCurrentRoom( validRoom );
             getCurrentRoom().setHasBeenVisited(true);
             player.steps++;
-            System.out.println("Going to"+ getCurrentRoom().name);
-            return accessableRoom;
         } else {
             System.out.println("Cannot go in that direction");
-            return accessableRoom;
         }
-
+        return accessableRoom;
     }
     private String processLooking(String noun){
         // if room has item
@@ -73,40 +75,51 @@ public class Game {
         if(noun == ""){
             return "Invalid command. Please provide item name to look for or type 'help'.";
         };
-        if( roomHasNoun(noun) ) return "description of " + noun;
+        Integer itemIndex = getPlayer().inventoryHasItem(noun);
+        if( itemIndex >= 0 ){
+            return getPlayer().getInventory().get(itemIndex).getDescription();
+        }
+        if( getCurrentRoom().getItems().contains(noun) ) {
+            return getItems().get(noun).getDescription();
+        }
         else return " not found " + noun;
     }
     private String processGetting(String noun){
-        // if present in room
-        // add to inventory
-        // remove item from room
         if(noun == ""){
             return "Invalid command. Please provide the item name trying to get or type 'help'.";
         };
-        if( roomHasNoun( noun )) {
-            Boolean isAdded = getPlayer().addToInventory(noun);
-            if( isAdded ) {
-                getCurrentRoom().getItems().remove(noun);
-                return noun + "added to inventory";
-            }
-
+        // if present in room
+        // add to inventory, pop from map -> inventory
+        // remove item from room items and map of items
+        if(getCurrentRoom().getItems().contains(noun)){
+            Item poppedItem = popItemFromMap(noun); // removes from games' itemsMap
+            Boolean addedItemInventory = getPlayer().getInventory().add(poppedItem);
+            Boolean removedRoomItem = getCurrentRoom().getItems().remove(noun);
+            return "added "+noun+" to inventory";
         };
-        return noun + " not found";
+        // check inventory
+        if( getPlayer().inventoryHasItem(noun) >= 0 ){
+            return noun + "already in your inventory";
+        }
+        return noun+" not found in current room";
     }
     private String processUsing(String noun){
-        // if in inventory
-        // use item , then dispose of empty
-        if(noun == ""){
-            return "Invalid command. Please provide the item name to use or type 'help'.";
-        };
-        if( getPlayer().getInventory().contains( noun ) ){
-            // pop if single use
-            // update number of uses
-            getPlayer().removeFromInventory(noun);
-            // some action
-            return "Using " + noun;
+        if(noun == "") return "Invalid command. Please provide the item name to use or type 'help'.";
+
+        Integer inventoryIndex = getPlayer().inventoryHasItem(noun);
+        if( inventoryIndex >= 0 ){
+            Item inventoryItem = getPlayer().getInventory().get(inventoryIndex);
+            Integer reuse = inventoryItem.getReuse();
+
+            if( reuse == 0 ){
+                getPlayer().getInventory().remove(inventoryItem);
+                System.out.println("Removed "+" from inventory");
+            }
+            if( reuse > 0 )inventoryItem.setReuse( inventoryItem.getReuse() - 1 );
+            return "Using "+ noun;
         }
-        return noun+" not in your inventory";
+
+        return noun + " not in your inventory";
     }
     private String processHelping(String noun){
         return "listing commands";
@@ -121,11 +134,13 @@ public class Game {
         String scannerString = scanner.nextLine();
         setScannerString(scannerString);
     }
-    public Boolean roomHasNoun(String noun){
-        List<String> tempItems = getCurrentRoom().getItems();
-        tempItems.addAll(getCurrentRoom().getEncounters_to());
-        tempItems.addAll(getCurrentRoom().getEncounters_from());
-        return tempItems.contains(noun);
+    public Item popItemFromMap(String targetName){
+        HashMap<String, Item> itemsMap = getItems();
+        Item targetItem = new Item();
+        if( itemsMap.containsKey(targetName) ){
+            return itemsMap.remove(targetName);
+        }
+        return targetItem;
     }
 
 //    ACCESSOR METHODS
@@ -141,4 +156,6 @@ public class Game {
     public void setScannerString(String scannerString) { this.scannerString = scannerString;}
     public HashMap<String, Encounter> getEncounters() { return encounters; }
     public void setEncounters(HashMap<String, Encounter> encounters) {this.encounters = encounters;}
+    public HashMap<String, Item> getItems() { return items; }
+    public void setItems(HashMap<String, Item> items) { this.items = items; }
 }

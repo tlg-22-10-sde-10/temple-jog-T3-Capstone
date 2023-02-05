@@ -5,39 +5,28 @@ import java.util.List;
 
 public class Player {
     Integer health, steps;
-    List<String> inventory = new ArrayList<>();
+    List<Item> inventory = new ArrayList<>();
 
     /*              CONSTRUCTORS                    */
     public Player() {
-        health = 5;
-        steps = 0;
+        this.health = 5;
+        this.steps = 0;
     }
 
-    public Boolean addToInventory( String item ){
-        List<String> inventory = getInventory();
-        return inventory.add( item );
-    }
-    public Boolean removeFromInventory(String item){
-        List<String> inventory = getInventory();
-        return inventory.remove(item);
-    }
-
-    public Integer getHealth() {
-        return health;
+    public Integer inventoryHasItem(String itemName){
+        for( Item item : getInventory() ){
+            if( item.getName().equals(itemName) ) {
+                Integer itemIndex = getInventory().indexOf(item);
+                return itemIndex;
+            }
+        }
+        return -1;
     }
 
-    public void setHealth(Integer health) {
-        this.health = health;
-    }
-
-    public Integer getSteps() {
-        return steps;
-    }
-
-    public void setSteps(Integer steps) {
-        this.steps = steps;
-    }
-
-    public List<String> getInventory() { return inventory; }
-    public void setInventory(List<String> inventory) {this.inventory = inventory;}
+    public List<Item> getInventory() { return inventory; }
+    public void setInventory(List<Item> inventory) {this.inventory = inventory;}
+    public Integer getHealth() {return health;}
+    public void setHealth(Integer health) {this.health = health;}
+    public Integer getSteps() {return steps;}
+    public void setSteps(Integer steps) {this.steps = steps;}
 }

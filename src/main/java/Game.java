@@ -45,11 +45,8 @@ public class Game {
     }
     private String processNavigating(String noun){
         noun = noun.toLowerCase();
-        // Valid Noun Check
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
-        if( noun.isEmpty() || !standardDirections.contains(noun) ){
-            return "Invalid command. Please provide direction or type 'help'.";
-        };
+        if( noun.isEmpty() || !standardDirections.contains(noun) ) return EnumInvalidNounInput.BAD_NAV.getWarning();
 
         System.out.println("going "+ noun + " ....");
 
@@ -68,11 +65,7 @@ public class Game {
         return accessableRoom;
     }
     private String processLooking(String noun){
-        // if room has item
-        // description of item
-        if(noun == ""){
-            return "Invalid command. Please provide item name to look for or type 'help'.";
-        };
+        if(noun == "") return EnumInvalidNounInput.BAD_LOOK.getWarning();
         Integer itemIndex = getPlayer().inventoryHasItem(noun);
         if( itemIndex >= 0 ){
             return getPlayer().getInventory().get(itemIndex).getDescription();
@@ -83,9 +76,7 @@ public class Game {
         else return " not found " + noun;
     }
     private String processGetting(String noun){
-        if(noun == ""){
-            return "Invalid command. Please provide the item name trying to get or type 'help'.";
-        };
+        if(noun == "") return EnumInvalidNounInput.BAD_GET.getWarning();
         // if present in room
         // add to inventory, pop from map -> inventory
         // remove item from room items and map of items
@@ -102,7 +93,7 @@ public class Game {
         return noun+" not found in current room";
     }
     private String processUsing(String noun){
-        if(noun == "") return "Invalid command. Please provide the item name to use or type 'help'.";
+        if(noun == "") return EnumInvalidNounInput.BAD_USE.getWarning();
 
         Integer inventoryIndex = getPlayer().inventoryHasItem(noun);
         if( inventoryIndex >= 0 ){

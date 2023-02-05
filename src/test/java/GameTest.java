@@ -22,10 +22,21 @@ class GameTest {
         game = new Game(new Player(), new HashMap<>(), new HashMap<>(), itemsMap);
     }
 
-    //CONTROLLERS
-//HELPER METHODS
+//CONTROLLERS
+
+
+    //processLooking
+
+
+    //processQuitting
     @Test
-    void test_popItemFromMap_GivenValidNoun_ShouldReturnValidItem(){
+    void test_processQuitting_Given_InputStringToQuit_ShouldReturnSameInputString(){}
+    void test_processQuitting_Given_BadInputStringToQuit_ShouldReturnInvalidInputString(){}
+
+
+    //HELPER METHODS
+    @Test
+    void test_popItemFromMap_GivenValidNounString_ShouldReturnValidItem(){
         Item expected = new Item("alpha");
         Item actual = game.popItemFromMap("alpha");
         assertEquals( expected.getName(), actual.getName() );

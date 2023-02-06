@@ -32,7 +32,7 @@ public class Game {
         if(verb.equals("get")) return processGetting( noun );
         if(verb.equals("look")) return processLooking( noun );
         if(verb.equals("use")) return processUsing( noun );
-        if(verb.equals("help")) return processHelping( noun );
+        if(verb.equals("help")) return processHelping();
         if(verb.equals("invalid")) return processInvalid();
         return "";
     }
@@ -103,8 +103,14 @@ public class Game {
 
         return noun + " not in your inventory";
     }
-    private String processHelping(String noun){
-        return "listing commands";
+//    private String processHelping(String noun){
+    private String processHelping(){
+        String helpInfo = "Go - Use 'go [direction]' command to move to designated direction \n" +
+                "Look - Use 'look [item]' for item description \n" +
+                "Get  - Use 'get [item]' command to obtain the item \n" +
+                "Use - Use 'use [item]' command to fight or kill enemy \n" +
+                "Quit - Use 'quit' command to exit out of the game";
+        return helpInfo;
     }
     private String processInvalid(){
         return "Invalid Input, Type \'Help\' for more information.";

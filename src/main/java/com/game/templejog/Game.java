@@ -82,19 +82,13 @@ public class Game {
                 return "added "+noun+" to inventory";
             }
         }
-//        if(getCurrentRoom().getItems().contains(noun)){
-//            Item poppedItem = popItemFromMap(noun); // removes from games' itemsMap
-//            getPlayer().getInventory().add(poppedItem);
-//            getCurrentRoom().getItems().remove(noun);
-//            return "added "+noun+" to inventory";
-//        }
         if( getPlayer().inventoryHasItem(noun) >= 0 ){
             return noun + "already in your inventory";
         }
         return noun+" not found in current room";
     }
     private String processUsing(String noun){
-        if(noun == "") return EnumInvalidNounInput.BAD_USE.getWarning();
+        if(noun.equals("")) return EnumInvalidNounInput.BAD_USE.getWarning();
 
         Integer inventoryIndex = getPlayer().inventoryHasItem(noun);
         if( inventoryIndex >= 0 ){
@@ -113,15 +107,14 @@ public class Game {
     }
 //    private String processHelping(String noun){
     private String processHelping(){
-        String helpInfo = "Go - Use 'go [direction]' command to move to designated direction \n" +
+        return "Go - Use 'go [direction]' command to move to designated direction \n" +
                 "Look - Use 'look [item]' for item description \n" +
                 "Get  - Use 'get [item]' command to obtain the item \n" +
                 "Use - Use 'use [item]' command to fight or kill enemy \n" +
                 "Quit - Use 'quit' command to exit out of the game";
-        return helpInfo;
     }
     private String processInvalid(){
-        return "Invalid Input, Type \'Help\' for more information.";
+        return "Invalid Input, Type 'Help' for more information.";
     }
 
 //  Helper Methods
@@ -135,14 +128,10 @@ public class Game {
         Item targetItem = new Item();
         for(String key : itemsMap.keySet()) {
             if(key.toLowerCase().equals(targetName)) {
-                Item removed = itemsMap.remove(key);
-                return removed;
+                targetItem = itemsMap.remove(key);
+                break;
             }
         }
-//        if( itemsMap.containsKey(targetName) ){
-//            Item removed = itemsMap.remove(targetName);
-//            return removed;
-//        }
         return targetItem;
     }
 

@@ -41,27 +41,26 @@ public class Game {
         updateScannerString();
         String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
         if( playerResponse.equals("y") ) setQuitGame(!getQuitGame());
-        else { return "Invalid input"; }
+        else { return "Returning to game..."; }
 
-        return noun;
+        return "Thanks for playing!";
     }
     private String processNavigating(String noun){
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
         if( noun.isEmpty() || !standardDirections.contains(noun.toLowerCase()) ) return EnumInvalidNounInput.BAD_NAV.getWarning();
-        String accessableRoom = "";
+        String accessibleRoom;
         String directionValue = getCurrentRoom().checkDirection(noun);
         if( directionValue.length() > 1  ) {
-            System.out.println("going "+ noun + " ....");
-            accessableRoom = directionValue;
-            Room validRoom = getRooms().get(accessableRoom);
+            //System.out.println("going "+ noun + " ....");
+            accessibleRoom = directionValue;
+            Room validRoom = getRooms().get(accessibleRoom);
             validRoom.setHasBeenVisited(!validRoom.getHasBeenVisited());
             setCurrentRoom(validRoom);
             getCurrentRoom().setHasBeenVisited(true);
             player.steps++;
+            return String.format("Traveling to %s...",getCurrentRoom().getName());
         }
-        else System.out.println("Cannot go in that direction");
-
-        return accessableRoom;
+        return "Cannot go in that direction...";
     }
     private String processLooking(String noun){
         if(noun.isEmpty()) return EnumInvalidNounInput.BAD_LOOK.getWarning();
@@ -79,31 +78,33 @@ public class Game {
                 Item poppedItem = popItemFromMap(noun);
                 getPlayer().getInventory().add(poppedItem);
                 getCurrentRoom().getItems().remove(noun);
-                return "added "+noun+" to inventory";
+                return String.format("You added %s to your inventory...", noun);
             }
         }
         if( getPlayer().inventoryHasItem(noun) >= 0 ){
-            return noun + "already in your inventory";
+            return noun + " is already in your inventory...";
         }
-        return noun+" not found in current room";
+        return noun+" was not found in current room...";
     }
     private String processUsing(String noun){
         if(noun.equals("")) return EnumInvalidNounInput.BAD_USE.getWarning();
 
         Integer inventoryIndex = getPlayer().inventoryHasItem(noun);
         if( inventoryIndex >= 0 ){
+
             Item inventoryItem = getPlayer().getInventory().get(inventoryIndex);
             Integer reuse = inventoryItem.getReuse();
-
+            boolean itemRemoved = false;
             if( reuse == 0 ){
                 getPlayer().getInventory().remove(inventoryItem);
-                System.out.println("Removed "+" from inventory");
+                itemRemoved = true;
+                //System.out.println("Removed "+" from inventory");
             }
             if( reuse > 0 )inventoryItem.setReuse( inventoryItem.getReuse() - 1 );
-            return "Using "+ noun;
+            return String.format("You used %s. %s",noun,(itemRemoved) ? "Item used up." : String.format("It has %d remaining %s.",inventoryItem.getReuse()+1, (inventoryItem.getReuse() == 0) ? "use" : "uses"));
         }
 
-        return noun + " not in your inventory";
+        return noun + " is not in your inventory.";
     }
 //    private String processHelping(String noun){
     private String processHelping(){

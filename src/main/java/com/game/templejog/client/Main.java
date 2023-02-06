@@ -64,12 +64,13 @@ public class Main {
             do {
                 clearScreen();
                 console.displayScene();
-                System.out.print("What do you want to do? go,look,get,use,quit,help\n>");
+                System.out.print("What do you want to do?\n>");
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
-                System.out.println(game.processChoice(choice));
-                System.out.println("Press <ENTER> key when ready...");
-                scanner.nextLine();
+                clearScreen();
+                console.displayResult(game.processChoice(choice));
+//                System.out.println("Press <ENTER> key when ready...");
+//                scanner.nextLine();
             } while ( !game.getQuitGame() );
         }
         System.out.println("Good Bye");

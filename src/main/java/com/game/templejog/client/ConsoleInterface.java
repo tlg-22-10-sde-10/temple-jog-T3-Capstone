@@ -14,8 +14,8 @@ public class ConsoleInterface { // Previously TitleScreen
     static final Integer CONSOLE_WIDTH = 80;
 
     // Use the below string for release
-    String introFromJSON = "The year is 20XX...\n\nA major government power has learned of an alien race that wants to invade Earth\n    and enslave the human race.\nThey have discovered a secret alien ship that has been here for centuries.\nIt has been disguised as a lost hidden temple the whole time!\nTheir plan is to nuke the temple from orbit. As it's\n            \"\033[1;37mThe only way to be sure.\033[0m\"\nFrom intel gained, your special ops team has learned that even if\n    the ship is destroyed, a signal will still be sent to the alien home-world!\nYour mission, that you already chose to accept, is to:\n\033[0;33m      -Infiltrate the temple and gain access to the communication device.\n      -Find a way to shut it down.\n      -Get back to the landing zone for extraction before the bomb drops!\n      -You have until sun-down at 18:00 local time.\033[0m\n\n\n\nPress any key to parachute into the LZ...";
-//  String introFromJSON = "Press go";   // Use this when testing
+//    String introFromJSON = "The year is 20XX...\n\nA major government power has learned of an alien race that wants to invade Earth\n    and enslave the human race.\nThey have discovered a secret alien ship that has been here for centuries.\nIt has been disguised as a lost hidden temple the whole time!\nTheir plan is to nuke the temple from orbit. As it's\n            \"\033[1;37mThe only way to be sure.\033[0m\"\nFrom intel gained, your special ops team has learned that even if\n    the ship is destroyed, a signal will still be sent to the alien home-world!\nYour mission, that you already chose to accept, is to:\n\033[0;33m      -Infiltrate the temple and gain access to the communication device.\n      -Find a way to shut it down.\n      -Get back to the landing zone for extraction before the bomb drops!\n      -You have until sun-down at 18:00 local time.\033[0m\n\n\n\nPress any key to parachute into the LZ...";
+  String introFromJSON = "Press go";   // Use this when testing
     Game game;
 
 /*                      STATIC METHODS                          */
@@ -180,6 +180,54 @@ public class ConsoleInterface { // Previously TitleScreen
         return sceneDescription.toString();
     }
 
+    public int displayResult(String processChoice) throws InterruptedException {
+        // Break up into lines
+        List<String> lines = new ArrayList<>();
+        if (processChoice.length() > 78) {
+            while (processChoice.length() > 78) {
+                int splitIndex = processChoice.indexOf(" ", 70);
+                lines.add(processChoice.substring(0, splitIndex));
+                processChoice = processChoice.substring(splitIndex + 1);
+            }
+            lines.add(processChoice);
+        } else {
+            lines.add(processChoice);
+        }
+
+        // Format string to center on page
+        StringBuilder display = new StringBuilder();
+        for (String line : lines) {
+            String spaceBefore = "%" + ((CONSOLE_WIDTH - 1 - line.length()) / 2 + line.length()) + "s";
+            String spaceAfter = "%" + ((CONSOLE_WIDTH - line.length()) / 2) + "s";
+            display.append(" ")
+                    .append(String.format(spaceBefore, line))
+                    .append(String.format(spaceAfter, " "))
+                    .append("\n");
+        }
+
+    // Print gap above
+        int displayLines = display.length() / 80;
+        System.out.print("\n".repeat(11-displayLines/2));
+    // Iterate through string like the intro
+
+        char[] charArray = display.toString().toCharArray();
+        int pause = 0;
+        for (char c : charArray) {
+            System.out.print(c);
+            if (c == ' ') {
+                TimeUnit.MILLISECONDS.sleep(0);
+            } else {
+                TimeUnit.MILLISECONDS.sleep(20);
+                pause++;
+            }
+        }
+    // Print gap below
+        System.out.print("\n".repeat(10-displayLines/2));
+    // Pause
+        TimeUnit.MILLISECONDS.sleep(pause * 50);
+        return 0;
+    }
+
 /*                      ACCESSORS                               */
     public Game getGame() {
         return game;
@@ -188,4 +236,5 @@ public class ConsoleInterface { // Previously TitleScreen
     public void setGame(Game game) {
         this.game = game;
     }
+
 }

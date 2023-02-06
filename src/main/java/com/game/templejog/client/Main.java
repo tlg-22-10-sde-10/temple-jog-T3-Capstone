@@ -14,13 +14,13 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
 
 // ENTRY
-        clearScreen();
+        ConsoleInterface.clearScreen();
         Scanner scanner = new Scanner(System.in);
         ConsoleInterface.displaySetup();
         scanner.nextLine();
         ConsoleInterface console = new ConsoleInterface();
 
-        clearScreen();
+        ConsoleInterface.clearScreen();
         ConsoleInterface.displayTitle();
         String playerInput = "";
         while(playerInput.isEmpty()){
@@ -55,30 +55,24 @@ public class Main {
 
             Game game = new Game(new Player(), roomsMap, encountersMap, itemsMap);
             console.setGame(game);
-            clearScreen();
+            ConsoleInterface.clearScreen();
 
             console.displayIntro();
             scanner.nextLine();
-            clearScreen();
+            ConsoleInterface.clearScreen();
 // GAME LOOP
             do {
-                clearScreen();
+                ConsoleInterface.clearScreen();
                 console.displayScene();
                 System.out.print("What do you want to do?\n>");
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
-                clearScreen();
+                ConsoleInterface.clearScreen();
                 console.displayResult(game.processChoice(choice));
-//                System.out.println("Press <ENTER> key when ready...");
-//                scanner.nextLine();
-            } while ( !game.getQuitGame() );
+            } while ( !game.getQuitGame()
+                    && game.getPlayer().getSteps() < 24
+                    && game.getPlayer().getHealth() > 0);
         }
-        System.out.println("Good Bye");
 
-    }
-
-    private static void clearScreen () {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 }

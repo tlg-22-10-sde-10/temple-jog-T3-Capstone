@@ -41,9 +41,9 @@ public class Game {
         updateScannerString();
         String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
         if( playerResponse.equals("y") ) setQuitGame(!getQuitGame());
-        else { return "Invalid input"; }
+        else { return "Returning to game..."; }
 
-        return noun;
+        return "Thanks for playing!";
     }
     private String processNavigating(String noun){
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");

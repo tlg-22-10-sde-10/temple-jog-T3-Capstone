@@ -228,6 +228,11 @@ public class ConsoleInterface { // Previously TitleScreen
         return 0;
     }
 
+    public static void clearScreen () {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
 /*                      ACCESSORS                               */
     public Game getGame() {
         return game;

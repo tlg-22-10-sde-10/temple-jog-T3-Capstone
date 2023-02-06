@@ -36,7 +36,7 @@ Mavem has a default directory structure&mdash;shown below&mdash;for the source, 
 
 Since Git tracks only files and their paths relative to the repository root, but not directories themselves, each of these directories initially contains a `.keep` file, so that the directory structure is preserved in Git. If/when files are added to any given one of these directories, the `.keep` file in that directory can be deleted.
 
-## Main class
+## com.game.templejog.client.Main class
 
 The project is configured to use the Maven Shade plug-in to create a runnable JAR from the root project, with all runtime dependencies packaged in the same JAR. In this project, the name of the main class for the JAR is taken from the content of the `main-class.name` element in [`pom.xml`](pom.xml). (There's a `TODO` comment for this change in that file).
 

@@ -1,10 +1,14 @@
+package com.game.templejog.client;
+
+import com.game.templejog.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ConsoleInterface { // Previously TitleScreen
 
-    /*                  CONSTANTS & FIELDS                          */
+/*                  CONSTANTS & FIELDS                          */
     static final String titleSplash = "\033[0;32m████████████████████████████████████████████████████████████████████████████████\n█░         █░        █░  █████    █░       ███░ ███████░        ████████████████\n█░         █░        █░   ████    █░        ██░ ███████░        ████████████████\n█░░░░  ░░░░█░ ░░░░░░░█░   ████    █░ ░░░░   ██░ ███████░ ░░░░░░░████████████████\n█████░ █████░ ████████░   ████    █░ ████░  ██░ ███████░ ███████████████████████\n█████░ █████░ ████████░   ███     █░ █████   █░ ███████░ ███████████████████████\n█████░ █████░       ██░    ██     █░ ████   ██░ ███████░       █████████████████\n█████░ █████░ ░░░░░░░█░ ░  █      █░      ░░██░ ███████░ ░░░░░░░████████████████\n█████░ █████░ ████████░ █░    ░   █░ ░░░░░████░ ███████░ ███████████████████████\n█████░ █████░ ████████░ █░    █░  █░ █████████░ ███████░ ███████████████████████\n█████░ █████░        █░ █░    █░  █░ █████████░       █░        ████████████████\n█████░░█████░░░░░░░░░█░░██░░░██░░░█░░█████████░░░░░░░░█░░░░░░░░░████████████████\n██████████████████████████████████████████░ ████████████████████████████████████\n██████████████████████████████████████████░ ███░       █████░      █████████████\n██████████████████████████████████████████░ ██░   ░░    ███░   ░░░  ████████████\n██████████████████████████████████████████░ ██░   ██░░  ███░  ███░░  ███████████\n██████████████████████████████████████████░ ██░  █████░  █░ ███████░ ███████████\n██████████████████████████████████████████░ ██░  █████░  █░ ████████████████████\n██████████████████████████████████████████░ ██░  █████░  █░ ███░   █████████████\n█████████████████████████████████████░ ███  ██░  █████   █░ ████░░   ███████████\n█████████████████████████████████████░  █   ██░   ██     █░  █████░  ███████████\n██████████████████████████████████████░    ███░░        ███░        ████████████\n███████████████████████████████████████░░░█████░░░░░░░░█████░░░░░░░█████████████\033[0m";
     static final Integer CONSOLE_HEIGHT = 25;
     static final Integer CONSOLE_WIDTH = 80;
@@ -14,13 +18,7 @@ public class ConsoleInterface { // Previously TitleScreen
 //  String introFromJSON = "Press go";   // Use this when testing
     Game game;
 
-    /*                      CONSTRUCTORS                            */
-    public ConsoleInterface() {
-
-    }
-
-
-    /*                      STATIC METHODS                          */
+/*                      STATIC METHODS                          */
     public static int displaySetup() {
         String midLines = "\n|%" + (CONSOLE_WIDTH - 1) + "s";
         System.out.println('┌' + addDashes() + '┐' +
@@ -40,7 +38,7 @@ public class ConsoleInterface { // Previously TitleScreen
         return "-".repeat(CONSOLE_WIDTH - 2);
     }
 
-    // OBJECT METHODS
+/*                      BUSINESS METHODS                        */
     public int displayIntro() throws InterruptedException {
         String title = introFromJSON;
         char[] charArray = title.toCharArray();
@@ -58,17 +56,18 @@ public class ConsoleInterface { // Previously TitleScreen
     public int displayScene() {
         StringBuilder scene = new StringBuilder();
         String currentRoom = game.getCurrentRoom().getName();
-        Integer health = game.getPlayer().health;
+        Integer health = game.getPlayer().getHealth();
 
         // Top Bar Setup
-        int time = 1200 + (game.getPlayer().steps * 15);
-        if (time % 100 >= 60) {
-            time = (time - (time % 100)) + (time % 100 / 60 * 100) + (time % 100 % 60);
-        }
+        int hoursPlayed = game.getPlayer().getSteps() * 15;
+        int hours = hoursPlayed / 60;
+        int minutes = hoursPlayed % 60;
+        int time = 1200 + (100 * hours) + minutes;
+
         String status = String.format("Location: %s █ Health: %s █ TIME: %s", currentRoom, health, time > 999 ? Integer.toString(time) : "0" + time);
         String statusSpace = "%" + ((CONSOLE_WIDTH - 1 - status.length()) / 2 + status.length()) + "s";
         String endSpace = "%" + ((CONSOLE_WIDTH - status.length()) / 2) + "s"; // "%20s"
-
+        boolean hasEncounters = !getGame().getCurrentRoom().getEncounters_to().isEmpty();
 
         // Inventory Bar Setup
         String inventorySpace;
@@ -97,52 +96,40 @@ public class ConsoleInterface { // Previously TitleScreen
         String lineOne = getGame().getCurrentRoom().getDescription();
         String roomDescription = formatDisplay(lineOne);
         roomDescription = roomDescription.concat("█" + " ".repeat(78) + "█" + "\n");
-//        List<String> lines = new ArrayList<>();
-//        String roomSpaceBefore, roomSpaceAfter;
-//        StringBuilder roomDescription = new StringBuilder();
-//        roomDescription.append("█" + " ".repeat(78) + "█" + "\n");
-//
-//        if (lineOne.length() > 78) {
-//            while(lineOne.length() > 78) {
-//                int splitIndex = lineOne.indexOf(" ", 70);
-//                lines.add(lineOne.substring(0,splitIndex));
-//                lineOne = lineOne.substring(splitIndex+1);
-//            }
-//            lines.add(lineOne);
-//        } else {
-//            lines.add(lineOne);
-//        }
-//        for(String line : lines) {
-//            roomSpaceBefore = "%" + ((CONSOLE_WIDTH - 1 - line.length()) / 2 + line.length()) + "s";
-//            roomSpaceAfter = "%" + ((CONSOLE_WIDTH - line.length()) / 2) + "s";
-//            roomDescription.append("█" + String.format(roomSpaceBefore,line) + (String.format(roomSpaceAfter,"█") + "\n"));
-//        }
-//        roomDescription.append("█" + " ".repeat(78) + "█" + "\n");
 
         // Encounter Setup
-        StringBuilder encounterDescription = new StringBuilder();
-        for(String encounter : getGame().getCurrentRoom().getEncounters_to()) {
-            encounterDescription.append(formatDisplay(getGame().encounters.get(encounter).getDescription()));
+        StringBuilder encounterDescription = null;
+        if (hasEncounters) {
+            encounterDescription = new StringBuilder();
+            for (String encounter : getGame().getCurrentRoom().getEncounters_to()) {
+                encounterDescription.append(formatDisplay(getGame().getEncounters().get(encounter).getDescription()));
+            }
+            encounterDescription.append("█").append(" ".repeat(78)).append("█").append("\n");
         }
-        encounterDescription.append("█").append(" ".repeat(78)).append("█").append("\n");
+
         // Scene Builder
         scene.append("█".repeat(CONSOLE_WIDTH))
-                 .append("\n█")
-                 .append(String.format(statusSpace, status))
-                 .append(String.format(endSpace, "█"))
-                 .append("\n")
-                 .append("█".repeat(CONSOLE_WIDTH))
-                 .append("\n")
-                 .append(inventory)
-                 .append("\n")
-                 .append("█".repeat(CONSOLE_WIDTH))
-                 .append("\n")
-                 .append(roomDescription)
-                 .append("█".repeat(CONSOLE_WIDTH))
-                 .append("\n")
-                 .append(encounterDescription)
-                 .append("█".repeat(CONSOLE_WIDTH))
-                 .append("\n");
+                .append("\n█")
+                .append(String.format(statusSpace, status))
+                .append(String.format(endSpace, "█"))
+                .append("\n")
+                .append("█".repeat(CONSOLE_WIDTH))
+                .append("\n")
+                .append(inventory)
+                .append("\n")
+                .append("█".repeat(CONSOLE_WIDTH))
+                .append("\n");
+        if (hasEncounters) {
+            scene.append(encounterDescription)
+                    .append("█".repeat(CONSOLE_WIDTH))
+                    .append("\n");
+        }
+        scene.append(roomDescription)
+                .append("█".repeat(CONSOLE_WIDTH))
+                .append("\n");
+
+        int displayLines = scene.length() / 80;
+        scene.append("\n".repeat(22-displayLines));
         System.out.println(scene);
         return 0;
     }
@@ -150,30 +137,31 @@ public class ConsoleInterface { // Previously TitleScreen
     private String formatDisplay(String description) {
         List<String> lines = new ArrayList<>();
         String roomSpaceBefore, roomSpaceAfter;
-        StringBuilder roomDescription = new StringBuilder();
+        StringBuilder sceneDescription = new StringBuilder();
 
-        roomDescription.append("█").append(" ".repeat(78)).append("█").append("\n");
+        sceneDescription.append("█").append(" ".repeat(78)).append("█").append("\n");
         if (description.length() > 78) {
-            while(description.length() > 78) {
+            while (description.length() > 78) {
                 int splitIndex = description.indexOf(" ", 70);
-                lines.add(description.substring(0,splitIndex));
-                description = description.substring(splitIndex+1);
+                lines.add(description.substring(0, splitIndex));
+                description = description.substring(splitIndex + 1);
             }
             lines.add(description);
         } else {
             lines.add(description);
         }
-        for(String line : lines) {
+        for (String line : lines) {
             roomSpaceBefore = "%" + ((CONSOLE_WIDTH - 1 - line.length()) / 2 + line.length()) + "s";
             roomSpaceAfter = "%" + ((CONSOLE_WIDTH - line.length()) / 2) + "s";
-            roomDescription.append("█")
+            sceneDescription.append("█")
                     .append(String.format(roomSpaceBefore, line))
                     .append(String.format(roomSpaceAfter, "█"))
                     .append("\n");
         }
-        return roomDescription.toString();
+        return sceneDescription.toString();
     }
 
+/*                      ACCESSORS                               */
     public Game getGame() {
         return game;
     }

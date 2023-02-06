@@ -1,3 +1,5 @@
+package com.game.templejog.client;
+
 import java.util.Arrays;
 import java.util.List;
 

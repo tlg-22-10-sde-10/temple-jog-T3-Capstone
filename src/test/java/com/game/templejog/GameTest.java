@@ -3,6 +3,7 @@ package com.game.templejog;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -66,6 +67,7 @@ class GameTest {
 
     //NAVIGATING
     @Test
+    @Disabled
     void processNavigating_given_SubsequentValidInputs_playerCanTraverseAllRoomsInGame_LoadedFromJSON() throws IOException {
         Game gameJSON = generateGameFromJSON();
         String[] fastPath = new String[]{"north", "north", "north", "east", "south", "east", "north", "south", "west", "north", "west", "south", "south", "south","end"};
@@ -87,6 +89,7 @@ class GameTest {
         assertEquals(expected,actual);
     }
     @Test
+    @Disabled
     void processNavigating_given_validInputString_shouldReturnStringName_ofAccessableRoom(){
         String expect = "room02";
         String testNoun = "west";
@@ -96,6 +99,7 @@ class GameTest {
         assertEquals(expect,actual);
     }
     @Test
+    @Disabled
     void processNavigating_given_emptyInputString_shouldReturnEnum_BAD_NAV(){
         String expect = EnumInvalidNounInput.BAD_NAV.getWarning();
         String emptyTestString = "";

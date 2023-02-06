@@ -37,7 +37,7 @@ public class Main {
             HashMap<String, Encounter> encountersMap = new HashMap<>();
             HashMap<String, Item> itemsMap = new HashMap<>();
 // PARSE JSON -> CLASS
-            InputStream jsonFile =  Main.class.getResourceAsStream("/JSON/maps.json");
+            InputStream jsonFile =  Main.class.getClassLoader().getResourceAsStream("JSON/maps.json");
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode root = objectMapper.readTree(jsonFile);
             for (JsonNode rm : root.get("easymap")) {

@@ -74,13 +74,14 @@ public class ConsoleInterface { // Previously TitleScreen
         String inventorySpace;
         StringBuilder inventory = new StringBuilder();
         inventory.append("█  Inventory: ");
-        for (String item : getGame().getPlayer().getInventory()) {
-            if (inventory.length() + item.length() + 3 > 75) {
+        for (Item item : getGame().getPlayer().getInventory()) {
+            System.out.println("CALL TO INVENTORY"+ item.getName());
+            if (inventory.length() + item.getName().length() + 3 > 75) {
                 inventorySpace = "%" + (CONSOLE_WIDTH - inventory.length()) + "s";
                 inventory.append(String.format(inventorySpace, "█"));
                 inventory.append("\n█").append(" ".repeat(14));
             }
-            inventory.append(String.format("[%s] ", item));
+            inventory.append(String.format("[%s] ", item.getName()));
         }
 
         if (inventory.length() < 80) {

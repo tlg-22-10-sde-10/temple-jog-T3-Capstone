@@ -1,7 +1,7 @@
 {
   "easymap": {
     "room01": {
-      "hasBeenVisited": true,
+      "hasBeenVisited": false,
       "number": 1,
       "name": "Landing Zone",
       "description": "You land in a jungle. There is a path that leads north.",
@@ -115,7 +115,7 @@
       "south": "room08",
       "north": "room10",
       "east": "",
-      "items": [ "ball O yarn" ],
+      "items": ["ball o yarn"],
       "encounters_to": [],
       "encounters_from": []
     },
@@ -220,7 +220,6 @@
       "room": "room02",
       "damage": 5,
       "description": "The Mark XIX Desert Eagle is a gas-operated, semi-automatic pistol with a 7 round capacity. The gun measures 10.75” in length with a 6” barrel. Width is 1.25”, height 6.25” and the weight with an empty magazine is approximately 72 ounces. It has a trigger reach of 2.75” and a sight radius of 8.5” with the 6” barrel. \n - magnum research",
-      "description source": "https://www.magnumresearch.com/desert-eagle/",
       "reuse": 2
     },
     "grenade": {
@@ -259,7 +258,7 @@
       "reuse": 0
     },
     "ball O yarn": {
-      "name": "ball O yarn",
+      "name": "ball o yarn",
       "room": "room09",
       "damage": 0,
       "description": "An irresistible basketball-sized ball of yarn",

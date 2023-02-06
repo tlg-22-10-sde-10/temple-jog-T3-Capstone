@@ -29,26 +29,28 @@ public class Main {
 
         HashMap<String, Room> roomsMap = new HashMap<>();
         HashMap<String, Encounter> encountersMap = new HashMap<>();
-
+        HashMap<String, Item> itemsMap = new HashMap<>();
 // PARSE JSON -> CLASS
         File jsonFile = new File("./src/maps.json");
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode root = objectMapper.readTree(jsonFile);
         for (JsonNode rm : root.get("easymap")) {
             Room roomObj = objectMapper.treeToValue(rm, Room.class);
-            roomsMap.put(roomObj.number >= 10 ? ("room" + roomObj.number) : ("room0" + roomObj.number), roomObj);
+            roomsMap.put( roomObj.number >= 10 ? ("room" + roomObj.number) : ("room0" + roomObj.number), roomObj );
         }
         for (JsonNode encounter : root.get("encounters")) {
             Encounter encounterObj = objectMapper.treeToValue(encounter, Encounter.class);
             encountersMap.put(encounterObj.name, encounterObj);
         }
+        for (JsonNode item : root.get("items")){
+            Item itemObj = objectMapper.treeToValue(item, Item.class);
+            itemsMap.put(itemObj.getName(),itemObj);
+        }
 
 // LOAD GAME
         if (playerInput.equals("y")) {
-            Game game = new Game(new Player(), roomsMap, encountersMap);
-            //TEMP new TitleScreen(game)
+            Game game = new Game(new Player(), roomsMap, encountersMap, itemsMap);
             console.setGame(game);
-            // new TitleScreen(game)
             clearScreen();
             console.displayIntro();
             scanner.nextLine();
@@ -57,7 +59,6 @@ public class Main {
                 clearScreen();
                 console.displayScene();
                 System.out.println("What do you want to do? go,look,get,use,quit,help");
-                //
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 System.out.println(game.processChoice(choice));

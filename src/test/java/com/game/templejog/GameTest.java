@@ -1,7 +1,7 @@
+package com.game.templejog;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -69,7 +69,7 @@ class GameTest {
     void processNavigating_given_SubsequentValidInputs_playerCanTraverseAllRoomsInGame_LoadedFromJSON() throws IOException {
         Game gameJSON = generateGameFromJSON();
         String[] fastPath = new String[]{"north", "north", "north", "east", "south", "east", "north", "south", "west", "north", "west", "south", "south", "south","end"};
-        String[] fastPathRooms = new String[]{"room02", "room03", "room04", "room07", "room06", "room09", "room10", "room09", "room06", "room07", "room04", "room03", "room02", "room01",EnumInvalidNounInput.BAD_NAV.getWarning()};
+        String[] fastPathRooms = new String[]{"room02", "room03", "room04", "room07", "room06", "room09", "room10", "room09", "room06", "room07", "room04", "room03", "room02", "room01", EnumInvalidNounInput.BAD_NAV.getWarning()};
         List<String> roundTrip = new ArrayList<>(Arrays.asList(fastPath));
         List<String> expectedRooms = new ArrayList<>(Arrays.asList(fastPathRooms));
         String expectedRoom = "";

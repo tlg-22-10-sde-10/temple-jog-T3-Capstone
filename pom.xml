@@ -37,10 +37,10 @@
     <maven-surefire-report-plugin.version>3.0.0-M8</maven-surefire-report-plugin.version>
 
     <!--
-    TODO: Replace "replace.me.project.Main" with the fully qualified class name of the project's main class,
+    TODO: Replace "replace.me.project.com.game.templejog.client.Main" with the fully qualified class name of the project's main class,
      without any quotes, as the content of the <main-class.name> element.
     -->
-    <main-class.name>replace.me.project.Main</main-class.name>
+    <main-class.name>replace.me.project.com.game.templejog.client.Main</main-class.name>
 
   </properties>
 

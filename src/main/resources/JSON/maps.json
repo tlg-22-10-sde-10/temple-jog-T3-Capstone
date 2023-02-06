@@ -1,0 +1,273 @@
+{
+  "easymap": {
+    "room01": {
+      "hasBeenVisited": true,
+      "number": 1,
+      "name": "Landing Zone",
+      "description": "You land in a jungle. There is a path that leads north.",
+      "west": "",
+      "south": "",
+      "north": "room02",
+      "east": "",
+      "items": [],
+      "encounters_to": [],
+      "encounters_from": []
+    },
+    "room02": {
+      "hasBeenVisited": false,
+      "number": 2,
+      "name": "Weapon Zone",
+      "description": "You are in room-2. You have collected Desert Eagle for your safety. You have options to go either north or east.",
+      "west": "",
+      "south": "room01",
+      "north": "room03",
+      "east": "room05",
+      "items": ["desert eagle"],
+      "encounters_to": [],
+      "encounters_from": []
+    },
+    "room03": {
+      "hasBeenVisited": false,
+      "number": 3,
+      "name": "Eagle Zone",
+      "description": "You are in room-3. You will need to deal with a bald eagle before moving ahead. There is a path that leads to north.",
+      "west": "",
+      "south": "room02",
+      "north": "room04",
+      "east": "",
+      "items": [],
+      "encounters_to": [
+        "bald eagle"
+      ],
+      "encounters_from": []
+    },
+    "room04": {
+      "hasBeenVisited": false,
+      "number": 4,
+      "name": "Anaconda Room",
+      "description": "You are in room-4. You will face Anaconda, and collect a grenade in this room. There is a path that leads to north.",
+      "west": "",
+      "south": "room03",
+      "north": "",
+      "east": "room07",
+      "items": ["grenade", "machete"],
+      "encounters_to": [ "anaconda" ],
+      "encounters_from": []
+    },
+    "room05": {
+      "hasBeenVisited": false,
+      "number": 5,
+      "name": "Pit of Face-Mugging Torment",
+      "description": "You have fallen into a pit. You must exit from where you came, head North.",
+      "west": "",
+      "south": "",
+      "north": "room06",
+      "east": "",
+      "items": [],
+      "encounters_to": [ "face mugger" ],
+      "encounters_from": []
+    },
+    "room06": {
+      "hasBeenVisited": false,
+      "number": 6,
+      "name": "Lions and Flamethrowers",
+      "description": "You enter a musty and poorly lit room.",
+      "west": "",
+      "south": "room05",
+      "north": "room07",
+      "east": "room09",
+      "items": [ "flamethrower" ],
+      "encounters_to": [],
+      "encounters_from": ["lion"]
+    },
+    "room07": {
+      "hasBeenVisited": false,
+      "number": 7,
+      "name": "Temple Entrance",
+      "description": "You have entered the temple and find yourself in a candle-lit room revealing strange markings...be careful not to disturb the dead.",
+      "west": "room04",
+      "south": "room06",
+      "north": "",
+      "east": "",
+      "items": [ "key" ],
+      "encounters_to": [],
+      "encounters_from": [ "mummy" ]
+    },
+    "room08": {
+      "hasBeenVisited": false,
+      "number": 8,
+      "name": "Temple Shrine Room",
+      "description": "You have entered a what looks to be a shrine. The walls are decorated with murals of what looks like an advanced civilization taking over a lesser one. At the center is an alter with a crystal femur floating at its center. A beam of light shines down on it.",
+      "west": "",
+      "south": "",
+      "north": "room09",
+      "east": "",
+      "items": [ "crystal femur" ],
+      "encounters_to": [ "alien guard" ],
+      "encounters_from": []
+    },
+    "room09": {
+      "hasBeenVisited": false,
+      "number": 9,
+      "name": "Temple Store room",
+      "description": "You enter what looks like a store room. Shelves line the walls where items were once stored. All that remains is a ball-O-yarn. To the north is a locked door. There is a room to the south with light emenating from it. This room seems like a safe place to rest.",
+      "west": "room06",
+      "south": "room08",
+      "north": "room10",
+      "east": "",
+      "items": ["ball O yarn"],
+      "encounters_to": [],
+      "encounters_from": []
+    },
+    "room10": {
+      "hasBeenVisited": false,
+      "number": 10,
+      "name": "Alien Communication Room",
+      "description": "You enter a communications room. This must be where the device is. You see a large metallic device in the corner with a web of cables that extend upward into the ceiling.",
+      "west": "",
+      "south": "room09",
+      "north": "",
+      "east": "",
+      "items": [],
+      "encounters_to": [ "alien boss" ],
+      "encounters_from": []
+    }
+  },
+  "encounters": {
+    "alien guard": {
+      "name": "alien guard",
+      "type": "enemy",
+      "description": "An Alien Guard leaps across the altar and braces itself for combat.",
+      "weakness": [
+        "desert eagle",
+        "grenade",
+        "machete"
+      ]
+    },
+    "bald eagle": {
+      "name": "bald eagle",
+      "type": "enemy",
+      "description": "A Bald Eagle screams as it dives for toward you!",
+      "weakness": [
+        "desert eagle",
+        "grenade",
+        "machete"
+      ]
+    },
+    "lion": {
+      "name": "lion",
+      "type": "enemy",
+      "description": "A ripped and overly shredded lion with a particular taste for intruders leaps into action.",
+      "weakness": [
+        "ball O yarn",
+        "desert eagle"
+      ],
+      "success": "pop",
+      "failure": -1
+    },
+    "mummy": {
+      "name": "mummy",
+      "type": "enemy",
+      "description": "Uh-oh now you've done it. You have awakened an evil, vengeful, murderous mummy",
+      "weakness": [
+        "desert eagle",
+        "flamethrower"
+      ],
+      "success": "pop",
+      "failure": -1
+    },
+    "face mugger": {
+      "name": "face mugger",
+      "type": "enemy",
+      "description": "A face-mugger has wrapped around your neck, wrapped its creepy-crawly legs around your cranium and has begun to re-arrange your lungs from your face!",
+      "weakness": [
+        "desert eagle",
+        "flamethrower"
+      ],
+      "success": "pop",
+      "failure": -1
+    },
+    "pit": {
+      "name": "pit",
+      "type": "environment",
+      "description": "Ahhhhhh!! You have fallen into a black pit at least 10 feet deep",
+      "outcome": -1
+    },
+    "alien boss": {
+      "name": "alien boss",
+      "type": "enemy",
+      "description": "A very large roided out Extraterrestrial being stands at the center of the room\nIt screams something you can't make out,\"^&@%# @&^#*(!( $^$#*(@!!!!\"",
+      "weakness": [
+        "crystal femur"
+      ],
+      "success": "pop",
+      "failure": -1
+    },
+    "anaconda": {
+      "name": "anaconda",
+      "type": "enemy",
+      "description": "A giant Anaconda coils itself up, poised to strike at a moments notice!",
+      "weakness": [
+        "grenade"
+      ],
+      "success": "pop",
+      "failure": -1
+    }
+  },
+  "items": {
+    "desert eagle": {
+      "name": "desert eagle",
+      "room": "room02",
+      "damage": 5,
+      "description": "The Mark XIX Desert Eagle is a gas-operated, semi-automatic pistol with a 7 round capacity. The gun measures 10.75” in length with a 6” barrel. Width is 1.25”, height 6.25” and the weight with an empty magazine is approximately 72 ounces. It has a trigger reach of 2.75” and a sight radius of 8.5” with the 6” barrel. \n - magnum research",
+      "reuse": 2
+    },
+    "grenade": {
+      "name": "grenade",
+      "room": "room04",
+      "damage": 5,
+      "description": "hand thrown explosive fragmentation grenade... you have at least 3 seconds to dispose of it lol",
+      "reuse": 0
+    },
+    "machete": {
+      "name": "machete",
+      "room": "room04",
+      "damage": 5,
+      "description": "Looks like this machete has seen better days, it looks rusty, has a bent blade and is missing a proper grip. ",
+      "reuse": 2
+    },
+    "flamethrower": {
+      "name": "flamethrower",
+      "room": "room06",
+      "damage": 5,
+      "description": "Sawed-off, Hip Operated, WWI Era, Five Cylinder Inert Propellant (Nitrogen Gas) Flamethrower that is 9/10's spent. Capable of spitting a violent ball of Red Holy Fire in a 180 degree cone of fiery destruction... and it looks heavy.. ",
+      "reuse": 0
+    },
+    "key": {
+      "name": "key",
+      "room": "room07",
+      "damage": 0,
+      "description": "Honestly, it looks like a typical house key... probably not that important",
+      "reuse": 0
+    },
+    "crystal femur": {
+      "name": "crystal femur",
+      "room": "room08",
+      "damage": 0,
+      "description": "It is painfully clear that this Amethyst Crystal Femur is shaped like a human femur, it is also painfully clear that these aliens must be cheap because Amethyst crystals are some of the cheapest crystals you can get in the market these days",
+      "reuse": 0
+    },
+    "ball O yarn": {
+      "name": "ball o yarn",
+      "room": "room09",
+      "damage": 0,
+      "description": "An irresistible basketball-sized ball of yarn",
+      "reuse": 0
+    }
+  },
+  "game": {
+    "title": "Temple Jog",
+    "intro": "Welcome Player to Temple Jog! You are a brave soul. Your job is to fail the Aliens attempt from destroying our earth.",
+    "story": "A temple in remote location, but it's actually an Alien ship They’re trying to contact their home world so they can invade Earth. A Major Government power is looking to Nuke the whole area because “It’s the only way to be sure” they don’t contact their home world. You are a part of a special ops team that has intel that states even if the site is nuked, the signal will still be sent. \n Your mission (and you already chose to accept it) is to infiltrate the temple and find a means to disable the communication device and get out before the nuke drops. You will be dropped to the south of the temple nearby. Your exfiltration route will be back the way you came in. Ensure you get back to the pick up with enough time for us to pick you up. If you miss the window, we will not be able to safely extract you."
+  }
+}

@@ -1,3 +1,5 @@
+package com.game.templejog;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +28,10 @@ public class Player {
         return -1;
     }
 
-
     public List<Item> getInventory() { return inventory; }
     public void setInventory(List<Item> inventory) {this.inventory = inventory;}
-
-    public Integer getSteps() { return steps; }
-
-    public void setSteps(Integer steps) { this.steps = steps; }
+    public Integer getHealth() {return health;}
+    public void setHealth(Integer health) {this.health = health;}
+    public Integer getSteps() {return steps;}
+    public void setSteps(Integer steps) {this.steps = steps;}
 }

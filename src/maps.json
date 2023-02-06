@@ -1,7 +1,7 @@
 {
   "easymap": {
     "room01": {
-      "hasBeenVisited": true,
+      "hasBeenVisited": false,
       "number": 1,
       "name": "Landing Zone",
       "description": "You land in a jungle. There is a path that leads north.",
@@ -115,7 +115,7 @@
       "south": "room08",
       "north": "room10",
       "east": "",
-      "items": ["ball O yarn"],
+      "items": ["ball o yarn"],
       "encounters_to": [],
       "encounters_from": []
     },
@@ -258,7 +258,7 @@
       "reuse": 0
     },
     "ball O yarn": {
-      "name": "ball O yarn",
+      "name": "ball o yarn",
       "room": "room09",
       "damage": 0,
       "description": "An irresistible basketball-sized ball of yarn",

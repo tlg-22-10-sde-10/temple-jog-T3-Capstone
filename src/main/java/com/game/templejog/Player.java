@@ -8,9 +8,14 @@ public class Player {
     List<Item> inventory = new ArrayList<>();
 
     /*              CONSTRUCTORS                    */
-    public Player() {
+    public Player(){
         this.health = 5;
         this.steps = 0;
+    }
+
+    public Player(List<Item> inventory) {
+        super();
+        this.inventory = inventory;
     }
 
     public Integer inventoryHasItem(String itemName){

@@ -28,6 +28,8 @@ public class TextParser {
             parsed[0] = "look";
         } else if(USE_SYNONYMS.contains(verb)) {
             parsed[0] = "use";
+        } else if(verb.equals("help")) {
+            parsed[0] = "help";
         } else {
             parsed[0] = "invalid";
         }

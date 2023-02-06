@@ -74,12 +74,20 @@ public class Game {
     }
     private String processGetting(String noun){
         if(noun.equals("")) return EnumInvalidNounInput.BAD_GET.getWarning();
-        if(getCurrentRoom().getItems().contains(noun)){
-            Item poppedItem = popItemFromMap(noun); // removes from games' itemsMap
-            Boolean addedItemInventory = getPlayer().getInventory().add(poppedItem);
-            Boolean removedRoomItem = getCurrentRoom().getItems().remove(noun);
-            return "added "+noun+" to inventory";
-        };
+        for(String item : getCurrentRoom().getItems()) {
+            if(item.toLowerCase().equals(noun)) {
+                Item poppedItem = popItemFromMap(noun);
+                getPlayer().getInventory().add(poppedItem);
+                getCurrentRoom().getItems().remove(noun);
+                return "added "+noun+" to inventory";
+            }
+        }
+//        if(getCurrentRoom().getItems().contains(noun)){
+//            Item poppedItem = popItemFromMap(noun); // removes from games' itemsMap
+//            getPlayer().getInventory().add(poppedItem);
+//            getCurrentRoom().getItems().remove(noun);
+//            return "added "+noun+" to inventory";
+//        }
         if( getPlayer().inventoryHasItem(noun) >= 0 ){
             return noun + "already in your inventory";
         }
@@ -119,10 +127,16 @@ public class Game {
     public Item popItemFromMap(String targetName){
         HashMap<String, Item> itemsMap = getItems();
         Item targetItem = new Item();
-        if( itemsMap.containsKey(targetName) ){
-            Item removed = itemsMap.remove(targetName);
-            return removed;
+        for(String key : itemsMap.keySet()) {
+            if(key.toLowerCase().equals(targetName)) {
+                Item removed = itemsMap.remove(key);
+                return removed;
+            }
         }
+//        if( itemsMap.containsKey(targetName) ){
+//            Item removed = itemsMap.remove(targetName);
+//            return removed;
+//        }
         return targetItem;
     }
 

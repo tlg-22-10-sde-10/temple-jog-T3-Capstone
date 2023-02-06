@@ -18,7 +18,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         ConsoleInterface.displaySetup();
         scanner.nextLine();
-        // TODO: Load and Parse JSON with Intro data and then pass it to com.game.templejog.client.ConsoleInterface
         ConsoleInterface console = new ConsoleInterface();
 
         clearScreen();

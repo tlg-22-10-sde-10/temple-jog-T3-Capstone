@@ -16,8 +16,8 @@
     "room02": {
       "hasBeenVisited": false,
       "number": 2,
-      "name": "Weapon Zone",
-      "description": "You are in room-2. You have collected Desert Eagle for your safety. You have options to go either north or east.",
+      "name": "Jungle Path",
+      "description": "You traverse through the jungle and arrive at a clearing. A member of your team lies motionless on the ground. It doesn't look as though their parachute ever deployed. To the north lies a path. To the east, you see rubble and an opening in the ground that you might be able to squeeze down into. To the south is the landing zone.",
       "west": "",
       "south": "room01",
       "north": "room03",
@@ -29,8 +29,8 @@
     "room03": {
       "hasBeenVisited": false,
       "number": 3,
-      "name": "Eagle Zone",
-      "description": "You are in room-3. You will need to deal with a bald eagle before moving ahead. There is a path that leads to north.",
+      "name": "Jungle Clearing",
+      "description": "You come across a clearing in the jungle. A path lies to the north and the south.",
       "west": "",
       "south": "room02",
       "north": "room04",
@@ -44,8 +44,8 @@
     "room04": {
       "hasBeenVisited": false,
       "number": 4,
-      "name": "Anaconda Room",
-      "description": "You are in room-4. You will face Anaconda, and collect a grenade in this room. There is a path that leads to north.",
+      "name": "Base of Temple",
+      "description": "At the edge of the jungle lies an immense ancient temple. To the south lies a path back into the jungle. Temple steps lead up to the east.",
       "west": "",
       "south": "room03",
       "north": "",
@@ -58,7 +58,7 @@
       "hasBeenVisited": false,
       "number": 5,
       "name": "Pit of Face-Mugging Torment",
-      "description": "You have fallen into a pit. You must exit from where you came, head North.",
+      "description": "You fall into a pit! Spikes stick out from the ground and egg shaped pods are littered throughout. A dense fog hangs at shin level obscuring the ground. A door leads to the north.",
       "west": "",
       "south": "",
       "north": "room06",
@@ -70,8 +70,8 @@
     "room06": {
       "hasBeenVisited": false,
       "number": 6,
-      "name": "Lions and Flamethrowers",
-      "description": "You enter a musty and poorly lit room.",
+      "name": "Central Chamber",
+      "description": "You enter a musty and poorly lit room. Statues of lions sit poised in the corners. There are doors to north, east and south.",
       "west": "",
       "south": "room05",
       "north": "room07",
@@ -97,7 +97,7 @@
       "hasBeenVisited": false,
       "number": 8,
       "name": "Temple Shrine Room",
-      "description": "You have entered a what looks to be a shrine. The walls are decorated with murals of what looks like an advanced civilization taking over a lesser one. At the center is an alter with a crystal femur floating at its center. A beam of light shines down on it.",
+      "description": "You have entered a what looks to be a shrine. The walls are decorated with murals of what looks like an advanced civilization taking over a lesser one. At the center is an alter. A beam of light shines down on it. To the north is a door.",
       "west": "",
       "south": "",
       "north": "room09",
@@ -110,12 +110,12 @@
       "hasBeenVisited": false,
       "number": 9,
       "name": "Temple Store room",
-      "description": "You enter what looks like a store room. Shelves line the walls where items were once stored. All that remains is a ball-O-yarn. To the north is a locked door. There is a room to the south with light emenating from it. This room seems like a safe place to rest.",
+      "description": "You enter what looks like a store room. Shelves line the walls where items were once stored. To the north is a door. There is a room to the south with light emanating from it. This store room seems like a safe place to take a quick break.",
       "west": "room06",
       "south": "room08",
       "north": "room10",
       "east": "",
-      "items": ["ball O yarn"],
+      "items": ["ball o yarn"],
       "encounters_to": [],
       "encounters_from": []
     },
@@ -157,7 +157,7 @@
     "lion": {
       "name": "lion",
       "type": "enemy",
-      "description": "A ripped and overly shredded lion with a particular taste for intruders leaps into action.",
+      "description": "One of the statues has come to life! A ripped and overly shredded lion with a particular taste for intruders leaps into action.",
       "weakness": [
         "ball O yarn",
         "desert eagle"
@@ -190,13 +190,13 @@
     "pit": {
       "name": "pit",
       "type": "environment",
-      "description": "Ahhhhhh!! You have fallen into a black pit at least 10 feet deep",
+      "description": "Ahhhhhh!! You have fallen into a black pit at least 10 feet deep!",
       "outcome": -1
     },
     "alien boss": {
       "name": "alien boss",
       "type": "enemy",
-      "description": "A very large roided out Extraterrestrial being stands at the center of the room\nIt screams something you can't make out,\"^&@%# @&^#*(!( $^$#*(@!!!!\"",
+      "description": "A very large roided-out-extraterrestrial being stands at the center of the room! It screams something you can't make out,\"^&@%# @&^#*(!( $^$#*(@!!!!\"",
       "weakness": [
         "crystal femur"
       ],
@@ -206,7 +206,7 @@
     "anaconda": {
       "name": "anaconda",
       "type": "enemy",
-      "description": "A giant Anaconda coils itself up, poised to strike at a moments notice!",
+      "description": "A giant Anaconda coils itself up, poised to strike at a moment's notice!",
       "weakness": [
         "grenade"
       ],
@@ -258,7 +258,7 @@
       "reuse": 0
     },
     "ball O yarn": {
-      "name": "ball o yarn",
+      "name": "ball O yarn",
       "room": "room09",
       "damage": 0,
       "description": "An irresistible basketball-sized ball of yarn",

@@ -20,7 +20,7 @@ public class Player {
 
     public Integer inventoryHasItem(String itemName){
         for( Item item : getInventory() ){
-            if( item.getName().equals(itemName) ) {
+            if( item.getName().toLowerCase().equals(itemName) ) {
                 Integer itemIndex = getInventory().indexOf(item);
                 return itemIndex;
             }

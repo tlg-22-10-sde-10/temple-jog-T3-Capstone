@@ -1,7 +1,7 @@
 {
   "easymap": {
     "room01": {
-      "hasBeenVisited": true,
+      "hasBeenVisited": false,
       "number": 1,
       "name": "Landing Zone",
       "description": "You land in a jungle. There is a path that leads north.",

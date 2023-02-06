@@ -25,7 +25,7 @@ public class Game {
 //        String noun = verb; // why assigning?
         String noun = "";
         if( choice.length > 1 ) noun = choice[1];
-        if(verb.equals("quit") || noun.equals("quit")) return processQuitting( verb );
+        if(verb.equals("quit")) return processQuitting( verb );
         if(verb.equals("go")) return processNavigating( noun );
         if(verb.equals("get")) return processGetting( noun );
         if(verb.equals("look")) return processLooking( noun );
@@ -44,49 +44,40 @@ public class Game {
         return noun;
     }
     private String processNavigating(String noun){
-        noun = noun.toLowerCase();
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
-        if( noun.isEmpty() || !standardDirections.contains(noun) ) return EnumInvalidNounInput.BAD_NAV.getWarning();
-
-        System.out.println("going "+ noun + " ....");
-
+        if( noun.isEmpty() || !standardDirections.contains(noun.toLowerCase()) ) return EnumInvalidNounInput.BAD_NAV.getWarning();
         String accessableRoom = "";
         String directionValue = getCurrentRoom().checkDirection(noun);
         if( directionValue.length() > 1  ) {
+            System.out.println("going "+ noun + " ....");
             accessableRoom = directionValue;
             Room validRoom = getRooms().get(accessableRoom);
             validRoom.setHasBeenVisited(!validRoom.getHasBeenVisited());
-            setCurrentRoom( validRoom );
+            setCurrentRoom(validRoom);
             getCurrentRoom().setHasBeenVisited(true);
             player.steps++;
-        } else {
-            System.out.println("Cannot go in that direction");
         }
+        else System.out.println("Cannot go in that direction");
+
         return accessableRoom;
     }
     private String processLooking(String noun){
-        if(noun == "") return EnumInvalidNounInput.BAD_LOOK.getWarning();
+        if(noun.isEmpty()) return EnumInvalidNounInput.BAD_LOOK.getWarning();
+
         Integer itemIndex = getPlayer().inventoryHasItem(noun);
-        if( itemIndex >= 0 ){
-            return getPlayer().getInventory().get(itemIndex).getDescription();
-        }
-        if( getCurrentRoom().getItems().contains(noun) ) {
-            return getItems().get(noun).getDescription();
-        }
+        if( itemIndex >= 0 ) return getPlayer().getInventory().get(itemIndex).getDescription();
+        if( getCurrentRoom().getItems().contains(noun) ) return getItems().get(noun).getDescription();
         else return " not found " + noun;
+
     }
     private String processGetting(String noun){
-        if(noun == "") return EnumInvalidNounInput.BAD_GET.getWarning();
-        // if present in room
-        // add to inventory, pop from map -> inventory
-        // remove item from room items and map of items
+        if(noun.equals("")) return EnumInvalidNounInput.BAD_GET.getWarning();
         if(getCurrentRoom().getItems().contains(noun)){
             Item poppedItem = popItemFromMap(noun); // removes from games' itemsMap
             Boolean addedItemInventory = getPlayer().getInventory().add(poppedItem);
             Boolean removedRoomItem = getCurrentRoom().getItems().remove(noun);
             return "added "+noun+" to inventory";
         };
-        // check inventory
         if( getPlayer().inventoryHasItem(noun) >= 0 ){
             return noun + "already in your inventory";
         }

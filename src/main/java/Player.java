@@ -6,9 +6,14 @@ public class Player {
     List<Item> inventory = new ArrayList<>();
 
     /*              CONSTRUCTORS                    */
-    public Player() {
+    public Player(){
         this.health = 5;
         this.steps = 0;
+    }
+
+    public Player(List<Item> inventory) {
+        super();
+        this.inventory = inventory;
     }
 
     public Integer inventoryHasItem(String itemName){
@@ -24,4 +29,8 @@ public class Player {
 
     public List<Item> getInventory() { return inventory; }
     public void setInventory(List<Item> inventory) {this.inventory = inventory;}
+
+    public Integer getSteps() { return steps; }
+
+    public void setSteps(Integer steps) { this.steps = steps; }
 }

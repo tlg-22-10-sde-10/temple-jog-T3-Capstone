@@ -14,6 +14,7 @@ public class Room {
     List<String> encounters_to = new ArrayList<>();
     List<String> encounters_from = new ArrayList<>();
     Boolean hasBeenVisited;
+    Boolean isLocked;
 
     public Room() {}
     public Room(Integer number, String name, String description, String west, String south, String north, String east, List<String> items, List<String> encounters_to, List<String> encounters_from, Boolean hasBeenVisited) {
@@ -40,26 +41,16 @@ public class Room {
         String dir = directions.get(noun);
         return dir;
     }
-
-    public List<String> activeEncounters(Boolean communicatorActive){
-//        if(getEncounters_to().isEmpty() || (getEncounters_from().isEmpty())) return getEncounters_from();
-        // DONE: if going to comm, return only encounters to
-        if(communicatorActive) return getEncounters_to();
-        // DONE: else return encounters to/from
-        ArrayList<String> activeEncounters = new ArrayList<>();
-        activeEncounters.addAll(getEncounters_to());
-        activeEncounters.addAll(getEncounters_from());
-        return activeEncounters;
-    }
+    public Boolean directionBlockedByDoor(){ return getEncounters_to().contains("locked door"); }
     public Boolean removeEncounter(String targetEncounter){
         if( getEncounters_to().contains(targetEncounter) ){
             Boolean removedEncounterTo = getEncounters_to().remove(targetEncounter);
             return removedEncounterTo;
         }
-        if( getEncounters_from().contains(targetEncounter) ){
-            Boolean removedEncounterFrom = getEncounters_from().remove(targetEncounter);
-            return removedEncounterFrom;
-        }
+//        if( getEncounters_from().contains(targetEncounter) ){
+//            Boolean removedEncounterFrom = getEncounters_from().remove(targetEncounter);
+//            return removedEncounterFrom;
+//        }
         // else return false // if rooms encounter_to length is 0
         return false;
     }
@@ -144,4 +135,8 @@ public class Room {
     public void setHasBeenVisited(Boolean hasBeenVisited) {
         this.hasBeenVisited = hasBeenVisited;
     }
+
+    public Boolean getIsLocked() { return isLocked; }
+
+    public void setIsLocked(Boolean locked) { isLocked = locked; }
 }

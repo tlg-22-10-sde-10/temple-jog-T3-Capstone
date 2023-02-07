@@ -44,7 +44,7 @@ class GameTest {
         HashMap<String, Room> roomsMap = new HashMap<>();
         HashMap<String, Encounter> encountersMap = new HashMap<>();
         HashMap<String, Item> itemsMap = new HashMap<>();
-        File jsonFile = new File("./src/maps.json");
+        File jsonFile = new File("JSON/maps.json");
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode root = objectMapper.readTree(jsonFile);
         for (JsonNode rm : root.get("easymap")) {

@@ -1,21 +1,22 @@
 package com.game.templejog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class Room {
+//    TODO private fields
     Integer number;
-    String name, description, west, south, north, east;
+    String name;
+    String description, west, south, north, east;
     List<String> items = new ArrayList<>();
     List<String> encounters_to = new ArrayList<>();
     List<String> encounters_from = new ArrayList<>();
     Boolean hasBeenVisited;
 
-    public Room() {
-    }
-
-    public Room(Integer number, String name, String description, String west, String south, String north, String east, Boolean hasBeenVisited, List<String> items) {
+    public Room() {}
+    public Room(Integer number, String name, String description, String west, String south, String north, String east, List<String> items, List<String> encounters_to, List<String> encounters_from, Boolean hasBeenVisited) {
         this.number = number;
         this.name = name;
         this.description = description;
@@ -23,32 +24,45 @@ public class Room {
         this.south = south;
         this.north = north;
         this.east = east;
-        this.hasBeenVisited = hasBeenVisited;
         this.items = items;
+        this.encounters_to = encounters_to;
+        this.encounters_from = encounters_from;
+        this.hasBeenVisited = hasBeenVisited;
     }
 
+//  HELPER METHODS
     public String checkDirection(String noun) {
         HashMap<String, String> directions = new HashMap<>();
         directions.put("west", getWest());
         directions.put("north", getNorth());
         directions.put("south", getSouth());
         directions.put("east", getEast());
-
         String dir = directions.get(noun);
         return dir;
     }
-
-    public Integer getNumber() {
-        return number;
+    public List<String> activeEncounters(Boolean communicatorActivate){
+        if(communicatorActivate) return getEncounters_to();
+        ArrayList<String> activeEncounters = new ArrayList<>();
+        activeEncounters.addAll(getEncounters_to());
+        activeEncounters.addAll(getEncounters_from());
+        return activeEncounters;
+    }
+    public Boolean removeEncounter(String targetEncounter){
+        if( getEncounters_to().contains(targetEncounter) ){
+            Boolean removedEncounterTo = getEncounters_to().remove(targetEncounter);
+            return removedEncounterTo;
+        }
+        if( getEncounters_from().contains(targetEncounter) ){
+            Boolean removedEncounterFrom = getEncounters_from().remove(targetEncounter);
+            return removedEncounterFrom;
+        }
+        return false;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
-    public String getName() {
-        return name;
-    }
+//  ACCESSOR METHODS
+    public Integer getNumber() { return number; }
+    public void setNumber(Integer number) { this.number = number;}
+    public String getName() { return name; }
 
     public void setName(String name) {
         this.name = name;

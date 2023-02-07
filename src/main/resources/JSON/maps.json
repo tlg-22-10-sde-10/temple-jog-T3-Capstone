@@ -11,7 +11,7 @@
       "east": "",
       "items": [],
       "encounters_to": [],
-      "encounters_from": []
+      "encounters_from": ["cougar"]
     },
     "room02": {
       "hasBeenVisited": false,
@@ -36,9 +36,7 @@
       "north": "room04",
       "east": "",
       "items": [],
-      "encounters_to": [
-        "bald eagle"
-      ],
+      "encounters_to": ["bald eagle"],
       "encounters_from": []
     },
     "room04": {
@@ -64,7 +62,7 @@
       "north": "room06",
       "east": "",
       "items": [],
-      "encounters_to": [ "face mugger" ],
+      "encounters_to": [ "face mugger", "pit" ],
       "encounters_from": []
     },
     "room06": {
@@ -116,7 +114,7 @@
       "north": "room10",
       "east": "",
       "items": ["ball O yarn"],
-      "encounters_to": [],
+      "encounters_to": ["locked door"],
       "encounters_from": []
     },
     "room10": {
@@ -129,7 +127,7 @@
       "north": "",
       "east": "",
       "items": [],
-      "encounters_to": [ "alien boss" ],
+      "encounters_to": [ "alien boss", "communicator" ],
       "encounters_from": []
     }
   },
@@ -153,6 +151,12 @@
         "grenade",
         "machete"
       ]
+    },
+    "cougar": {
+      "name": "cougar",
+      "type": "enemy",
+      "description": "cougar description",
+      "weakness": ["desert eagle"]
     },
     "lion": {
       "name": "lion",
@@ -187,12 +191,6 @@
       "success": "pop",
       "failure": -1
     },
-    "pit": {
-      "name": "pit",
-      "type": "environment",
-      "description": "Ahhhhhh!! You have fallen into a black pit at least 10 feet deep",
-      "outcome": -1
-    },
     "alien boss": {
       "name": "alien boss",
       "type": "enemy",
@@ -207,11 +205,33 @@
       "name": "anaconda",
       "type": "enemy",
       "description": "A giant Anaconda coils itself up, poised to strike at a moments notice!",
-      "weakness": [
-        "grenade"
-      ],
+      "weakness": ["grenade"],
       "success": "pop",
       "failure": -1
+    },
+    "communicator": {
+      "name": "communicator",
+      "type": "environment",
+      "description": "You see this big, complicated-looking machine in the corner of the room, with flashing lights and beeping noises. It's like, what the hell is this thing? And then it hits you, this is a communication device for one of those crazy alien ships!\n\nI mean, imagine the technology these aliens have, man. They're able to travel across the universe, communicating with each other and keeping in touch, even though they're light years apart. It's like, who needs WhatsApp when you've got this kind of technology, you know what I'm saying?\n\nSo, you walk up to the device, checking it out and trying to figure out how it works. But it's no use, man. This thing is way beyond anything we've ever seen. It's just wild. If you ever come across one of these devices, make sure you take a step back, because it's gonna be a wild ride!\n-chat gpt" ,
+      "weakness": ["crystal femur"],
+      "success": "pop",
+      "failure": -1
+    },
+    "pit": {
+      "name": "pit",
+      "type": "environment",
+      "description": "Ahhhhhh!! You have fallen into a black pit at least 10 feet deep",
+      "weakness": [],
+      "success": "pop",
+      "outcome": -1
+    },
+    "locked door": {
+      "name": "locked door",
+      "type": "environment",
+      "description": "...strange, the door is locked",
+      "weakness": ["key"],
+      "success": "pop",
+      "outcome": -1
     }
   },
   "items": {
@@ -262,7 +282,7 @@
       "room": "room09",
       "damage": 0,
       "description": "An irresistible basketball-sized ball of yarn",
-      "reuse": 0
+      "reuse": 1
     }
   },
   "game": {

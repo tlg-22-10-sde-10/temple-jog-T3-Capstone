@@ -1,8 +1,5 @@
 package com.game.templejog;
 
-/**
- * Created by dev0 on 2/3/23.
- */
 public class Item {
     private String name, room, description;
     private Integer damage, reuse;

@@ -91,20 +91,22 @@ public class ConsoleInterface { // Previously TitleScreen
             inventory.append(String.format(inventorySpace, "█"));
         }
 
-        // Room Display Setup
-        String lineOne = getGame().getCurrentRoom().getDescription();
-        String roomDescription = formatDisplay(lineOne);
-        roomDescription = roomDescription.concat("█" + " ".repeat(78) + "█" + "\n");
-
         // Encounter Setup
         StringBuilder encounterDescription = null;
         if (hasEncounters) {
             encounterDescription = new StringBuilder();
             for (String encounter : getGame().getCurrentRoom().getEncounters_to()) {
-                encounterDescription.append(formatDisplay(getGame().getEncounters().get(encounter).getDescription()));
+                encounterDescription.append(formatDisplay(getGame().getEncounters().get(encounter).getDescription(),"encounter"));
             }
             encounterDescription.append("█").append(" ".repeat(78)).append("█").append("\n");
         }
+
+        // Room Display Setup
+        String lineOne = getGame().getCurrentRoom().getDescription();
+        String roomDescription = formatDisplay(lineOne,"room");
+        roomDescription = roomDescription.concat("█" + " ".repeat(78) + "█" + "\n");
+
+
 
         // Scene Builder
         scene.append("█".repeat(CONSOLE_WIDTH))
@@ -134,7 +136,7 @@ public class ConsoleInterface { // Previously TitleScreen
         return 0;
     }
 
-    private String formatDisplay(String description) {
+    private String formatDisplay(String description, String type) {
         List<String> lines = new ArrayList<>();
         String roomSpaceBefore, roomSpaceAfter;
         StringBuilder sceneDescription = new StringBuilder();
@@ -150,6 +152,23 @@ public class ConsoleInterface { // Previously TitleScreen
         } else {
             lines.add(description);
         }
+        // Add Items
+        List<String> itemList = getGame().getCurrentRoom().getItems();
+        if (!itemList.isEmpty() && type.equals("room")) {
+            lines.add("");
+            StringBuilder items = new StringBuilder();
+            items.append(String.format("You see a %s",itemList.get(0)));
+            int totalItems = itemList.size();
+            for(int i = 1; i < totalItems; i++) {
+                if(i == totalItems-1) {
+                    items.append(String.format(" and a %s",itemList.get(i)));
+                } else {
+                    items.append(String.format(", %s",itemList.get(i)));
+                }
+            }
+            items.append(".");
+            lines.add(items.toString());
+        }
         for (String line : lines) {
             roomSpaceBefore = "%" + ((CONSOLE_WIDTH - 1 - line.length()) / 2 + line.length()) + "s";
             roomSpaceAfter = "%" + ((CONSOLE_WIDTH - line.length()) / 2) + "s";
@@ -161,6 +180,59 @@ public class ConsoleInterface { // Previously TitleScreen
         return sceneDescription.toString();
     }
 
+    public int displayResult(String processChoice) throws InterruptedException {
+        // Break up into lines
+        List<String> lines = new ArrayList<>();
+        if (processChoice.length() > 78) {
+            while (processChoice.length() > 78) {
+                int splitIndex = processChoice.indexOf(" ", 70);
+                lines.add(processChoice.substring(0, splitIndex));
+                processChoice = processChoice.substring(splitIndex + 1);
+            }
+            lines.add(processChoice);
+        } else {
+            lines.add(processChoice);
+        }
+
+        // Format string to center on page
+        StringBuilder display = new StringBuilder();
+        for (String line : lines) {
+            String spaceBefore = "%" + ((CONSOLE_WIDTH - 1 - line.length()) / 2 + line.length()) + "s";
+            String spaceAfter = "%" + ((CONSOLE_WIDTH - line.length()) / 2) + "s";
+            display.append(" ")
+                    .append(String.format(spaceBefore, line))
+                    .append(String.format(spaceAfter, " "))
+                    .append("\n");
+        }
+
+    // Print gap above
+        int displayLines = display.length() / 80;
+        System.out.print("\n".repeat(11-displayLines/2));
+    // Iterate through string like the intro
+
+        char[] charArray = display.toString().toCharArray();
+        int pause = 0;
+        for (char c : charArray) {
+            System.out.print(c);
+            if (c == ' ') {
+                TimeUnit.MILLISECONDS.sleep(0);
+            } else {
+                TimeUnit.MILLISECONDS.sleep(20);
+                pause++;
+            }
+        }
+    // Print gap below
+        System.out.print("\n".repeat(10-displayLines/2));
+    // Pause
+        TimeUnit.MILLISECONDS.sleep(pause * 50);
+        return 0;
+    }
+
+    public static void clearScreen () {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
 /*                      ACCESSORS                               */
     public Game getGame() {
         return game;
@@ -169,4 +241,5 @@ public class ConsoleInterface { // Previously TitleScreen
     public void setGame(Game game) {
         this.game = game;
     }
+
 }

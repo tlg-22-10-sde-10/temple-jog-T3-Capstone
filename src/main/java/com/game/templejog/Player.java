@@ -23,7 +23,11 @@ public class Player {
     /*              HELPERS                    */
     public Integer inventoryHasItem(String itemName){
         for( Item item : getInventory() ){
-            if( item.getName().equals(itemName) ) return getInventory().indexOf(item);
+//            if( item.getName().equals(itemName) ) return getInventory().indexOf(item);
+            if( item.getName().toLowerCase().equals(itemName) ) {
+                Integer itemIndex = getInventory().indexOf(item);
+                return itemIndex;
+            }
         }
         return -1;
     }

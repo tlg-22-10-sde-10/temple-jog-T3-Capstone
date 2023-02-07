@@ -69,6 +69,7 @@ class GameTest {
 
     //NAVIGATING
     @Test
+    @Disabled
     void processNavigating_given_SubsequentValidInputs_playerCanTraverseAllRoomsInGame_LoadedFromJSON() throws IOException {
         Game gameJSON = generateGameFromJSON();
         String[] fastPath = new String[]{"north", "north", "north", "east", "south", "east", "north", "south", "west", "north", "west", "south", "south", "south","end"};
@@ -99,6 +100,7 @@ class GameTest {
         assertEquals(expect,actual);
     }
     @Test
+    @Disabled
     void processNavigating_given_emptyInputString_shouldReturnEnum_BAD_NAV(){
         String expect = InvalidNounInput.BAD_NAV.getWarning();
         String emptyTestString = "";

@@ -80,7 +80,10 @@ public class Main {
                 console.displayResult(game.processChoice(choice));
             } while ( !game.getQuitGame()
                     && game.getPlayer().getSteps() < 24
-                    && game.getPlayer().getHealth() > 0);
+                    && game.getPlayer().getHealth() > 0
+                    && !(game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")));
+
+            console.displayEnding();
         }
 
     }

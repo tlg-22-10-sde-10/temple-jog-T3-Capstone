@@ -2,6 +2,7 @@
   "easymap": {
     "room01": {
       "hasBeenVisited": true,
+      "sound":"sounds/sound.wav",
       "isLocked": false,
       "number": 1,
       "name": "Landing Zone",
@@ -89,7 +90,7 @@
       "isLocked": false,
       "number": 7,
       "name": "Temple Entrance",
-      "description": "You have entered the temple and find yourself in a candle-lit room revealing strange markings...be careful not to disturb the dead.",
+      "description": "You have entered the temple and find yourself in a candle-lit room revealing strange markings...be careful not to disturb the dead. The temple exit lies to the west. There is a door to the south.",
       "west": "room04",
       "south": "room06",
       "north": "",

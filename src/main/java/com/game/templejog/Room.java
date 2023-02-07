@@ -40,8 +40,12 @@ public class Room {
         String dir = directions.get(noun);
         return dir;
     }
-    public List<String> activeEncounters(Boolean communicatorActivate){
-        if(communicatorActivate) return getEncounters_to();
+
+    public List<String> activeEncounters(Boolean communicatorActive){
+//        if(getEncounters_to().isEmpty() || (getEncounters_from().isEmpty())) return getEncounters_from();
+        // DONE: if going to comm, return only encounters to
+        if(communicatorActive) return getEncounters_to();
+        // DONE: else return encounters to/from
         ArrayList<String> activeEncounters = new ArrayList<>();
         activeEncounters.addAll(getEncounters_to());
         activeEncounters.addAll(getEncounters_from());
@@ -56,6 +60,7 @@ public class Room {
             Boolean removedEncounterFrom = getEncounters_from().remove(targetEncounter);
             return removedEncounterFrom;
         }
+        // else return false // if rooms encounter_to length is 0
         return false;
     }
 

@@ -47,9 +47,9 @@ public class Game {
     private String processNavigating(String noun){
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
 
-        // if monster in room, -1 health for not dealing with it
-
         if( noun.isEmpty() || !standardDirections.contains(noun.toLowerCase()) ) return InvalidNounInput.BAD_NAV.getWarning();
+        // TODO: IMPLEMENT IF MONSTER IN ROOM, -1 HEALTH IF AVOID MONSTER
+        // TODO: IMPLEMENT IF DOOR IS BLOCKING DIRECTION
         String accessableRoom = "";
         String directionValue = getCurrentRoom().checkDirection(noun);
         if( directionValue.length() > 1  ) {
@@ -89,40 +89,52 @@ public class Game {
     }
     private String processUsing(String noun){
         if(noun.isEmpty()) return InvalidNounInput.BAD_USE.getWarning();
-
         Boolean communicatorIsActive = getRooms().get("room10").getEncounters_to().contains("communicator");// HAS ENCOUNTER
         Integer inventoryIndex = getPlayer().inventoryHasItem(noun); // HAS ITEM
         // DONE: HAS ITEMS and ENCOUNTERS
         if( inventoryIndex >= 0 && getCurrentRoom().activeEncounters(communicatorIsActive).size() > 0 ){
-            System.out.println(Arrays.toString(getCurrentRoom().activeEncounters(communicatorIsActive).toArray()));
             List<String> activeEncounters = getCurrentRoom().activeEncounters(communicatorIsActive);
             String currentEncounterName = activeEncounters.remove(0); // 1st Encounter Name
-            // DONE: null pointer exception when CANNOT get currentEncounterName
+        // DONE: null pointer exception when CANNOT get currentEncounterName
             Encounter encounter = null;
             if( getEncounters().get(currentEncounterName) != null ) encounter = getEncounters().get(currentEncounterName);// get Encounter Obj
 
-            // DONE: ENCOUNTER HAS WEAKNESS and ENEMY TYPE
-            if( (encounter != null) && (encounter.getWeakness().contains( noun ) && encounter.getType().equals("enemy")) ){
-                String usingOrNotUsingItem = usePlayerItem(inventoryIndex,noun);
-                Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName);
-                Boolean removeDFromEncountersMap = getEncounters().remove(currentEncounterName,encounter);
-            // DONE: USE ITEM, DESTROY ENCOUNTER
-                if( (encounterRemovedFromCurrRoom || (getCurrentRoom().getEncounters_to().size() == 0) ) && removeDFromEncountersMap ) {
-                    System.out.println(usingOrNotUsingItem);
-                    System.out.println(noun+" is EFFECTIVE against " + currentEncounterName);
-                    return "You destroyed " + currentEncounterName;
+            if( encounter != null ){
+        // DONE: ENCOUNTER HAS WEAKNESS and ENEMY TYPE
+                String decrementItemsNumberOfReuses = usePlayerItem(inventoryIndex,noun);
+
+                if((encounter.getWeakness().contains( noun ) && encounter.getType().equals("enemy")) ){
+                    Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName); // room's with enc
+                    Boolean removedFromEncountersMap = getEncounters().remove(currentEncounterName,encounter);
+                    // DONE: USE ITEM, DESTROY ENCOUNTER
+                    if( (encounterRemovedFromCurrRoom || (getCurrentRoom().getEncounters_to().size() == 0) ) && removedFromEncountersMap ) {
+                        System.out.println(decrementItemsNumberOfReuses);
+                        System.out.println(noun+" is EFFECTIVE against " + currentEncounterName);
+                        return "You destroyed " + currentEncounterName;
+                    }
+                    else return noun+" is EFFECTIVE against " + currentEncounterName+ ", but is not destroyed";
                 }
-                else return noun+" is EFFECTIVE against " + currentEncounterName+ ", but is not destroyed";
+        // DONE: ENCOUNTER HAS WEAKNESS and ENV TYPE
+                if((encounter.getWeakness().contains( noun ) && encounter.getType().equals("environment")) ){
+//                     WIP: REMOVE ENCOUNTER FROM ROOM List of encounters_to/from
+//                    Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName);
+                    // DONE: REMOVE FROM ENCOUNTERS MAP
+                    Boolean removedFromEncounterMap = getEncounters().remove(currentEncounterName, encounter);
+                    if(removedFromEncounterMap){
+                        return "Success, you have opened the locked door!";
+                    }
+                }
+                else return noun+" Failed to use "+noun+currentEncounterName;
+
             }
-            // DONE: ENCOUNTER HAS WEAKNESS and ENV TYPE
             else return "Not EFFECTIVE against "+currentEncounterName;
         }
         // DONE: HAS ITEMS and NO ENCOUNTERS
-        else if( inventoryIndex >= 0 && getCurrentRoom().activeEncounters(communicatorIsActive).size() == 0 ) {
+        if( inventoryIndex >= 0 && getCurrentRoom().activeEncounters(communicatorIsActive).size() == 0 ) {
             return "no active encounter in this room";
         }
         // DONE: NO ITEMS
-        else return noun + " not in your inventory";
+        return noun + " not in your inventory";
     }
     private String processHelping(){ return "listing commands"; }
     private String processInvalid(){ return "Invalid Input, Type \'Help\' for more information."; }
@@ -135,8 +147,9 @@ public class Game {
     Integer reuse = inventoryItem.getReuse();
     if( reuse == 0 ){
         getPlayer().getInventory().remove(inventoryItem);
-        System.out.println("Removed "+" from inventory");
-        System.out.println("Last chance make it count!!!");
+        System.out.println("Removed "+noun+" from inventory");
+        if(noun.equals("key") || noun.equals("crystal femur")) System.out.println("looks like "+noun+" fits perfectly");
+        else System.out.println("Last chance make it count!!!");
     }
     if( reuse > 0 )inventoryItem.setReuse( inventoryItem.getReuse() - 1 );
     return "Using "+ noun;

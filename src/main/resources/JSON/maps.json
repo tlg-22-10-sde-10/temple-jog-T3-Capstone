@@ -87,7 +87,6 @@
       "south": "room06",
       "north": "",
       "east": "",
-      "items": [ "key" ],
       "encounters_to": [],
       "encounters_from": [ "mummy" ]
     },

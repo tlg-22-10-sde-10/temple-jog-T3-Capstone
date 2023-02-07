@@ -3,6 +3,7 @@ package com.game.templejog.client;
 import com.game.templejog.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -68,7 +69,6 @@ public class ConsoleInterface { // Previously TitleScreen
         String statusSpace = "%" + ((CONSOLE_WIDTH - 1 - status.length()) / 2 + status.length()) + "s";
         String endSpace = "%" + ((CONSOLE_WIDTH - status.length()) / 2) + "s"; // "%20s"
         boolean hasEncounters = !getGame().getCurrentRoom().getEncounters_to().isEmpty();
-
         // Inventory Bar Setup
         String inventorySpace;
         StringBuilder inventory = new StringBuilder();

@@ -27,21 +27,21 @@ public class Game {
         String verb = choice[0];
         String noun = "";
         if( choice.length > 1 ) noun = choice[1];
-        if(verb.equals("quit")) return processQuitting( verb );
         if(verb.equals("go")) return processNavigating( noun );
         if(verb.equals("get")) return processGetting( noun );
         if(verb.equals("look")) return processLooking( noun );
         if(verb.equals("use")) return processUsing( noun );
         if(verb.equals("help")) return processHelping();
         if(verb.equals("invalid")) return processInvalid();
+        if(verb.equals("quit")) return processQuitting();
         return "";
     }
-    private String processQuitting(String noun){
+    private String processQuitting(){
         System.out.println("Are you sure you want to quit? [Type 'y' or 'n']");
         updateScannerString();
         String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
         if( playerResponse.equals("y") ) setQuitGame(!getQuitGame());
-        else { return "Returning to game..."; }
+        else return "Returning to game...";
 
         return "Thanks for playing!";
     }

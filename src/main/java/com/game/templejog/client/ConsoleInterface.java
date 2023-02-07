@@ -7,16 +7,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static org.fusesource.jansi.Ansi.ansi;
+
 public class ConsoleInterface { // Previously TitleScreen
 
 /*                  CONSTANTS & FIELDS                          */
-    static final String titleSplash = "\033[0;32m████████████████████████████████████████████████████████████████████████████████\n█░         █░        █░  █████    █░       ███░ ███████░        ████████████████\n█░         █░        █░   ████    █░        ██░ ███████░        ████████████████\n█░░░░  ░░░░█░ ░░░░░░░█░   ████    █░ ░░░░   ██░ ███████░ ░░░░░░░████████████████\n█████░ █████░ ████████░   ████    █░ ████░  ██░ ███████░ ███████████████████████\n█████░ █████░ ████████░   ███     █░ █████   █░ ███████░ ███████████████████████\n█████░ █████░       ██░    ██     █░ ████   ██░ ███████░       █████████████████\n█████░ █████░ ░░░░░░░█░ ░  █      █░      ░░██░ ███████░ ░░░░░░░████████████████\n█████░ █████░ ████████░ █░    ░   █░ ░░░░░████░ ███████░ ███████████████████████\n█████░ █████░ ████████░ █░    █░  █░ █████████░ ███████░ ███████████████████████\n█████░ █████░        █░ █░    █░  █░ █████████░       █░        ████████████████\n█████░░█████░░░░░░░░░█░░██░░░██░░░█░░█████████░░░░░░░░█░░░░░░░░░████████████████\n██████████████████████████████████████████░ ████████████████████████████████████\n██████████████████████████████████████████░ ███░       █████░      █████████████\n██████████████████████████████████████████░ ██░   ░░    ███░   ░░░  ████████████\n██████████████████████████████████████████░ ██░   ██░░  ███░  ███░░  ███████████\n██████████████████████████████████████████░ ██░  █████░  █░ ███████░ ███████████\n██████████████████████████████████████████░ ██░  █████░  █░ ████████████████████\n██████████████████████████████████████████░ ██░  █████░  █░ ███░   █████████████\n█████████████████████████████████████░ ███  ██░  █████   █░ ████░░   ███████████\n█████████████████████████████████████░  █   ██░   ██     █░  █████░  ███████████\n██████████████████████████████████████░    ███░░        ███░        ████████████\n███████████████████████████████████████░░░█████░░░░░░░░█████░░░░░░░█████████████\033[0m";
+    static final String titleSplash = "@|green ████████████████████████████████████████████████████████████████████████████████\n█░         █░        █░  █████    █░       ███░ ███████░        ████████████████\n█░         █░        █░   ████    █░        ██░ ███████░        ████████████████\n█░░░░  ░░░░█░ ░░░░░░░█░   ████    █░ ░░░░   ██░ ███████░ ░░░░░░░████████████████\n█████░ █████░ ████████░   ████    █░ ████░  ██░ ███████░ ███████████████████████\n█████░ █████░ ████████░   ███     █░ █████   █░ ███████░ ███████████████████████\n█████░ █████░       ██░    ██     █░ ████   ██░ ███████░       █████████████████\n█████░ █████░ ░░░░░░░█░ ░  █      █░      ░░██░ ███████░ ░░░░░░░████████████████\n█████░ █████░ ████████░ █░    ░   █░ ░░░░░████░ ███████░ ███████████████████████\n█████░ █████░ ████████░ █░    █░  █░ █████████░ ███████░ ███████████████████████\n█████░ █████░        █░ █░    █░  █░ █████████░       █░        ████████████████\n█████░░█████░░░░░░░░░█░░██░░░██░░░█░░█████████░░░░░░░░█░░░░░░░░░████████████████\n██████████████████████████████████████████░ ████████████████████████████████████\n██████████████████████████████████████████░ ███░       █████░      █████████████\n██████████████████████████████████████████░ ██░   ░░    ███░   ░░░  ████████████\n██████████████████████████████████████████░ ██░   ██░░  ███░  ███░░  ███████████\n██████████████████████████████████████████░ ██░  █████░  █░ ███████░ ███████████\n██████████████████████████████████████████░ ██░  █████░  █░ ████████████████████\n██████████████████████████████████████████░ ██░  █████░  █░ ███░   █████████████\n█████████████████████████████████████░ ███  ██░  █████   █░ ████░░   ███████████\n█████████████████████████████████████░  █   ██░   ██     █░  █████░  ███████████\n██████████████████████████████████████░    ███░░        ███░        ████████████\n███████████████████████████████████████░░░█████░░░░░░░░█████░░░░░░░█████████████|@";
     static final Integer CONSOLE_HEIGHT = 25;
     static final Integer CONSOLE_WIDTH = 80;
 
     // Use the below string for release
-//    String introFromJSON = "The year is 20XX...\n\nA major government power has learned of an alien race that wants to invade Earth\n    and enslave the human race.\nThey have discovered a secret alien ship that has been here for centuries.\nIt has been disguised as a lost hidden temple the whole time!\nTheir plan is to nuke the temple from orbit. As it's\n            \"\033[1;37mThe only way to be sure.\033[0m\"\nFrom intel gained, your special ops team has learned that even if\n    the ship is destroyed, a signal will still be sent to the alien home-world!\nYour mission, that you already chose to accept, is to:\n\033[0;33m      -Infiltrate the temple and gain access to the communication device.\n      -Find a way to shut it down.\n      -Get back to the landing zone for extraction before the bomb drops!\n      -You have until sun-down at 18:00 local time.\033[0m\n\n\n\nPress any key to parachute into the LZ...";
-  String introFromJSON = "Press go";   // Use this when testing
+    String introFromJSON = "The year is 20XX...\n\nA major government power has learned of an alien race that wants to invade Earth\n    and enslave the human race.\nThey have discovered a secret alien ship that has been here for centuries.\nIt has been disguised as a lost hidden temple the whole time!\nTheir plan is to nuke the temple from orbit. As it's\n            \"@|white The only way to be sure.|@\"\nFrom intel gained, your special ops team has learned that even if\n    the ship is destroyed, a signal will still be sent to the alien home-world!\nYour mission, that you already chose to accept, is to:\n@|yellow       -Infiltrate the temple and gain access to the communication device.\n      -Find a way to shut it down.\n      -Get back to the landing zone for extraction before the bomb drops!\n      -You have until sun-down at 18:00 local time.|@ \n\n\n\nPress any key to parachute into the LZ...";
+//  String introFromJSON = "Press go";   // Use this when testing
     Game game;
 
 /*                      STATIC METHODS                          */
@@ -31,7 +33,7 @@ public class ConsoleInterface { // Previously TitleScreen
     }
 
     public static int displayTitle() {
-        System.out.println(titleSplash);
+        System.out.println(ansi().render(titleSplash));
         return 0;
     }
 
@@ -41,7 +43,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
 /*                      BUSINESS METHODS                        */
     public int displayIntro() throws InterruptedException {
-        String title = introFromJSON;
+        String title = ansi().render(introFromJSON).toString();
         char[] charArray = title.toCharArray();
         for (char c : charArray) {
             System.out.print(c);
@@ -64,10 +66,9 @@ public class ConsoleInterface { // Previously TitleScreen
         int hours = hoursPlayed / 60;
         int minutes = hoursPlayed % 60;
         int time = 1200 + (100 * hours) + minutes;
-
-        String status = String.format("Location: %s █ Health: %s █ TIME: %s", currentRoom, health, time > 999 ? Integer.toString(time) : "0" + time);
-        String statusSpace = "%" + ((CONSOLE_WIDTH - 1 - status.length()) / 2 + status.length()) + "s";
-        String endSpace = "%" + ((CONSOLE_WIDTH - status.length()) / 2) + "s"; // "%20s"
+        String status = String.format(ansi().render("Location:@|cyan  %s|@ █ Health:@|cyan  %s|@ █ TIME:@|cyan  %s|@").toString(), currentRoom, health, time > 999 ? Integer.toString(time) : "0" + time);
+        String statusSpace = "%" + ((CONSOLE_WIDTH - 1 - (status.length()-24)) / 2 + status.length()) + "s";
+        String endSpace = "%" + ((CONSOLE_WIDTH - (status.length()-24)) / 2) + "s"; // "%20s"
         boolean hasEncounters = !getGame().getCurrentRoom().getEncounters_to().isEmpty();
         // Inventory Bar Setup
         String inventorySpace;
@@ -224,7 +225,7 @@ public class ConsoleInterface { // Previously TitleScreen
     // Print gap below
         System.out.print("\n".repeat(10-displayLines/2));
     // Pause
-        TimeUnit.MILLISECONDS.sleep(pause * 50);
+        TimeUnit.MILLISECONDS.sleep(pause * 50L);
         return 0;
     }
 

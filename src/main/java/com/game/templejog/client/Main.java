@@ -1,5 +1,6 @@
 package com.game.templejog.client;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.game.templejog.*;
@@ -33,6 +34,14 @@ public class Main {
 
 // LOAD GAME
         if (playerInput.equals("y")) {
+// TODO: Implement TEMPLE CLASS
+//            try(InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("JSON/maps.json")){
+//                ObjectMapper mapper = new ObjectMapper();
+//                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+//                Temple temple = mapper.readValue(inputStream,Temple.class);
+//                System.out.println();
+//            }
+
             HashMap<String, Room> roomsMap = new HashMap<>();
             HashMap<String, Encounter> encountersMap = new HashMap<>();
             HashMap<String, Item> itemsMap = new HashMap<>();

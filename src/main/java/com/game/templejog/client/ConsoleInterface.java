@@ -3,6 +3,7 @@ package com.game.templejog.client;
 import com.game.templejog.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -69,13 +70,11 @@ public class ConsoleInterface { // Previously TitleScreen
         String statusSpace = "%" + ((CONSOLE_WIDTH - 1 - (status.length()-24)) / 2 + status.length()) + "s";
         String endSpace = "%" + ((CONSOLE_WIDTH - (status.length()-24)) / 2) + "s"; // "%20s"
         boolean hasEncounters = !getGame().getCurrentRoom().getEncounters_to().isEmpty();
-
         // Inventory Bar Setup
         String inventorySpace;
         StringBuilder inventory = new StringBuilder();
         inventory.append("█  Inventory: ");
         for (Item item : getGame().getPlayer().getInventory()) {
-            System.out.println("CALL TO INVENTORY"+ item.getName());
             if (inventory.length() + item.getName().length() + 3 > 75) {
                 inventorySpace = "%" + (CONSOLE_WIDTH - inventory.length()) + "s";
                 inventory.append(String.format(inventorySpace, "█"));
@@ -132,7 +131,8 @@ public class ConsoleInterface { // Previously TitleScreen
                 .append("\n");
 
         int displayLines = scene.length() / 80;
-        scene.append("\n".repeat(22-displayLines));
+        // DONE: illegalArgumentException: count is negative: -8 at line 131
+        scene.append("\n".repeat((22-displayLines < 1)? 1:22-displayLines));
         System.out.println(scene);
         return 0;
     }

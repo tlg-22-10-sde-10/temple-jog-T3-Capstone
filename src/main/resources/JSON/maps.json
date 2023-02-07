@@ -2,7 +2,6 @@
   "easymap": {
     "room01": {
       "hasBeenVisited": true,
-      "sound":"sounds/sound.wav",
       "isLocked": false,
       "number": 1,
       "name": "Landing Zone",

@@ -23,8 +23,6 @@ public class Game {
         communicatorOff = false;
     }
 
-// DONE: debug NULL EXC going east from rm 9
-
 // CONTROLLERS
     public String processChoice(String[] choice){
         String verb = choice[0];
@@ -87,7 +85,6 @@ public class Game {
         return " not found " + noun;
 
     }
-    // TODO: might not need to remove item from itemsMap
     private String processGetting(String noun){
         if(noun.isEmpty()) return InvalidNounInput.BAD_GET.getWarning();
         for(String item: getCurrentRoom().getItems()){
@@ -115,7 +112,6 @@ public class Game {
             if( getEncounters().get(currentEncounterName) != null ) encounter = getEncounters().get(currentEncounterName);// get Encounter Obj
             if( encounter != null ){
         // DONE: ENCOUNTER HAS WEAKNESS and ENEMY TYPE
-//              TODO:
                 String decrementItemsNumberOfReuses = usePlayerItem(inventoryIndex,noun);
                 if((encounter.getWeakness().contains( noun ) && encounter.getType().equals("enemy")) ){
                     Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName); // room's with enc
@@ -196,7 +192,6 @@ public class Game {
             Boolean hasLockedDoor = getCurrentRoom().directionBlockedByDoor();
             System.out.println();
             Boolean targetRoomIsLocked = getRooms().get(directionValue).getIsLocked();
-            // DONE: should get name of the room not the room number(directionValue)
             if(hasLockedDoor && targetRoomIsLocked) {
                 String roomName = getRooms().get(directionValue).getName();
                 checkDirection = String.format("%s is a locked door, cannot get to %s",noun,roomName);

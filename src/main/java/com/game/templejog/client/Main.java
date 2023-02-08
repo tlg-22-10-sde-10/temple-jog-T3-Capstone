@@ -1,5 +1,6 @@
 package com.game.templejog.client;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.game.templejog.*;
@@ -33,6 +34,13 @@ public class Main {
 
 // LOAD GAME
         if (playerInput.equals("y")) {
+// TODO: Implement TEMPLE CLASS
+//            try(InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("JSON/maps.json")){
+//                ObjectMapper mapper = new ObjectMapper();
+//                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+//                Temple temple = mapper.readValue(inputStream,Temple.class);
+//                System.out.println();
+//            }
 
             HashMap<String, Room> roomsMap = new HashMap<>();
             HashMap<String, Encounter> encountersMap = new HashMap<>();
@@ -76,22 +84,14 @@ public class Main {
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 ConsoleInterface.clearScreen();
-                console.displayResult(game.processChoice(choice));
+                console.displayResult(game.processChoice(choice),0);
             } while ( !game.getQuitGame()
                     && game.getPlayer().getSteps() < 24
-                    && game.getPlayer().getHealth() > 0);
+                    && game.getPlayer().getHealth() > 0
+                    && !(game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")));
+
+            console.displayEnding();
         }
     }
-
-//    private static void gameSound(Scanner scanner, Game game) {
-//        System.out.println("Do you want the music on? [y/n]"); //Music on or off functionality
-//        String musicOn = scanner.nextLine();
-//        if (musicOn.equalsIgnoreCase("y")){
-//            game.setPlaySound(true);
-//            Sound.themeSound("sounds/background_music.wav");
-//        } else {
-//            game.setPlaySound(false);
-//        }
-//    }
 
 }

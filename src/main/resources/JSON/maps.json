@@ -2,6 +2,7 @@
   "easymap": {
     "room01": {
       "hasBeenVisited": true,
+      "isLocked": false,
       "number": 1,
       "name": "Landing Zone",
       "description": "You land in a jungle. There is a path that leads north.",
@@ -16,6 +17,7 @@
     },
     "room02": {
       "hasBeenVisited": false,
+      "isLocked": false,
       "number": 2,
       "name": "Jungle Path",
       "description": "You traverse through the jungle and arrive at a clearing. A member of your team lies motionless on the ground. It doesn't look as though their parachute ever deployed. To the north lies a path. To the east, you see rubble and an opening in the ground that you might be able to squeeze down into. To the south is the landing zone.",
@@ -25,11 +27,12 @@
       "east": "room05",
       "items": ["desert eagle"],
       "encounters_to": [],
-      "encounters_from": [],
+      "encounters_from": ["cougar"],
       "sound": "sounds/jungle_path.wav"
     },
     "room03": {
       "hasBeenVisited": false,
+      "isLocked": true,
       "number": 3,
       "name": "Jungle Clearing",
       "description": "You come across a clearing in the jungle. A path lies to the north and the south.",
@@ -38,14 +41,13 @@
       "north": "room04",
       "east": "",
       "items": [],
-      "encounters_to": [
-        "bald eagle"
-      ],
+      "encounters_to": ["bald eagle"],
       "encounters_from": [],
       "sound": "sounds/jungle_clearing.wav"
     },
     "room04": {
       "hasBeenVisited": false,
+      "isLocked": false,
       "number": 4,
       "name": "Base of Temple",
       "description": "At the edge of the jungle lies an immense ancient temple. To the south lies a path back into the jungle. Temple steps lead up to the east.",
@@ -60,6 +62,7 @@
     },
     "room05": {
       "hasBeenVisited": false,
+      "isLocked": false,
       "number": 5,
       "name": "Pit of Face-Mugging Torment",
       "description": "You fall into a pit! Spikes stick out from the ground and egg shaped pods are littered throughout. A dense fog hangs at shin level obscuring the ground. A door leads to the north.",
@@ -68,12 +71,13 @@
       "north": "room06",
       "east": "",
       "items": [],
-      "encounters_to": [ "face mugger" ],
+      "encounters_to": [ "face mugger", "pit" ],
       "encounters_from": [],
       "sound": "sounds/face_mugging_torment.wav"
     },
     "room06": {
       "hasBeenVisited": false,
+      "isLocked": false,
       "number": 6,
       "name": "Central Chamber",
       "description": "You enter a musty and poorly lit room. Statues of lions sit poised in the corners. There are doors to north, east and south.",
@@ -88,9 +92,10 @@
     },
     "room07": {
       "hasBeenVisited": false,
+      "isLocked": false,
       "number": 7,
       "name": "Temple Entrance",
-      "description": "You have entered the temple and find yourself in a candle-lit room revealing strange markings...be careful not to disturb the dead.",
+      "description": "You have entered the temple and find yourself in a candle-lit room revealing strange markings...be careful not to disturb the dead. The temple exit lies to the west. There is a door to the south.",
       "west": "room04",
       "south": "room06",
       "north": "",
@@ -102,6 +107,7 @@
     },
     "room08": {
       "hasBeenVisited": false,
+      "isLocked": true,
       "number": 8,
       "name": "Temple Shrine Room",
       "description": "You have entered a what looks to be a shrine. The walls are decorated with murals of what looks like an advanced civilization taking over a lesser one. At the center is an alter. A beam of light shines down on it. To the north is a door.",
@@ -116,6 +122,7 @@
     },
     "room09": {
       "hasBeenVisited": false,
+      "isLocked": false,
       "number": 9,
       "name": "Temple Store room",
       "description": "You enter what looks like a store room. Shelves line the walls where items were once stored. To the north is a door. There is a room to the south with light emanating from it. This store room seems like a safe place to take a quick break.",
@@ -124,12 +131,13 @@
       "north": "room10",
       "east": "",
       "items": ["ball o yarn"],
-      "encounters_to": [],
+      "encounters_to": ["locked door"],
       "encounters_from": [],
       "sound": "sounds/store_room.wav"
     },
     "room10": {
       "hasBeenVisited": false,
+      "isLocked": false,
       "number": 10,
       "name": "Alien Communication Room",
       "description": "You enter a communications room. This must be where the device is. You see a large metallic device in the corner with a web of cables that extend upward into the ceiling.",
@@ -138,8 +146,8 @@
       "north": "",
       "east": "",
       "items": [],
-      "encounters_to": [ "alien boss" ],
-      "encounters_from": [],
+      "encounters_to": [ "communicator" ],
+      "encounters_from": ["alien boss"],
       "sound": "sounds/communication_room.wav"
     }
   },
@@ -166,13 +174,18 @@
       "success": "You fire off a shot into the sky, startling the majestic bald eagle causing it to fly away.",
       "failure": -1
     },
+    "cougar": {
+      "name": "cougar",
+      "type": "enemy",
+      "description": "cougar description",
+      "weakness": ["desert eagle",
+                    "ball o yarn"]
+    },
     "lion": {
       "name": "lion",
       "type": "enemy",
       "description": "One of the statues has come to life! A ripped and overly shredded lion with a particular taste for intruders leaps into action.",
-      "weakness": [
-        "ball O yarn"
-      ],
+      "weakness": ["ball o yarn"],
       "success": "You throw the ball O yarn at the lion, and it bats it around like a kitten with a toy. It's way too distracted to care about you now.",
       "failure": -1
     },
@@ -198,12 +211,6 @@
       "success": "You dodge the attack and kill the the face-mugger before it can latch on. No telling how terrible an experience that would have been had it succeeded.",
       "failure": -1
     },
-    "pit": {
-      "name": "pit",
-      "type": "environment",
-      "description": "Ahhhhhh!! You have fallen into a black pit at least 10 feet deep!",
-      "outcome": -1
-    },
     "alien boss": {
       "name": "alien boss",
       "type": "enemy",
@@ -218,13 +225,33 @@
       "name": "anaconda",
       "type": "enemy",
       "description": "A giant Anaconda coils itself up, poised to strike at a moment's notice!",
-      "weakness": [
-        "grenade",
-        "desert eagle",
-        "machete"
-      ],
+      "weakness": [ "grenade",  "desert eagle",  "machete" ],
       "success": "You quickly deal the the Anaconda before it can wrap itself around you. Injured, it slithers back into its hole. Hopefully it won't come back later.",
       "failure": -1
+    },
+    "communicator": {
+      "name": "communicator",
+      "type": "environment",
+      "description": "You see this big, complicated-looking machine in the corner of the room, with flashing lights and beeping noises. It hits you, this is the communication device! I mean, imagine the technology these aliens have, man. They're able to travel across the universe, talking with each other and keeping in touch, even though they're light years apart. Strangely, there is an outline that is the perfect shape of a femur." ,
+      "weakness": ["crystal femur"],
+      "success": "pop",
+      "failure": -1
+    },
+    "pit": {
+      "name": "pit",
+      "type": "environment",
+      "description": "Ahhhhhh!! You have fallen into a black pit at least 10 feet deep",
+      "weakness": [],
+      "success": "pop",
+      "outcome": -1
+    },
+    "locked door": {
+      "name": "locked door",
+      "type": "environment",
+      "description": "...strange, the door is locked",
+      "weakness": ["key"],
+      "success": "pop",
+      "outcome": -1
     }
   },
   "items": {
@@ -275,7 +302,7 @@
       "room": "room09",
       "damage": 0,
       "description": "An irresistible basketball-sized ball of yarn",
-      "reuse": 0
+      "reuse": 1
     }
   },
   "game": {

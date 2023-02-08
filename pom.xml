@@ -73,25 +73,12 @@
       <type>maven-plugin</type>
     </dependency>
 
-<!--
-    To use JUnit4 instead of JUnit5, comment out the previous 2 dependency elements and uncomment
-    the following 2 elements.
--->
-<!--
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
+      <groupId>org.fusesource.jansi</groupId>
+      <artifactId>jansi</artifactId>
+      <version>2.4.0</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <version>${junit-jupiter.version}</version>
-      <scope>test</scope>
-    </dependency>
--->
   </dependencies>
 
   <build>

@@ -5,29 +5,24 @@ import java.util.List;
 
 public class Player {
     Integer health, steps;
-    List<Item> inventory = new ArrayList<>();
+    List<Item> inventory;
 
     /*              CONSTRUCTORS                    */
     public Player(){
-        this.health = 5;
+        this.health = 9;
         this.steps = 0;
+        this.inventory = new ArrayList<>();
     }
 
-    public Player(List<Item> inventory) {
-        super();
-        this.inventory = inventory;
-    }
-
+    /*              HELPERS                    */
     public Integer inventoryHasItem(String itemName){
         for( Item item : getInventory() ){
-            if( item.getName().toLowerCase().equals(itemName) ) {
-                Integer itemIndex = getInventory().indexOf(item);
-                return itemIndex;
-            }
+            if( item.getName().toLowerCase().equals(itemName) ) return getInventory().indexOf(item);
         }
         return -1;
     }
 
+    /*              ACCESSOR METHODS                    */
     public List<Item> getInventory() { return inventory; }
     public void setInventory(List<Item> inventory) {this.inventory = inventory;}
     public Integer getHealth() {return health;}

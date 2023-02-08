@@ -112,11 +112,12 @@ public class Game {
             if( getEncounters().get(currentEncounterName) != null ) encounter = getEncounters().get(currentEncounterName);// get Encounter Obj
             if( encounter != null ){
         // DONE: ENCOUNTER HAS WEAKNESS and ENEMY TYPE
+//                String decrementItemsNumberOfReuses = usePlayerItem(inventoryIndex,noun);
+                if( !encounter.getWeakness().contains(noun) ) return " Failed to use "+noun+" on "+ currentEncounterName;
+
                 String decrementItemsNumberOfReuses = usePlayerItem(inventoryIndex,noun);
-                if((encounter.getWeakness().contains( noun ) && encounter.getType().equals("enemy")) ){
+                if( encounter.getType().equals("enemy") ){
                     Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName); // room's with enc
-//                    TODO: do we need to remove encounter from itemsMap?
-                    //Boolean removedFromEncountersMap = getEncounters().remove(currentEncounterName,encounter);
                     // DONE: USE ITEM, DESTROY ENCOUNTER
                     if( (encounterRemovedFromCurrRoom || (getCurrentRoom().getEncounters_to().size() == 0) ) ) {
                         System.out.println(decrementItemsNumberOfReuses);
@@ -125,20 +126,20 @@ public class Game {
                     }
                     else return noun+" is EFFECTIVE against " + currentEncounterName+ ", but is not destroyed";
                 }
-        // DONE: ENCOUNTER HAS WEAKNESS and ENV TYPE
-                if((encounter.getWeakness().contains( noun ) && encounter.getType().equals("environment")) ){
-//                     WIP: REMOVE ENCOUNTER FROM ROOM List of encounters_to/from
+        // DONE: ENV TYPE
+                if( encounter.getType().equals("environment") ){
+//                    WIP: REMOVE ENCOUNTER FROM ROOM List of encounters_to/from
 //                    Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName);  // Never used
                     // DONE: REMOVE FROM ENCOUNTERS MAP
 
                     if( currentEncounterName.equals("communicator") ){
                         setActiveEncounters();
-                        communicatorOff = true;
+//                        communicatorOff = true;
+                        setCommunicatorOff(!getCommunicatorOff());
                     }
                     getCurrentRoom().getEncounters_to().remove(currentEncounterName);
                     return "Success, you have opened the locked door!";
                 }
-                else return noun+" Failed to use "+noun+currentEncounterName;
             }
             else return "Not EFFECTIVE against "+currentEncounterName;
         }

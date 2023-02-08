@@ -77,7 +77,7 @@ public class Main {
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 ConsoleInterface.clearScreen();
-                console.displayResult(game.processChoice(choice));
+                console.displayResult(game.processChoice(choice),0);
             } while ( !game.getQuitGame()
                     && game.getPlayer().getSteps() < 24
                     && game.getPlayer().getHealth() > 0

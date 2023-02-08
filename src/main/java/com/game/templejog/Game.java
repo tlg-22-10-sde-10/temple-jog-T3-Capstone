@@ -19,8 +19,8 @@ public class Game {
         this.rooms = rooms;
         this.items = items;
         this.encounters = encounters;
-        setCurrentRoom(getRooms().get("room05"));
-        communicatorOff = false;
+        setCurrentRoom(getRooms().get("room01"));
+        setCommunicatorOff(false);
     }
 
 // CONTROLLERS

@@ -37,8 +37,8 @@ class GameTest {
         itemsMap.put("alpha",room01_alphaItem);
         itemsMap.put("bravo",room02_bravoItem);
 
-//TODO update constructor
-        game = new Game(new Player(playerInventory), roomsMap, new HashMap<>(), itemsMap);
+//DONE update constructor
+        game = new Game(new Player(), roomsMap, new HashMap<>(), itemsMap);
 //        game.setCurrentRoom(room01);
     }
     public Game generateGameFromJSON() throws IOException {

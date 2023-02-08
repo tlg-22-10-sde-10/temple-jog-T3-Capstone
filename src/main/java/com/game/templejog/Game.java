@@ -23,7 +23,7 @@ public class Game {
         communicatorOff = false;
     }
 
-// TODO: debug NULL EXC going east from rm 9
+// DONE: debug NULL EXC going east from rm 9
 
 // CONTROLLERS
     public String processChoice(String[] choice){
@@ -192,14 +192,16 @@ public class Game {
     }
     private String directionIsLocked(String noun, String directionValue) {
         String checkDirection = "";
-        if( getCurrentRoom().directionBlockedByDoor() ) {
+        if( getCurrentRoom().directionBlockedByDoor() && !directionValue.isEmpty() ) {
             Boolean hasLockedDoor = getCurrentRoom().directionBlockedByDoor();
+            System.out.println();
             Boolean targetRoomIsLocked = getRooms().get(directionValue).getIsLocked();
             // TODO: should get name of the room not the room number(directionValue)
             if(hasLockedDoor && targetRoomIsLocked) {
                 checkDirection = String.format("%s is a locked door, cannot get to %s",noun,  directionValue);
             }
         }
+        System.out.println();
         return checkDirection;
     }
     private String usePlayerItem( Integer inventoryIndex, String noun ){

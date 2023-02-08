@@ -22,7 +22,7 @@ public class Game {
         this.items = items;
         this.encounters = encounters;
         setCurrentRoom(getRooms().get("room01"));
-        communicatorOff = false;
+        setCommunicatorOff(false);
     }
 
 // CONTROLLERS

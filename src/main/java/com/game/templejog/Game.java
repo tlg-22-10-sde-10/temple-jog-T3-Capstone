@@ -34,7 +34,7 @@ public class Game {
         if(verb.equals("use")) return processUsing( noun );
         if(verb.equals("help")) return processHelping();
         if(verb.equals("invalid")) return processInvalid();
-        if(verb.equals("sound")) return turningSound(noun);
+        if(verb.equals("sound")) return Sound.turningSound(noun, this);
         return "";
     }
     private String processQuitting(String noun){
@@ -46,19 +46,21 @@ public class Game {
 
         return "Thanks for playing!";
     }
+
+
     /* This method is for turning sound on or off in current room */
-    private String turningSound(String noun){
-        if(noun.isEmpty()){
-            return EnumInvalidNounInput.BAD_SOUND.getWarning();
-        } else if(noun.equalsIgnoreCase("on")){
-            setPlaySound(true);
-            Sound.themeSound(currentRoom.getSound());
-        } else if(noun.equalsIgnoreCase("off")){
-            Sound.stopSound();
-            setPlaySound(false);
-        }
-        return "Turning sound " + noun;
-    }
+//    public String turningSound(String noun){
+//        if(noun.isEmpty()){
+//            return EnumInvalidNounInput.BAD_SOUND.getWarning();
+//        } else if(noun.equalsIgnoreCase("on")){
+//            setPlaySound(true);
+//            Sound.themeSound(currentRoom.getSound());
+//        } else if(noun.equalsIgnoreCase("off")){
+//            Sound.stopSound();
+//            setPlaySound(false);
+//        }
+//        return "Turning sound " + noun;
+//    }
     private String processNavigating(String noun){
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
         if( noun.isEmpty() || !standardDirections.contains(noun.toLowerCase()) ) return EnumInvalidNounInput.BAD_NAV.getWarning();
@@ -179,7 +181,7 @@ public class Game {
     public HashMap<String, Item> getItems() { return items; }
     public void setItems(HashMap<String, Item> items) { this.items = items; }
 
-    public static Boolean getPlaySound() {
+    public Boolean getPlaySound() {
         return playSound;
     }
 

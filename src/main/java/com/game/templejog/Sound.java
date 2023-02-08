@@ -4,6 +4,7 @@ import com.game.templejog.client.Main;
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Scanner;
 
 public class Sound {
     private static Clip clip;
@@ -25,6 +26,30 @@ public class Sound {
             System.out.println("Error: Could not read audio file.");
         } catch (LineUnavailableException e) {
             System.out.println("Error: Could not play audio clip.");
+        }
+    }
+
+    public static String turningSound(String noun, Game game){
+        if(noun.isEmpty()){
+            return EnumInvalidNounInput.BAD_SOUND.getWarning();
+        } else if(noun.equalsIgnoreCase("on")){
+            game.setPlaySound(true);
+            Sound.themeSound(game.getCurrentRoom().getSound());
+        } else if(noun.equalsIgnoreCase("off")){
+            Sound.stopSound();
+            game.setPlaySound(false);
+        }
+        return "Turning sound " + noun;
+    }
+
+    public static void gameSound(Scanner scanner, Game game) {
+        System.out.println("Do you want the music on? [y/n]"); //Music on or off functionality
+        String musicOn = scanner.nextLine();
+        if (musicOn.equalsIgnoreCase("y")){
+            game.setPlaySound(true);
+            Sound.themeSound("sounds/background_music.wav");
+        } else {
+            game.setPlaySound(false);
         }
     }
 

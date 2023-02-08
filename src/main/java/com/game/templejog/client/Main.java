@@ -55,7 +55,7 @@ public class Main {
             }
 
             Game game = new Game(new Player(), roomsMap, encountersMap, itemsMap);
-            gameSound(scanner, game); //extracted method
+            Sound.gameSound(scanner, game); //extracted method
             console.setGame(game);
             ConsoleInterface.clearScreen();
 
@@ -83,15 +83,15 @@ public class Main {
         }
     }
 
-    private static void gameSound(Scanner scanner, Game game) {
-        System.out.println("Do you want the music on? [y/n]"); //Music on or off functionality
-        String musicOn = scanner.nextLine();
-        if (musicOn.equalsIgnoreCase("y")){
-            game.setPlaySound(true);
-            Sound.themeSound("sounds/background_music.wav");
-        } else {
-            game.setPlaySound(false);
-        }
-    }
+//    private static void gameSound(Scanner scanner, Game game) {
+//        System.out.println("Do you want the music on? [y/n]"); //Music on or off functionality
+//        String musicOn = scanner.nextLine();
+//        if (musicOn.equalsIgnoreCase("y")){
+//            game.setPlaySound(true);
+//            Sound.themeSound("sounds/background_music.wav");
+//        } else {
+//            game.setPlaySound(false);
+//        }
+//    }
 
 }

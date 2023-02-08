@@ -11,7 +11,8 @@
       "east": "",
       "items": [],
       "encounters_to": [],
-      "encounters_from": []
+      "encounters_from": [],
+      "sound": "sounds/landing_zone.wav"
     },
     "room02": {
       "hasBeenVisited": false,
@@ -24,7 +25,8 @@
       "east": "room05",
       "items": ["desert eagle"],
       "encounters_to": [],
-      "encounters_from": []
+      "encounters_from": [],
+      "sound": "sounds/jungle_path.wav"
     },
     "room03": {
       "hasBeenVisited": false,
@@ -39,7 +41,8 @@
       "encounters_to": [
         "bald eagle"
       ],
-      "encounters_from": []
+      "encounters_from": [],
+      "sound": "sounds/jungle_clearing.wav"
     },
     "room04": {
       "hasBeenVisited": false,
@@ -52,7 +55,8 @@
       "east": "room07",
       "items": ["grenade", "machete"],
       "encounters_to": [ "anaconda" ],
-      "encounters_from": []
+      "encounters_from": [],
+      "sound": "sounds/base_of_temple.wav"
     },
     "room05": {
       "hasBeenVisited": false,
@@ -65,7 +69,8 @@
       "east": "",
       "items": [],
       "encounters_to": [ "face mugger" ],
-      "encounters_from": []
+      "encounters_from": [],
+      "sound": "sounds/face_mugging_torment.wav"
     },
     "room06": {
       "hasBeenVisited": false,
@@ -78,7 +83,8 @@
       "east": "room09",
       "items": [ "flamethrower" ],
       "encounters_to": [],
-      "encounters_from": ["lion"]
+      "encounters_from": ["lion"],
+      "sound": "sounds/central_chamber.wav"
     },
     "room07": {
       "hasBeenVisited": false,
@@ -91,7 +97,8 @@
       "east": "",
       "items": [ "key" ],
       "encounters_to": [],
-      "encounters_from": [ "mummy" ]
+      "encounters_from": [ "mummy" ],
+      "sound": "sounds/temple_entrance.wav"
     },
     "room08": {
       "hasBeenVisited": false,
@@ -104,7 +111,8 @@
       "east": "",
       "items": [ "crystal femur" ],
       "encounters_to": [ "alien guard" ],
-      "encounters_from": []
+      "encounters_from": [],
+      "sound": "sounds/shrine_room.wav"
     },
     "room09": {
       "hasBeenVisited": false,
@@ -117,7 +125,8 @@
       "east": "",
       "items": ["ball o yarn"],
       "encounters_to": [],
-      "encounters_from": []
+      "encounters_from": [],
+      "sound": "sounds/store_room.wav"
     },
     "room10": {
       "hasBeenVisited": false,
@@ -130,7 +139,8 @@
       "east": "",
       "items": [],
       "encounters_to": [ "alien boss" ],
-      "encounters_from": []
+      "encounters_from": [],
+      "sound": "sounds/communication_room.wav"
     }
   },
   "encounters": {

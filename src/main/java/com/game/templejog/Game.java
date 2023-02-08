@@ -11,8 +11,9 @@ public class Game {
     HashMap<String, Item> items;
     Player player;
     Room currentRoom;
+    private static Boolean playSound;
 
-    public Game( Player player, HashMap<String, Room> rooms, HashMap<String, Encounter> encounters, HashMap<String, Item> items){
+    public Game(Player player, HashMap<String, Room> rooms, HashMap<String, Encounter> encounters, HashMap<String, Item> items){
         this.quitGame = false;
         this.player = player;
         this.rooms = rooms;
@@ -24,7 +25,6 @@ public class Game {
 // CONTROLLERS
     public String processChoice(String[] choice){
         String verb = choice[0];
-//        String noun = verb; // why assigning?
         String noun = "";
         if( choice.length > 1 ) noun = choice[1];
         if(verb.equals("quit")) return processQuitting( verb );
@@ -34,6 +34,7 @@ public class Game {
         if(verb.equals("use")) return processUsing( noun );
         if(verb.equals("help")) return processHelping();
         if(verb.equals("invalid")) return processInvalid();
+        if(verb.equals("sound")) return turningSound(noun);
         return "";
     }
     private String processQuitting(String noun){
@@ -45,23 +46,48 @@ public class Game {
 
         return "Thanks for playing!";
     }
+    /* This method is for turning sound on or off in current room */
+    private String turningSound(String noun){
+        if(noun.isEmpty()){
+            return EnumInvalidNounInput.BAD_SOUND.getWarning();
+        } else if(noun.equalsIgnoreCase("on")){
+            setPlaySound(true);
+            Sound.themeSound(currentRoom.getSound());
+        } else if(noun.equalsIgnoreCase("off")){
+            Sound.stopSound();
+            setPlaySound(false);
+        }
+        return "Turning sound " + noun;
+    }
     private String processNavigating(String noun){
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
         if( noun.isEmpty() || !standardDirections.contains(noun.toLowerCase()) ) return EnumInvalidNounInput.BAD_NAV.getWarning();
         String accessibleRoom;
         String directionValue = getCurrentRoom().checkDirection(noun);
         if( directionValue.length() > 1  ) {
-            //System.out.println("going "+ noun + " ....");
+            System.out.println("going "+ directionValue );
             accessibleRoom = directionValue;
             Room validRoom = getRooms().get(accessibleRoom);
             validRoom.setHasBeenVisited(!validRoom.getHasBeenVisited());
             setCurrentRoom(validRoom);
             getCurrentRoom().setHasBeenVisited(true);
             player.steps++;
+            currentRoomSound(); //extracted method to turn current room sound on/off
             return String.format("Traveling to %s...",getCurrentRoom().getName());
         }
         return "Cannot go in that direction...";
     }
+
+    private void currentRoomSound() {
+        String currentRoomSound = getCurrentRoom().getSound();
+        if (getPlaySound()) {
+            if(!currentRoomSound.isEmpty()) {
+                Sound.stopSound();
+                Sound.themeSound(currentRoomSound);
+            }
+        }
+    }
+
     private String processLooking(String noun){
         if(noun.isEmpty()) return EnumInvalidNounInput.BAD_LOOK.getWarning();
 
@@ -112,7 +138,8 @@ public class Game {
                 "Look - Use 'look [item]' for item description \n" +
                 "Get  - Use 'get [item]' command to obtain the item \n" +
                 "Use - Use 'use [item]' command to fight or kill enemy \n" +
-                "Quit - Use 'quit' command to exit out of the game";
+                "Quit - Use 'quit' command to exit out of the game \n" +
+                "Sound - Use 'sound [on/off]' to turn on or off sound";
     }
     private String processInvalid(){
         return "Invalid Input, Type 'Help' for more information.";
@@ -151,4 +178,13 @@ public class Game {
     public void setEncounters(HashMap<String, Encounter> encounters) {this.encounters = encounters;}
     public HashMap<String, Item> getItems() { return items; }
     public void setItems(HashMap<String, Item> items) { this.items = items; }
+
+    public static Boolean getPlaySound() {
+        return playSound;
+    }
+
+    public void setPlaySound(Boolean playSound) {
+        this.playSound = playSound;
+    }
 }
+

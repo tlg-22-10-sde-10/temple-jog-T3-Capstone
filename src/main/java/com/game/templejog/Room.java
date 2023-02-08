@@ -11,11 +11,12 @@ public class Room {
     List<String> encounters_to = new ArrayList<>();
     List<String> encounters_from = new ArrayList<>();
     Boolean hasBeenVisited;
+    String sound;
 
     public Room() {
     }
 
-    public Room(Integer number, String name, String description, String west, String south, String north, String east, Boolean hasBeenVisited, List<String> items) {
+    public Room(Integer number, String name, String description, String west, String south, String north, String east, Boolean hasBeenVisited, List<String> items, String sound) {
         this.number = number;
         this.name = name;
         this.description = description;
@@ -25,6 +26,7 @@ public class Room {
         this.east = east;
         this.hasBeenVisited = hasBeenVisited;
         this.items = items;
+        this.sound = sound;
     }
 
     public String checkDirection(String noun) {
@@ -124,5 +126,12 @@ public class Room {
 
     public void setHasBeenVisited(Boolean hasBeenVisited) {
         this.hasBeenVisited = hasBeenVisited;
+    }
+
+    public String getSound() {
+        return sound;
+    }
+    public void setSound(String sound) {
+        this.sound = sound;
     }
 }

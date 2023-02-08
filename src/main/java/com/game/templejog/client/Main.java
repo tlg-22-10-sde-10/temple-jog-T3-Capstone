@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.game.templejog.*;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,7 +13,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
 
 // ENTRY
         ConsoleInterface.clearScreen();
@@ -29,10 +31,9 @@ public class Main {
         }
         playerInput = playerInput.toLowerCase().substring(0, 1);
 
-
-
 // LOAD GAME
         if (playerInput.equals("y")) {
+
             HashMap<String, Room> roomsMap = new HashMap<>();
             HashMap<String, Encounter> encountersMap = new HashMap<>();
             HashMap<String, Item> itemsMap = new HashMap<>();
@@ -54,12 +55,19 @@ public class Main {
             }
 
             Game game = new Game(new Player(), roomsMap, encountersMap, itemsMap);
+            gameSound(scanner, game); //extracted method
             console.setGame(game);
             ConsoleInterface.clearScreen();
 
             console.displayIntro();
             scanner.nextLine();
             ConsoleInterface.clearScreen();
+
+/* Stop the background music when entering landing zone */
+            if(game.getPlaySound()){
+                Sound.stopSound();
+                Sound.themeSound("sounds/landing_zone.wav");
+            }
 // GAME LOOP
             do {
                 ConsoleInterface.clearScreen();
@@ -73,6 +81,17 @@ public class Main {
                     && game.getPlayer().getSteps() < 24
                     && game.getPlayer().getHealth() > 0);
         }
-
     }
+
+    private static void gameSound(Scanner scanner, Game game) {
+        System.out.println("Do you want the music on? [y/n]"); //Music on or off functionality
+        String musicOn = scanner.nextLine();
+        if (musicOn.equalsIgnoreCase("y")){
+            game.setPlaySound(true);
+            Sound.themeSound("sounds/background_music.wav");
+        } else {
+            game.setPlaySound(false);
+        }
+    }
+
 }

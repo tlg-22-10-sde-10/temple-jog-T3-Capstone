@@ -157,7 +157,7 @@ public class ConsoleInterface { // Previously TitleScreen
         sceneDescription.append("█").append(" ".repeat(78)).append("█").append("\n");
         if (description.length() > 78) {
             while (description.length() > 78) {
-                int splitIndex = description.lastIndexOf(" ", 76); // Lorenzo
+                int splitIndex = description.lastIndexOf(" ", 76);
 
                 lines.add(description.substring(0, splitIndex));
                 description = description.substring(splitIndex + 1);

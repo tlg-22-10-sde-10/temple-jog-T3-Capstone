@@ -157,7 +157,8 @@ public class ConsoleInterface { // Previously TitleScreen
         sceneDescription.append("█").append(" ".repeat(78)).append("█").append("\n");
         if (description.length() > 78) {
             while (description.length() > 78) {
-                int splitIndex = description.indexOf(" ", 70);
+                int splitIndex = description.lastIndexOf(" ", 76);
+
                 lines.add(description.substring(0, splitIndex));
                 description = description.substring(splitIndex + 1);
             }
@@ -183,8 +184,10 @@ public class ConsoleInterface { // Previously TitleScreen
             lines.add(items.toString());
         }
         for (String line : lines) {
-            roomSpaceBefore = "%" + ((CONSOLE_WIDTH - 1 - line.length()) / 2 + line.length()) + "s";
-            roomSpaceAfter = "%" + ((CONSOLE_WIDTH - line.length()) / 2) + "s";
+            int amountOfSpaces = (CONSOLE_WIDTH - 1 - line.length()) / 2;
+            roomSpaceBefore = "%" + (amountOfSpaces == 0 ? "" : (amountOfSpaces + line.length())) + "s";
+            amountOfSpaces = (CONSOLE_WIDTH - line.length()) / 2;
+            roomSpaceAfter = "%" + (amountOfSpaces == 0 ? "" : amountOfSpaces) + "s";
             sceneDescription.append("█")
                     .append(String.format(roomSpaceBefore, line))
                     .append(String.format(roomSpaceAfter, "█"))

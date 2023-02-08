@@ -12,7 +12,7 @@
       "east": "",
       "items": [],
       "encounters_to": [],
-      "encounters_from": ["cougar"]
+      "encounters_from": []
     },
     "room02": {
       "hasBeenVisited": false,
@@ -26,7 +26,7 @@
       "east": "room05",
       "items": ["desert eagle"],
       "encounters_to": [],
-      "encounters_from": []
+      "encounters_from": ["cougar"]
     },
     "room03": {
       "hasBeenVisited": false,
@@ -168,13 +168,14 @@
       "name": "cougar",
       "type": "enemy",
       "description": "cougar description",
-      "weakness": ["desert eagle"]
+      "weakness": ["desert eagle",
+                    "ball o yarn"]
     },
     "lion": {
       "name": "lion",
       "type": "enemy",
       "description": "One of the statues has come to life! A ripped and overly shredded lion with a particular taste for intruders leaps into action.",
-      "weakness": ["ball O yarn"],
+      "weakness": ["ball o yarn"],
       "success": "You throw the ball O yarn at the lion, and it bats it around like a kitten with a toy. It's way too distracted to care about you now.",
       "failure": -1
     },
@@ -221,7 +222,7 @@
     "communicator": {
       "name": "communicator",
       "type": "environment",
-      "description": "You see this big, complicated-looking machine in the corner of the room, with flashing lights and beeping noises. It's like, what the hell is this thing? And then it hits you, this is a communication device for one of those crazy alien ships! I mean, imagine the technology these aliens have, man. They're able to travel across the universe, communicating with each other and keeping in touch, even though they're light years apart. It's like, who needs WhatsApp when you've got this kind of technology, you know what I'm saying? So, you walk up to the device, checking it out and trying to figure out how it works. But it's no use, man. This thing is way beyond anything we've ever seen. It's just wild. If you ever come across one of these devices, make sure you take a step back, because it's gonna be a wild ride!" ,
+      "description": "You see this big, complicated-looking machine in the corner of the room, with flashing lights and beeping noises. It hits you, this is the communication device! I mean, imagine the technology these aliens have, man. They're able to travel across the universe, talking with each other and keeping in touch, even though they're light years apart. Strangely, there is an outline that is the perfect shape of a femur." ,
       "weakness": ["crystal femur"],
       "success": "pop",
       "failure": -1

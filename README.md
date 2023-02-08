@@ -15,7 +15,7 @@ You are a part of a special ops team that has intel that states even if the site
 Your mission (and you already chose to accept it) is to infiltrate the temple and find a means to disable the communication device and get out before the nuke drops.
 You will be dropped to the south of the temple nearby. Your exfiltration route will be back the way you came in. Ensure you get back to the pick up with enough time for us to pick you up. If you miss the window, we will not be able to safely extract you.
 
-Game Flow
+com.game.templejog.Game Flow
 Navigate a maze, overcome obstacles, gather items and reach the aliens communications room under a maximum number of moves
 
 ## Project Documentation

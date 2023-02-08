@@ -1,3 +1,5 @@
+package com.game.templejog;
+
 import java.util.List;
 
 /**

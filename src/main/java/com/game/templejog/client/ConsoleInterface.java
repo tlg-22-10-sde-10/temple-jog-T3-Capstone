@@ -16,8 +16,21 @@ public class ConsoleInterface { // Previously TitleScreen
     static final Integer CONSOLE_WIDTH = 80;
 
     // Use the below string for release
-//    String introFromJSON = "The year is 20XX...\n\nA major government power has learned of an alien race that wants to invade Earth\n    and enslave the human race.\nThey have discovered a secret alien ship that has been here for centuries.\nIt has been disguised as a lost hidden temple the whole time!\nTheir plan is to nuke the temple from orbit. As it's\n            \"@|white The only way to be sure.|@\"\nFrom intel gained, your special ops team has learned that even if\n    the ship is destroyed, a signal will still be sent to the alien home-world!\nYour mission, that you already chose to accept, is to:\n@|yellow       -Infiltrate the temple and gain access to the communication device.\n      -Find a way to shut it down.\n      -Get back to the landing zone for extraction before the bomb drops!\n      -You have until sun-down at 18:00 local time.|@ \n\n\n\nPress any key to parachute into the LZ...";
-  String introFromJSON = "Press go";   // Use this when testing
+    String introFromJSON = "The year is 20XX...\n\nA major government power has learned of an alien race that wants to invade Earth\n    and enslave the human race.\nThey have discovered a secret alien ship that has been here for centuries.\nIt has been disguised as a lost hidden temple the whole time!\nTheir plan is to nuke the temple from orbit. As it's\n            \"@|cyan The only way to be sure.|@\"\nFrom intel gained, your special ops team has learned that even if\n    the ship is destroyed, a signal will still be sent to the alien home-world!\nYour mission, that you already chose to accept, is to:\n@|bold,yellow       -Infiltrate the temple and gain access to the communication device.\n      -Find a way to shut it down.\n      -Get back to the landing zone for extraction before the bomb drops!\n      -You have until sun-down at 18:00 local time.|@ \n\n\n\nPress any key to parachute into the LZ...";
+//    String introFromJSON = "Press go";   // Use this when testing
+    String gameOver = "████████████████████████████████████████████████████████████████████████████████\n" +
+            "█                                                                              █\n" +
+            "█     ████     ████ ██     ██ ███████    ███████  ██    ██ ███████ ██████      █\n" +
+            "█    ██████   ██ ██ ███   ███ ███████   █████████ ██    ██ ███████ ████████    █\n" +
+            "█   ██       ██  ██ ████ ████ ██        ███   ███ ██    ██ ██      ██    ██    █\n" +
+            "█   ██       ██  ██ █████████ ██        ██     ██ ██    ██ ██      ██    ██    █\n" +
+            "█   ██       ██  ██ ██ ███ ██ █████     ██     ██ ██    ██ █████   ████████    █\n" +
+            "█   ██  ████ ██████ ██  █  ██ █████     ██     ██ ██    ██ █████   ███████     █\n" +
+            "█   ██  ████ ██████ ██     ██ ██        ███   ███ ███  ███ ██      ██  ██      █\n" +
+            "█   ██   ██  ██  ██ ██     ██ ███████   █████████   ████   ███████ ██   ██     █\n" +
+            "█    █████   ██  ██ ██     ██ ███████    ███████     ██    ███████ ██    ██    █\n" +
+            "█                                                                              █\n" +
+            "████████████████████████████████████████████████████████████████████████████████";
     Game game;
 
 /*                      STATIC METHODS                          */
@@ -180,8 +193,9 @@ public class ConsoleInterface { // Previously TitleScreen
         return sceneDescription.toString();
     }
 
-    public int displayResult(String processChoice) throws InterruptedException {
+    public int displayResult(String processChoice, int lineNumber) throws InterruptedException {
         // Break up into lines
+        lineNumber = lineNumber > 0 ? 12 - lineNumber : 12;
         List<String> lines = new ArrayList<>();
         if (processChoice.length() > 78) {
             while (processChoice.length() > 78) {
@@ -207,7 +221,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
     // Print gap above
         int displayLines = display.length() / 80;
-        System.out.print("\n".repeat(11-displayLines/2));
+        System.out.print("\n".repeat(lineNumber-displayLines/2));
     // Iterate through string like the intro
 
         char[] charArray = display.toString().toCharArray();
@@ -222,7 +236,7 @@ public class ConsoleInterface { // Previously TitleScreen
             }
         }
     // Print gap below
-        System.out.print("\n".repeat(10-displayLines/2));
+        System.out.print("\n".repeat(lineNumber-1-displayLines/2));
     // Pause
         TimeUnit.MILLISECONDS.sleep((pause * 20L) < 1500 ? 1500 : pause * 20L);
         return 0;
@@ -230,16 +244,20 @@ public class ConsoleInterface { // Previously TitleScreen
 
     public void displayEnding() throws InterruptedException {
         if(game.getCommunicatorOff()) {
-            if(getGame().getPlayer().getSteps() >= 24) {
-                displayResult("YOU (sort of) WIN: Earth commends you and is forever in your debt! You managed to thwart the alien threat but unfortunately you did not get out in time to escape the nuke! You will be remembered...");
+            if(getGame().getPlayer().getSteps() >= 24 || getGame().getPlayer().getHealth() <= 0) {
+                System.out.println(ansi().fgBrightYellow().render(gameOver).fgDefault());
+                displayResult("YOU (sort of) WIN: Earth commends you and is forever in your debt! You managed to thwart the alien threat but unfortunately you did not get out in time to escape the nuke! You will be remembered...",7);
             } else {
-                displayResult("YOU WIN: You managed to infiltrate the alien temple, disable the device and get out before the bomb dropped. As you look back from the helicopter, you see the nuke go off on the horizon. Earth has been spared!");
+                System.out.println(ansi().fgBrightGreen().render(gameOver).fgDefault());
+                displayResult("YOU WIN: You managed to infiltrate the alien temple, disable the device and get out before the bomb dropped. As you look back from the helicopter, you see the nuke go off on the horizon. Earth has been spared!", 7);
             }
         } else {
             if(getGame().getPlayer().getSteps() >= 24) {
-                displayResult("GAME OVER: You were killed by the atomic bomb blast. The aliens were still able to send a signal home before the blast went off! Earth is DOOMED!");
+                System.out.println(ansi().fgBrightRed().render(gameOver).fgDefault());
+                displayResult("GAME OVER: You were killed by the atomic bomb blast. The aliens were still able to send a signal home before the blast went off! Earth is DOOMED!", 7);
             } else {
-                displayResult("GAME OVER: You died trying to save the world, but failed. The aliens were still able to send a signal home before the atomic bomb dropped! Earth is DOOMED!");
+                System.out.println(ansi().fgBrightRed().render(gameOver).fgDefault());
+                displayResult("GAME OVER: You died trying to save the world, but failed. The aliens were still able to send a signal home before the atomic bomb dropped! Earth is DOOMED!", 7);
             }
         }
     }

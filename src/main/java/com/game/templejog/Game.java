@@ -3,7 +3,6 @@ package com.game.templejog;
 import java.util.*;
 
 public class Game {
-// TEMPORARY VAR
     // MODEL
     private Boolean quitGame;
     private String scannerString;
@@ -12,6 +11,7 @@ public class Game {
     private HashMap<String, Item> items;
     private Player player;
     private Room currentRoom;
+    private Boolean communicatorOff;
 
     public Game( Player player, HashMap<String, Room> rooms, HashMap<String, Encounter> encounters, HashMap<String, Item> items){
         this.quitGame = false;
@@ -20,6 +20,7 @@ public class Game {
         this.items = items;
         this.encounters = encounters;
         setCurrentRoom(getRooms().get("room01"));
+        communicatorOff = false;
     }
 
 // TODO: debug NULL EXC going east from rm 9
@@ -29,13 +30,13 @@ public class Game {
         String verb = choice[0];
         String noun = "";
         if( choice.length > 1 ) noun = choice[1];
+        if(verb.equals("quit")) return processQuitting();
         if(verb.equals("go")) return processNavigating( noun );
         if(verb.equals("get")) return processGetting( noun );
         if(verb.equals("look")) return processLooking( noun );
         if(verb.equals("use")) return processUsing( noun );
         if(verb.equals("help")) return processHelping();
         if(verb.equals("invalid")) return processInvalid();
-        if(verb.equals("quit")) return processQuitting();
         return "";
     }
     private String processQuitting(){
@@ -55,12 +56,12 @@ public class Game {
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
         if( noun.isEmpty() || !standardDirections.contains(noun.toLowerCase()) ) return InvalidNounInput.BAD_NAV.getWarning();
         String directionValue = getCurrentRoom().checkDirection(noun);
-        String accessibleRoom = "";
+        String accessibleRoom;
         // CHECK IF DIR BLOCKED
         if( !directionIsLocked(noun,directionValue).isEmpty() ) return directionIsLocked(noun, directionValue);
         // GO IN THAT DIR
         if( directionValue.length() > 1  ) {
-            String outputMessage = "";
+            String outputMessage;
 
             outputMessage = cowardiceDamage();
 
@@ -69,9 +70,8 @@ public class Game {
             validRoom.setHasBeenVisited(!validRoom.getHasBeenVisited());
             setCurrentRoom(validRoom);
             getCurrentRoom().setHasBeenVisited(true);
-            player.steps++;
-
-            return String.format("Traveling to %s... %s",getCurrentRoom().getName(),outputMessage);
+            getPlayer().setSteps(getPlayer().getSteps()+1);
+            return String.format("Traveling to %s... %s",getCurrentRoom().getName(), outputMessage);
         }
 
         return "Cannot go in that direction...";
@@ -96,7 +96,7 @@ public class Game {
                 getPlayer().getInventory().add(poppedItem);
                 getCurrentRoom().getItems().remove(noun);
                 return String.format("You added %s to your inventory...", noun);
-            };
+            }
         }
         if( getPlayer().inventoryHasItem(noun) >= 0 ){
             return String.format("%s already in your inventory",noun);
@@ -120,9 +120,9 @@ public class Game {
                 if((encounter.getWeakness().contains( noun ) && encounter.getType().equals("enemy")) ){
                     Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName); // room's with enc
 //                    TODO: do we need to remove encounter from itemsMap?
-                    Boolean removedFromEncountersMap = getEncounters().remove(currentEncounterName,encounter);
+                    //Boolean removedFromEncountersMap = getEncounters().remove(currentEncounterName,encounter);
                     // DONE: USE ITEM, DESTROY ENCOUNTER
-                    if( (encounterRemovedFromCurrRoom || (getCurrentRoom().getEncounters_to().size() == 0) ) && removedFromEncountersMap ) {
+                    if( (encounterRemovedFromCurrRoom || (getCurrentRoom().getEncounters_to().size() == 0) ) ) {
                         System.out.println(decrementItemsNumberOfReuses);
                         System.out.println(noun+" is EFFECTIVE against " + currentEncounterName);
                         return "You destroyed " + currentEncounterName;
@@ -132,14 +132,15 @@ public class Game {
         // DONE: ENCOUNTER HAS WEAKNESS and ENV TYPE
                 if((encounter.getWeakness().contains( noun ) && encounter.getType().equals("environment")) ){
 //                     WIP: REMOVE ENCOUNTER FROM ROOM List of encounters_to/from
-                    Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName);
+//                    Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName);  // Never used
                     // DONE: REMOVE FROM ENCOUNTERS MAP
 
                     if( currentEncounterName.equals("communicator") ){
                         setActiveEncounters();
+                        communicatorOff = true;
                     }
-                    Boolean removedFromEncounterMap = getEncounters().remove(currentEncounterName, encounter);
-                    if(removedFromEncounterMap){ return "Success, you have opened the locked door!";}
+                    getCurrentRoom().getEncounters_to().remove(currentEncounterName);
+                    return "Success, you have opened the locked door!";
                 }
                 else return noun+" Failed to use "+noun+currentEncounterName;
             }
@@ -159,7 +160,7 @@ public class Game {
                     "Use - Use 'use [item]' command to fight or kill enemy \n" +
                     "Quit - Use 'quit' command to exit out of the game";
         }
-    private String processInvalid(){ return "Invalid Input, Type \'Help\' for more information."; }
+    private String processInvalid(){ return "Invalid Input, Type 'Help' for more information."; }
 
 //  Helper Methods
     private String cowardiceDamage(){
@@ -203,13 +204,13 @@ public class Game {
     }
     private String usePlayerItem( Integer inventoryIndex, String noun ){
         if(inventoryIndex < 0) return String.format("%s not in your inventory",noun);
-
+        // TODO: Move prints to Main or ConsoleInterface and just return strings in Game
         Item inventoryItem = getPlayer().getInventory().get(inventoryIndex);
         Integer reuse = inventoryItem.getReuse();
         if( reuse == 0 ){
             getPlayer().getInventory().remove(inventoryItem);
             System.out.println("Removed "+noun+" from inventory");
-            if(noun.equals("key") || noun.equals("crystal femur")) System.out.println( String.format("looks like %n fits perfectly",noun));
+            if(noun.equals("key") || noun.equals("crystal femur")) System.out.printf("looks like %s fits perfectly%n",noun);
             else System.out.println("Last chance make it count!!!");
         }
         if( reuse > 0 )inventoryItem.setReuse( inventoryItem.getReuse() - 1 );
@@ -248,4 +249,7 @@ public class Game {
     public void setEncounters(HashMap<String, Encounter> encounters) {this.encounters = encounters;}
     public HashMap<String, Item> getItems() { return items; }
     public void setItems(HashMap<String, Item> items) { this.items = items; }
+
+    public Boolean getCommunicatorOff() { return communicatorOff; }
+    public void setCommunicatorOff(Boolean communicatorOff) { this.communicatorOff = communicatorOff; }
 }

@@ -3,7 +3,6 @@ package com.game.templejog.client;
 import com.game.templejog.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -132,7 +131,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
         int displayLines = scene.length() / 80;
         // DONE: illegalArgumentException: count is negative: -8 at line 131
-        scene.append("\n".repeat((22-displayLines < 1)? 1:22-displayLines));
+        scene.append("\n".repeat(Math.max(22 - displayLines, 1)));
         System.out.println(scene);
         return 0;
     }
@@ -225,10 +224,25 @@ public class ConsoleInterface { // Previously TitleScreen
     // Print gap below
         System.out.print("\n".repeat(10-displayLines/2));
     // Pause
-        TimeUnit.MILLISECONDS.sleep(pause * 50L);
+        TimeUnit.MILLISECONDS.sleep((pause * 20L) < 1500 ? 1500 : pause * 20L);
         return 0;
     }
 
+    public void displayEnding() throws InterruptedException {
+        if(game.getCommunicatorOff()) {
+            if(getGame().getPlayer().getSteps() >= 24) {
+                displayResult("YOU (sort of) WIN: Earth commends you and is forever in your debt! You managed to thwart the alien threat but unfortunately you did not get out in time to escape the nuke! You will be remembered...");
+            } else {
+                displayResult("YOU WIN: You managed to infiltrate the alien temple, disable the device and get out before the bomb dropped. As you look back from the helicopter, you see the nuke go off on the horizon. Earth has been spared!");
+            }
+        } else {
+            if(getGame().getPlayer().getSteps() >= 24) {
+                displayResult("GAME OVER: You were killed by the atomic bomb blast. The aliens were still able to send a signal home before the blast went off! Earth is DOOMED!");
+            } else {
+                displayResult("GAME OVER: You died trying to save the world, but failed. The aliens were still able to send a signal home before the atomic bomb dropped! Earth is DOOMED!");
+            }
+        }
+    }
     public static void clearScreen () {
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -242,5 +256,6 @@ public class ConsoleInterface { // Previously TitleScreen
     public void setGame(Game game) {
         this.game = game;
     }
+
 
 }

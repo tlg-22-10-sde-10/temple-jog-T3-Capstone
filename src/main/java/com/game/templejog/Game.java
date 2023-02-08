@@ -3,7 +3,6 @@ package com.game.templejog;
 import java.util.*;
 
 public class Game {
-// TEMPORARY VAR
     // MODEL
     private Boolean quitGame;
     private String scannerString;
@@ -12,7 +11,6 @@ public class Game {
     private HashMap<String, Item> items;
     private Player player;
     private Room currentRoom;
-
     private Boolean communicatorOff;
 
     public Game( Player player, HashMap<String, Room> rooms, HashMap<String, Encounter> encounters, HashMap<String, Item> items){
@@ -44,30 +42,36 @@ public class Game {
         updateScannerString();
         String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
         if( playerResponse.equals("y") ) setQuitGame(!getQuitGame());
-        else { return "Returning to game..."; }
+        else return "Returning to game...";
 
         return "Thanks for playing!";
     }
     private String processNavigating(String noun){
-        // TODO: IMPLEMENT IF MONSTER IN ROOM, -1 HEALTH IF AVOID MONSTER
+        // DONE: IMPLEMENT IF MONSTER IN ROOM, -1 HEALTH IF AVOID MONSTER
         // DONE: IMPLEMENT IF DOOR IS BLOCKING DIRECTION
+
+        // CHECK IF DIR IS VALID
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
         if( noun.isEmpty() || !standardDirections.contains(noun.toLowerCase()) ) return InvalidNounInput.BAD_NAV.getWarning();
         String directionValue = getCurrentRoom().checkDirection(noun);
-        String accessibleRoom = "";
-
-        if( !directionIsLocked(noun,directionValue).isEmpty() ) {
-            return directionIsLocked(noun, directionValue);
-        }
+        String accessibleRoom;
+        // CHECK IF DIR BLOCKED
+        if( !directionIsLocked(noun,directionValue).isEmpty() ) return directionIsLocked(noun, directionValue);
+        // GO IN THAT DIR
         if( directionValue.length() > 1  ) {
+            String outputMessage;
+
+            outputMessage = cowardiceDamage();
+
             accessibleRoom = directionValue;
             Room validRoom = getRooms().get(accessibleRoom);
             validRoom.setHasBeenVisited(!validRoom.getHasBeenVisited());
             setCurrentRoom(validRoom);
             getCurrentRoom().setHasBeenVisited(true);
             getPlayer().setSteps(getPlayer().getSteps()+1);
-            return String.format("Traveling to %s...",getCurrentRoom().getName());
+            return String.format("Traveling to %s... %s",getCurrentRoom().getName(), outputMessage);
         }
+
         return "Cannot go in that direction...";
     }
     private String processLooking(String noun){
@@ -104,7 +108,6 @@ public class Game {
         if( inventoryIndex >= 0 && getCurrentRoom().getEncounters_to().size() > 0 ){
             List<String> activeEncounters = getCurrentRoom().getEncounters_to();
             String currentEncounterName = activeEncounters.get(0); // 1st Encounter Name
-        // DONE: null pointer exception when CANNOT get currentEncounterName
             Encounter encounter = null;
             if( getEncounters().get(currentEncounterName) != null ) encounter = getEncounters().get(currentEncounterName);// get Encounter Obj
             if( encounter != null ){
@@ -116,8 +119,8 @@ public class Game {
                     //Boolean removedFromEncountersMap = getEncounters().remove(currentEncounterName,encounter);
                     // DONE: USE ITEM, DESTROY ENCOUNTER
                     if( (encounterRemovedFromCurrRoom || (getCurrentRoom().getEncounters_to().size() == 0) ) ) {
-//                        System.out.println(decrementItemsNumberOfReuses);
-//                        System.out.println(noun+" is EFFECTIVE against " + currentEncounterName);  // sysouts in game
+                        System.out.println(decrementItemsNumberOfReuses);
+                        System.out.println(noun+" is EFFECTIVE against " + currentEncounterName);
                         return "You destroyed " + currentEncounterName;
                     }
                     else return noun+" is EFFECTIVE against " + currentEncounterName+ ", but is not destroyed";
@@ -156,6 +159,24 @@ public class Game {
     private String processInvalid(){ return "Invalid Input, Type 'Help' for more information."; }
 
 //  Helper Methods
+    private String cowardiceDamage(){
+        String outputMessage = "";
+        if(!getCurrentRoom().getEncounters_to().isEmpty()){
+            Integer enemyDamage = 1;
+            StringBuilder enemy = new StringBuilder();
+            for (String name : getCurrentRoom().getEncounters_to()) {
+                Encounter encounter = getEncounters().get(name);
+                if (encounter.getType().equals("enemy")){
+                    enemy.append(encounter.getName());
+                    getPlayer().setHealth(getPlayer().getHealth() - enemyDamage );
+                    System.out.println();
+                }
+            }
+            outputMessage = (enemy.toString().isEmpty())?"": String.format("You chose to jog away and took damage from %s", enemy);
+
+        }
+        return outputMessage;
+    }
     private void setActiveEncounters(){
         for(Room rm : getRooms().values()){
             ArrayList<String> list = new ArrayList<>();
@@ -167,13 +188,16 @@ public class Game {
     }
     private String directionIsLocked(String noun, String directionValue) {
         String checkDirection = "";
-        if( getCurrentRoom().directionBlockedByDoor() ) {
+        if( getCurrentRoom().directionBlockedByDoor() && !directionValue.isEmpty() ) {
             Boolean hasLockedDoor = getCurrentRoom().directionBlockedByDoor();
+            System.out.println();
             Boolean targetRoomIsLocked = getRooms().get(directionValue).getIsLocked();
             if(hasLockedDoor && targetRoomIsLocked) {
-                checkDirection = String.format("%s is a locked door, cannot get to %s",noun,directionValue);
+                String roomName = getRooms().get(directionValue).getName();
+                checkDirection = String.format("%s is a locked door, cannot get to %s",noun,roomName);
             }
         }
+        System.out.println();
         return checkDirection;
     }
     private String usePlayerItem( Integer inventoryIndex, String noun ){

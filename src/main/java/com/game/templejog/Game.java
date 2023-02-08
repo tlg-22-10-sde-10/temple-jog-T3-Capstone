@@ -196,9 +196,10 @@ public class Game {
             Boolean hasLockedDoor = getCurrentRoom().directionBlockedByDoor();
             System.out.println();
             Boolean targetRoomIsLocked = getRooms().get(directionValue).getIsLocked();
-            // TODO: should get name of the room not the room number(directionValue)
+            // DONE: should get name of the room not the room number(directionValue)
             if(hasLockedDoor && targetRoomIsLocked) {
-                checkDirection = String.format("%s is a locked door, cannot get to %s",noun,  directionValue);
+                String roomName = getRooms().get(directionValue).getName();
+                checkDirection = String.format("%s is a locked door, cannot get to %s",noun,roomName);
             }
         }
         System.out.println();

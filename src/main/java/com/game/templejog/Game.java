@@ -22,6 +22,8 @@ public class Game {
         setCurrentRoom(getRooms().get("room01"));
     }
 
+// TODO: debug NULL EXC going east from rm 9
+
 // CONTROLLERS
     public String processChoice(String[] choice){
         String verb = choice[0];
@@ -46,26 +48,32 @@ public class Game {
         return "Thanks for playing!";
     }
     private String processNavigating(String noun){
-        // TODO: IMPLEMENT IF MONSTER IN ROOM, -1 HEALTH IF AVOID MONSTER
+        // DONE: IMPLEMENT IF MONSTER IN ROOM, -1 HEALTH IF AVOID MONSTER
         // DONE: IMPLEMENT IF DOOR IS BLOCKING DIRECTION
+
+        // CHECK IF DIR IS VALID
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
         if( noun.isEmpty() || !standardDirections.contains(noun.toLowerCase()) ) return InvalidNounInput.BAD_NAV.getWarning();
         String directionValue = getCurrentRoom().checkDirection(noun);
         String accessibleRoom = "";
-
-        if( !directionIsLocked(noun,directionValue).isEmpty() ) {
-            String directionBlockedMessage = directionIsLocked(noun, directionValue);
-            return directionBlockedMessage;
-        }
+        // CHECK IF DIR BLOCKED
+        if( !directionIsLocked(noun,directionValue).isEmpty() ) return directionIsLocked(noun, directionValue);
+        // GO IN THAT DIR
         if( directionValue.length() > 1  ) {
+            String outputMessage = "";
+
+            outputMessage = cowardiceDamage();
+
             accessibleRoom = directionValue;
             Room validRoom = getRooms().get(accessibleRoom);
             validRoom.setHasBeenVisited(!validRoom.getHasBeenVisited());
             setCurrentRoom(validRoom);
             getCurrentRoom().setHasBeenVisited(true);
             player.steps++;
-            return String.format("Traveling to %s...",getCurrentRoom().getName());
+
+            return String.format("Traveling to %s... %s",getCurrentRoom().getName(),outputMessage);
         }
+
         return "Cannot go in that direction...";
     }
     private String processLooking(String noun){
@@ -79,6 +87,7 @@ public class Game {
         return " not found " + noun;
 
     }
+    // TODO: might not need to remove item from itemsMap
     private String processGetting(String noun){
         if(noun.isEmpty()) return InvalidNounInput.BAD_GET.getWarning();
         for(String item: getCurrentRoom().getItems()){
@@ -102,11 +111,11 @@ public class Game {
         if( inventoryIndex >= 0 && getCurrentRoom().getEncounters_to().size() > 0 ){
             List<String> activeEncounters = getCurrentRoom().getEncounters_to();
             String currentEncounterName = activeEncounters.get(0); // 1st Encounter Name
-        // DONE: null pointer exception when CANNOT get currentEncounterName
             Encounter encounter = null;
             if( getEncounters().get(currentEncounterName) != null ) encounter = getEncounters().get(currentEncounterName);// get Encounter Obj
             if( encounter != null ){
         // DONE: ENCOUNTER HAS WEAKNESS and ENEMY TYPE
+//              TODO:
                 String decrementItemsNumberOfReuses = usePlayerItem(inventoryIndex,noun);
                 if((encounter.getWeakness().contains( noun ) && encounter.getType().equals("enemy")) ){
                     Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName); // room's with enc
@@ -153,6 +162,24 @@ public class Game {
     private String processInvalid(){ return "Invalid Input, Type \'Help\' for more information."; }
 
 //  Helper Methods
+    private String cowardiceDamage(){
+        String outputMessage = "";
+        if(!getCurrentRoom().getEncounters_to().isEmpty()){
+            Integer enemyDamage = 1;
+            StringBuilder enemy = new StringBuilder();
+            for (String name : getCurrentRoom().getEncounters_to()) {
+                Encounter encounter = getEncounters().get(name);
+                if (encounter.getType().equals("enemy")){
+                    enemy.append(encounter.getName());
+                    getPlayer().setHealth(getPlayer().getHealth() - enemyDamage );
+                    System.out.println();
+                }
+            }
+            outputMessage = (enemy.toString().isEmpty())?"": String.format("You chose to jog away and took damage from %s", enemy);
+
+        }
+        return outputMessage;
+    }
     private void setActiveEncounters(){
         for(Room rm : getRooms().values()){
             ArrayList<String> list = new ArrayList<>();
@@ -167,8 +194,9 @@ public class Game {
         if( getCurrentRoom().directionBlockedByDoor() ) {
             Boolean hasLockedDoor = getCurrentRoom().directionBlockedByDoor();
             Boolean targetRoomIsLocked = getRooms().get(directionValue).getIsLocked();
+            // TODO: should get name of the room not the room number(directionValue)
             if(hasLockedDoor && targetRoomIsLocked) {
-                checkDirection = String.format("%s is a locked door, cannot get to %s",noun,directionValue);
+                checkDirection = String.format("%s is a locked door, cannot get to %s",noun,  directionValue);
             }
         }
         return checkDirection;

@@ -9,25 +9,15 @@ public class Player {
 
     /*              CONSTRUCTORS                    */
     public Player(){
-        this.health = 5;
+        this.health = 9;
         this.steps = 0;
         this.inventory = new ArrayList<>();
-    }
-
-    //  DELETE ME
-    public Player(List<Item> inventory) {
-        super();
-        this.inventory = inventory;
     }
 
     /*              HELPERS                    */
     public Integer inventoryHasItem(String itemName){
         for( Item item : getInventory() ){
-//            if( item.getName().equals(itemName) ) return getInventory().indexOf(item);
-            if( item.getName().toLowerCase().equals(itemName) ) {
-                Integer itemIndex = getInventory().indexOf(item);
-                return itemIndex;
-            }
+            if( item.getName().toLowerCase().equals(itemName) ) return getInventory().indexOf(item);
         }
         return -1;
     }

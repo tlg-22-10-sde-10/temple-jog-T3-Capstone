@@ -142,7 +142,6 @@ public class ConsoleInterface { // Previously TitleScreen
                 .append("\n");
 
         int displayLines = scene.length() / 80;
-        // DONE: illegalArgumentException: count is negative: -8 at line 131
         scene.append("\n".repeat(Math.max(22 - displayLines, 1)));
         System.out.println(scene);
         return 0;

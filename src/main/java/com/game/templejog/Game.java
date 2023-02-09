@@ -68,6 +68,7 @@ public class Game {
             setCurrentRoom(validRoom);
             getCurrentRoom().setHasBeenVisited(true);
             getPlayer().setSteps(getPlayer().getSteps()+1);
+            currentRoomSound();
             return String.format("Traveling to %s... %s",getCurrentRoom().getName(), outputMessage);
         }
 

@@ -226,7 +226,7 @@
       "type": "enemy",
       "description": "A giant Anaconda coils itself up, poised to strike at a moment's notice!",
       "weakness": [ "grenade",  "desert eagle",  "machete" ],
-      "success": "You quickly deal the the Anaconda before it can wrap itself around you. Injured, it slithers back into its hole. Hopefully it won't come back later.",
+      "success": "You quickly deal the Anaconda before it can wrap itself around you. Injured, it slithers back into its hole. Hopefully it won't come back later.",
       "failure": -1
     },
     "communicator": {
@@ -234,7 +234,7 @@
       "type": "environment",
       "description": "You see this big, complicated-looking machine in the corner of the room, with flashing lights and beeping noises. It hits you, this is the communication device! I mean, imagine the technology these aliens have, man. They're able to travel across the universe, talking with each other and keeping in touch, even though they're light years apart. Strangely, there is an outline that is the perfect shape of a femur." ,
       "weakness": ["crystal femur"],
-      "success": "pop",
+      "success": "You found a way to destroy the communication device and thwarted all communication to the alien planet.Looking good for humanity, but not for you. You should probably start jogging to the landing zone before you get nuked",
       "failure": -1
     },
     "pit": {
@@ -248,9 +248,9 @@
     "locked door": {
       "name": "locked door",
       "type": "environment",
-      "description": "...strange, the door is locked",
+      "description": "...strange, this door is locked",
       "weakness": ["key"],
-      "success": "pop",
+      "success": "..or is it? The door creaks open, revealing a dark and mysterious chamber beyond. The air is thick with the smell of metal and ozone, and the hum of unfamiliar machinery fills the room. The walls are slick with some sort of alien lubricant, and strange markings adorn the surface. The flickering lights above cast eerie shadows on the walls, illuminating the strange and alien technology within.",
       "outcome": -1
     }
   },

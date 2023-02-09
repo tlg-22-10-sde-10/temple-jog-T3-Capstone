@@ -16,7 +16,6 @@ public class ConsoleInterface { // Previously TitleScreen
     static final Integer CONSOLE_WIDTH = 80;
 
     Game game;
-    Temple gameFiles;
 
 /*                      STATIC METHODS                          */
     public static int displaySetup() {
@@ -40,7 +39,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
 /*                      BUSINESS METHODS                        */
     public int displayIntro() throws InterruptedException {
-        String title = ansi().render(gameFiles.getGameText().get("intro")).toString();
+        String title = ansi().render(getGame().getGameText().get("intro")).toString();
         char[] charArray = title.toCharArray();
         for (char c : charArray) {
             System.out.print(c);
@@ -234,25 +233,25 @@ public class ConsoleInterface { // Previously TitleScreen
         if (game.getCommunicatorOff()) {
             if (getGame().getPlayer().getSteps() >= 24 || getGame().getPlayer().getHealth() <= 0) {
                 clearScreen();
-                System.out.println(getGameFiles().getGameText().get("gameOverNuked"));
-                TimeUnit.SECONDS.sleep(5l);
-                displayResult(gameFiles.getGameText().get("sortOfWin"), 7);
+                System.out.println(getGame().getGameText().get("gameOverNuked"));
+                TimeUnit.SECONDS.sleep(5L);
+                displayResult(getGame().getGameText().get("sortOfWin"), 7);
             } else {
                 clearScreen();
-                System.out.println(ansi().fgBrightGreen().render(gameFiles.getGameText().get("gameOver")).fgDefault());
-                displayResult(gameFiles.getGameText().get("winText"), 7);
+                System.out.println(ansi().fgBrightGreen().render(getGame().getGameText().get("gameOver")).fgDefault());
+                displayResult(getGame().getGameText().get("winText"), 7);
             }
         } else {
             if (getGame().getPlayer().getSteps() >= 24) {
                 clearScreen();
-                System.out.print(getGameFiles().getGameText().get("gameOverNuked"));
-                TimeUnit.SECONDS.sleep(5l);
-                displayResult(gameFiles.getGameText().get("outOfTime"), 7);
+                System.out.print(getGame().getGameText().get("gameOverNuked"));
+                TimeUnit.SECONDS.sleep(5L);
+                displayResult(getGame().getGameText().get("outOfTime"), 7);
             } else if(getGame().getPlayer().getHealth() <= 0) {
                 clearScreen();
-                System.out.print(getGameFiles().getGameText().get("gameOverNuked"));
-                TimeUnit.SECONDS.sleep(5l);
-                displayResult(gameFiles.getGameText().get("outOfLife"), 7);
+                System.out.print(getGame().getGameText().get("gameOverNuked"));
+                TimeUnit.SECONDS.sleep(5L);
+                displayResult(getGame().getGameText().get("outOfLife"), 7);
             }
         }
     }
@@ -265,6 +264,4 @@ public class ConsoleInterface { // Previously TitleScreen
 /*                      ACCESSORS                               */
     public Game getGame() { return game; }
     public void setGame(Game game) { this.game = game; }
-    public Temple getGameFiles() { return gameFiles; }
-    public void setGameFiles(Temple gameFiles) { this.gameFiles = gameFiles; }
 }

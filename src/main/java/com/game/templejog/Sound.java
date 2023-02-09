@@ -31,7 +31,7 @@ public class Sound {
 
     public static String turningSound(String noun, Game game){
         if(noun.isEmpty()){
-            return EnumInvalidNounInput.BAD_SOUND.getWarning();
+            return InvalidNounInput.BAD_SOUND.getWarning();
         } else if(noun.equalsIgnoreCase("on")){
             game.setPlaySound(true);
             Sound.themeSound(game.getCurrentRoom().getSound());

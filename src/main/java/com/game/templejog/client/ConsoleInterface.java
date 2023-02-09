@@ -79,8 +79,8 @@ public class ConsoleInterface { // Previously TitleScreen
         int minutes = hoursPlayed % 60;
         int time = 1200 + (100 * hours) + minutes;
         String status = String.format(ansi().render("Location:@|cyan  %s|@ █ Health:@|cyan  %s|@ █ TIME:@|cyan  %s|@").toString(), currentRoom, health, time > 999 ? Integer.toString(time) : "0" + time);
-        String statusSpace = "%" + ((CONSOLE_WIDTH - 1 - (status.length()-24)) / 2 + status.length()) + "s";
-        String endSpace = "%" + ((CONSOLE_WIDTH - (status.length()-24)) / 2) + "s"; // "%20s"
+        String statusSpace = "%" + ((CONSOLE_WIDTH - 1 - (status.length() - 24)) / 2 + status.length()) + "s";
+        String endSpace = "%" + ((CONSOLE_WIDTH - (status.length() - 24)) / 2) + "s"; // "%20s"
         boolean hasEncounters = !getGame().getCurrentRoom().getEncounters_to().isEmpty();
         // Inventory Bar Setup
         String inventorySpace;
@@ -109,16 +109,15 @@ public class ConsoleInterface { // Previously TitleScreen
         if (hasEncounters) {
             encounterDescription = new StringBuilder();
             for (String encounter : getGame().getCurrentRoom().getEncounters_to()) {
-                encounterDescription.append(formatDisplay(getGame().getEncounters().get(encounter).getDescription(),"encounter"));
+                encounterDescription.append(formatDisplay(getGame().getEncounters().get(encounter).getDescription(), "encounter"));
             }
             encounterDescription.append("█").append(" ".repeat(78)).append("█").append("\n");
         }
 
         // Room Display Setup
         String lineOne = getGame().getCurrentRoom().getDescription();
-        String roomDescription = formatDisplay(lineOne,"room");
+        String roomDescription = formatDisplay(lineOne, "room");
         roomDescription = roomDescription.concat("█" + " ".repeat(78) + "█" + "\n");
-
 
 
         // Scene Builder
@@ -171,13 +170,13 @@ public class ConsoleInterface { // Previously TitleScreen
         if (!itemList.isEmpty() && type.equals("room")) {
             lines.add("");
             StringBuilder items = new StringBuilder();
-            items.append(String.format("You see a %s",itemList.get(0)));
+            items.append(String.format("You see a %s", itemList.get(0)));
             int totalItems = itemList.size();
-            for(int i = 1; i < totalItems; i++) {
-                if(i == totalItems-1) {
-                    items.append(String.format(" and a %s",itemList.get(i)));
+            for (int i = 1; i < totalItems; i++) {
+                if (i == totalItems - 1) {
+                    items.append(String.format(" and a %s", itemList.get(i)));
                 } else {
-                    items.append(String.format(", %s",itemList.get(i)));
+                    items.append(String.format(", %s", itemList.get(i)));
                 }
             }
             items.append(".");
@@ -214,8 +213,10 @@ public class ConsoleInterface { // Previously TitleScreen
         // Format string to center on page
         StringBuilder display = new StringBuilder();
         for (String line : lines) {
-            String spaceBefore = "%" + ((CONSOLE_WIDTH - 1 - line.length()) / 2 + line.length()) + "s";
-            String spaceAfter = "%" + ((CONSOLE_WIDTH - line.length()) / 2) + "s";
+            int amountOfSpaces = (CONSOLE_WIDTH - 1 - line.length()) / 2;
+            String spaceBefore = "%" + (amountOfSpaces == 0 ? "" : (amountOfSpaces + line.length())) + "s";
+            amountOfSpaces = (CONSOLE_WIDTH - line.length()) / 2;
+            String spaceAfter = "%" + (amountOfSpaces == 0 ? "" : amountOfSpaces) + "s";
             display.append(" ")
                     .append(String.format(spaceBefore, line))
                     .append(String.format(spaceAfter, " "))
@@ -224,7 +225,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
     // Print gap above
         int displayLines = display.length() / 80;
-        System.out.print("\n".repeat(lineNumber-displayLines/2));
+        System.out.print("\n".repeat(lineNumber - displayLines / 2));
     // Iterate through string like the intro
 
         char[] charArray = display.toString().toCharArray();
@@ -239,23 +240,23 @@ public class ConsoleInterface { // Previously TitleScreen
             }
         }
     // Print gap below
-        System.out.print("\n".repeat(lineNumber-1-displayLines/2));
+        System.out.print("\n".repeat(lineNumber - 1 - displayLines / 2));
     // Pause
         TimeUnit.MILLISECONDS.sleep((pause * 20L) < 1500 ? 1500 : pause * 20L);
         return 0;
     }
 
     public void displayEnding() throws InterruptedException {
-        if(game.getCommunicatorOff()) {
-            if(getGame().getPlayer().getSteps() >= 24 || getGame().getPlayer().getHealth() <= 0) {
+        if (game.getCommunicatorOff()) {
+            if (getGame().getPlayer().getSteps() >= 24 || getGame().getPlayer().getHealth() <= 0) {
                 System.out.println(ansi().fgBrightYellow().render(gameOver).fgDefault());
-                displayResult("YOU (sort of) WIN: Earth commends you and is forever in your debt! You managed to thwart the alien threat but unfortunately you did not get out in time to escape the nuke! You will be remembered...",7);
+                displayResult("YOU (sort of) WIN: Earth commends you and is forever in your debt! You managed to thwart the alien threat but unfortunately you did not get out in time to escape the nuke! You will be remembered...", 7);
             } else {
                 System.out.println(ansi().fgBrightGreen().render(gameOver).fgDefault());
                 displayResult("YOU WIN: You managed to infiltrate the alien temple, disable the device and get out before the bomb dropped. As you look back from the helicopter, you see the nuke go off on the horizon. Earth has been spared!", 7);
             }
         } else {
-            if(getGame().getPlayer().getSteps() >= 24) {
+            if (getGame().getPlayer().getSteps() >= 24) {
                 System.out.println(ansi().fgBrightRed().render(gameOver).fgDefault());
                 displayResult("GAME OVER: You were killed by the atomic bomb blast. The aliens were still able to send a signal home before the blast went off! Earth is DOOMED!", 7);
             } else {
@@ -264,7 +265,8 @@ public class ConsoleInterface { // Previously TitleScreen
             }
         }
     }
-    public static void clearScreen () {
+
+    public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }

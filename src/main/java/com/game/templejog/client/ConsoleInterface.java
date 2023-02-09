@@ -15,7 +15,6 @@ public class ConsoleInterface { // Previously TitleScreen
     static final Integer CONSOLE_HEIGHT = 25;
     static final Integer CONSOLE_WIDTH = 80;
 
-    // Use the below string for release
     Game game;
     Temple gameFiles;
 
@@ -235,7 +234,8 @@ public class ConsoleInterface { // Previously TitleScreen
         if (game.getCommunicatorOff()) {
             if (getGame().getPlayer().getSteps() >= 24 || getGame().getPlayer().getHealth() <= 0) {
                 clearScreen();
-                System.out.println(ansi().fgBrightYellow().render(gameFiles.getGameText().get("gameOver")).fgDefault());
+                System.out.println(getGameFiles().getGameText().get("gameOverNuked"));
+                TimeUnit.SECONDS.sleep(5l);
                 displayResult(gameFiles.getGameText().get("sortOfWin"), 7);
             } else {
                 clearScreen();
@@ -245,11 +245,13 @@ public class ConsoleInterface { // Previously TitleScreen
         } else {
             if (getGame().getPlayer().getSteps() >= 24) {
                 clearScreen();
-                System.out.println(ansi().fgBrightRed().render(gameFiles.getGameText().get("gameOver")).fgDefault());
+                System.out.print(getGameFiles().getGameText().get("gameOverNuked"));
+                TimeUnit.SECONDS.sleep(5l);
                 displayResult(gameFiles.getGameText().get("outOfTime"), 7);
-            } else if(getGame().getPlayer().getHealth() <= 0){
+            } else if(getGame().getPlayer().getHealth() <= 0) {
                 clearScreen();
-                System.out.println(ansi().fgBrightRed().render(gameFiles.getGameText().get("gameOver")).fgDefault());
+                System.out.print(getGameFiles().getGameText().get("gameOverNuked"));
+                TimeUnit.SECONDS.sleep(5l);
                 displayResult(gameFiles.getGameText().get("outOfLife"), 7);
             }
         }

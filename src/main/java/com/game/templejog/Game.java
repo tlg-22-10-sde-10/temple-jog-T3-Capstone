@@ -12,6 +12,7 @@ public class Game {
     private Player player;
     private Room currentRoom;
     private Boolean communicatorOff;
+    private static Boolean playSound;
 
     public Game( Player player,
                  HashMap<String, Room> rooms,
@@ -38,6 +39,7 @@ public class Game {
         if(verb.equals("use")) return processUsing( noun );
         if(verb.equals("help")) return processHelping();
         if(verb.equals("invalid")) return processInvalid();
+        if(verb.equals("sound")) return Sound.turningSound(noun, this);
         return "";
     }
     private String processQuitting(){
@@ -50,7 +52,6 @@ public class Game {
         return "Thanks for playing!";
     }
     private String processNavigating(String noun){
-        // CHECK IF DIR IS VALID
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
         if( noun.isEmpty() || !standardDirections.contains(noun.toLowerCase()) ) return InvalidNounInput.BAD_NAV.getWarning();
         String directionValue = getCurrentRoom().checkDirection(noun);
@@ -67,11 +68,23 @@ public class Game {
             setCurrentRoom(validRoom);
             getCurrentRoom().setHasBeenVisited(true);
             getPlayer().setSteps(getPlayer().getSteps()+1);
+            currentRoomSound();
             return String.format("Traveling to %s... %s",getCurrentRoom().getName(), outputMessage);
         }
 
         return "Cannot go in that direction...";
     }
+
+    private void currentRoomSound() {
+        String currentRoomSound = getCurrentRoom().getSound();
+        if (getPlaySound()) {
+            if(!currentRoomSound.isEmpty()) {
+                Sound.stopSound();
+                Sound.themeSound(currentRoomSound);
+            }
+        }
+    }
+
     private String processLooking(String noun){
         if(noun.isEmpty()) return InvalidNounInput.BAD_LOOK.getWarning();
 
@@ -102,14 +115,18 @@ public class Game {
         if(noun.isEmpty()) return InvalidNounInput.BAD_USE.getWarning();
         return subprocessCheckItemsAndEncounters(noun);
     }
+//    private String processHelping(String noun){
     private String processHelping(){
-            return "Go - Use 'go [direction]' command to move to designated direction \n" +
-                    "Look - Use 'look [item]' for item description \n" +
-                    "Get  - Use 'get [item]' command to obtain the item \n" +
-                    "Use - Use 'use [item]' command to fight or kill enemy \n" +
-                    "Quit - Use 'quit' command to exit out of the game";
-        }
-    private String processInvalid(){ return "Invalid Input, Type 'Help' for more information."; }
+        return "Go - Use 'go [direction]' command to move to designated direction \n" +
+                "Look - Use 'look [item]' for item description \n" +
+                "Get  - Use 'get [item]' command to obtain the item \n" +
+                "Use - Use 'use [item]' command to fight or kill enemy \n" +
+                "Quit - Use 'quit' command to exit out of the game \n" +
+                "Sound - Use 'sound [on/off]' to turn on or off sound";
+    }
+    private String processInvalid(){
+        return "Invalid Input, Type 'Help' for more information.";
+    }
 
 //  Helper Methods
     private String subprocessCheckItemsAndEncounters(String noun){
@@ -250,4 +267,12 @@ public class Game {
 
     public Boolean getCommunicatorOff() { return communicatorOff; }
     public void setCommunicatorOff(Boolean communicatorOff) { this.communicatorOff = communicatorOff; }
+
+    public Boolean getPlaySound() {
+        return playSound;
+    }
+
+    public void setPlaySound(Boolean playSound) {
+        this.playSound = playSound;
+    }
 }

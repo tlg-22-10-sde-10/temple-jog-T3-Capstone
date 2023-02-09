@@ -14,7 +14,10 @@ public class Game {
     private Boolean communicatorOff;
     private static Boolean playSound;
 
-    public Game( Player player, HashMap<String, Room> rooms, HashMap<String, Encounter> encounters, HashMap<String, Item> items){
+    public Game( Player player,
+                 HashMap<String, Room> rooms,
+                 HashMap<String, Encounter> encounters,
+                 HashMap<String, Item> items){
         this.quitGame = false;
         this.player = player;
         this.rooms = rooms;
@@ -49,7 +52,6 @@ public class Game {
         return "Thanks for playing!";
     }
     private String processNavigating(String noun){
-
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
         if( noun.isEmpty() || !standardDirections.contains(noun.toLowerCase()) ) return InvalidNounInput.BAD_NAV.getWarning();
         String directionValue = getCurrentRoom().checkDirection(noun);
@@ -59,9 +61,7 @@ public class Game {
         // GO IN THAT DIR
         if( directionValue.length() > 1  ) {
             String outputMessage;
-
             outputMessage = cowardiceDamage();
-
             accessibleRoom = directionValue;
             Room validRoom = getRooms().get(accessibleRoom);
             validRoom.setHasBeenVisited(!validRoom.getHasBeenVisited());
@@ -93,7 +93,7 @@ public class Game {
         for(Item item : getItems().values()) {
             if(item.getName().toLowerCase().equals(noun)) return item.getDescription();
         }
-        return " not found " + noun;
+        return String.format("%s is not found in your inventory ",noun);
 
     }
     private String processGetting(String noun){
@@ -112,54 +112,8 @@ public class Game {
         return String.format(" %s was not found in current room...",noun);
     }
     private String processUsing(String noun){
-//      TODO: DECOMPOSE INTO METHODS
         if(noun.isEmpty()) return InvalidNounInput.BAD_USE.getWarning();
-        Integer inventoryIndex = getPlayer().inventoryHasItem(noun); // HAS ITEM
-        // DONE: HAS ITEMS and ENCOUNTERS
-        if( inventoryIndex >= 0 && getCurrentRoom().getEncounters_to().size() > 0 ){
-            List<String> activeEncounters = getCurrentRoom().getEncounters_to();
-            String currentEncounterName = activeEncounters.get(0); // 1st Encounter Name
-            Encounter encounter = null;
-            if( getEncounters().get(currentEncounterName) != null ) encounter = getEncounters().get(currentEncounterName);// get Encounter Obj
-            if( encounter != null ){
-        // DONE: ENCOUNTER HAS WEAKNESS and ENEMY TYPE
-//                String decrementItemsNumberOfReuses = usePlayerItem(inventoryIndex,noun);
-                if( !encounter.getWeakness().contains(noun) ) return " Failed to use "+noun+" on "+ currentEncounterName;
-
-                String decrementItemsNumberOfReuses = usePlayerItem(inventoryIndex,noun);
-                if( encounter.getType().equals("enemy") ){
-                    Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName); // room's with enc
-                    // DONE: USE ITEM, DESTROY ENCOUNTER
-                    if( (encounterRemovedFromCurrRoom || (getCurrentRoom().getEncounters_to().size() == 0) ) ) {
-                        System.out.println(decrementItemsNumberOfReuses);
-                        System.out.println(noun+" is EFFECTIVE against " + currentEncounterName);
-                        return "You destroyed " + currentEncounterName;
-                    }
-                    else return noun+" is EFFECTIVE against " + currentEncounterName+ ", but is not destroyed";
-                }
-        // DONE: ENV TYPE
-                if( encounter.getType().equals("environment") ){
-//                    WIP: REMOVE ENCOUNTER FROM ROOM List of encounters_to/from
-//                    Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName);  // Never used
-                    // DONE: REMOVE FROM ENCOUNTERS MAP
-
-                    if( currentEncounterName.equals("communicator") ){
-                        setActiveEncounters();
-//                        communicatorOff = true;
-                        setCommunicatorOff(!getCommunicatorOff());
-                    }
-                    getCurrentRoom().getEncounters_to().remove(currentEncounterName);
-                    return "Success, you have opened the locked door!";
-                }
-            }
-            else return "Not EFFECTIVE against "+currentEncounterName;
-        }
-        // DONE: HAS ITEMS and NO ENCOUNTERS
-        if( inventoryIndex >= 0 && getCurrentRoom().getEncounters_to().size() == 0 ) {
-            return "no active encounter in this room";
-        }
-        // DONE: NO ITEMS
-        return noun + " not in your inventory";
+        return subprocessCheckItemsAndEncounters(noun);
     }
 //    private String processHelping(String noun){
     private String processHelping(){
@@ -175,6 +129,52 @@ public class Game {
     }
 
 //  Helper Methods
+    private String subprocessCheckItemsAndEncounters(String noun){
+
+        Integer inventoryIndex = getPlayer().inventoryHasItem(noun);
+
+        if( inventoryIndex < 0 ) return String.format("%s not in your inventory", noun); // DONE: NO ITEM
+        if( getCurrentRoom().getEncounters_to().isEmpty() ) return String.format("Cannot use %s because there is no active encounter in this room",noun);// DONE: HAS ITEMS and NO ENCOUNTERS
+
+        // DONE: HAS ITEMS and ENCOUNTERS
+        List<String> activeEncounters = getCurrentRoom().getEncounters_to();
+        String currentEncounterName = activeEncounters.get(0); // 1st Encounter Name
+        Encounter encounter = null;
+
+        if( getEncounters().get(currentEncounterName) != null ) encounter = getEncounters().get(currentEncounterName);
+        if( encounter != null ){
+            if( !encounter.getWeakness().contains(noun) ) return String.format(" Failed to use %s on %s", noun, currentEncounterName);
+            return handleHasItemsAndEncounters(encounter, inventoryIndex, noun, currentEncounterName);
+        }
+        else return "Not EFFECTIVE against "+currentEncounterName;
+
+    }
+    private String handleHasItemsAndEncounters(Encounter encounter, Integer inventoryIndex, String noun, String currentEncounterName ){
+        String decrementItemsNumberOfReuses = usePlayerItem(inventoryIndex,noun);
+        StringBuilder outputMessage = new StringBuilder();
+        if( encounter.getType().equals("enemy") ) outputMessage.append(handleEnemyEncounters(noun,currentEncounterName,encounter));
+        if( encounter.getType().equals("environment") ) outputMessage.append(handleEnvironmentEncounters(currentEncounterName,encounter));
+
+        return String.format("%s %s",decrementItemsNumberOfReuses, outputMessage);
+    }
+    private String handleEnemyEncounters(String noun, String currentEncounterName, Encounter encounter){
+        //TODO: refactor, may not need to remove encounter object from encountersMap
+        Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName);
+        StringBuilder outputMessage = new StringBuilder(String.format("%s is EFFECTIVE against %s...",noun, currentEncounterName));
+        if( (encounterRemovedFromCurrRoom || (getCurrentRoom().getEncounters_to().size() == 0) ) ) {
+            outputMessage.append(String.format("%s",encounter.getSuccess()));
+        }
+        return outputMessage.toString();
+    }
+    private String handleEnvironmentEncounters(String currentEncounterName, Encounter encounter){
+            if( currentEncounterName.equals("communicator") ){
+                setActiveEncounters();
+                setCommunicatorOff(!getCommunicatorOff());
+            }
+            getCurrentRoom().getEncounters_to().remove(currentEncounterName);
+            return String.format("Success!!!...%s",encounter.getSuccess());
+    }
+
     private String cowardiceDamage(){
         String outputMessage = "";
         if(!getCurrentRoom().getEncounters_to().isEmpty()){
@@ -185,11 +185,9 @@ public class Game {
                 if (encounter.getType().equals("enemy")){
                     enemy.append(encounter.getName());
                     getPlayer().setHealth(getPlayer().getHealth() - enemyDamage );
-                    System.out.println();
                 }
             }
             outputMessage = (enemy.toString().isEmpty())?"": String.format("You chose to jog away and took damage from %s", enemy);
-
         }
         return outputMessage;
     }
@@ -218,17 +216,20 @@ public class Game {
     }
     private String usePlayerItem( Integer inventoryIndex, String noun ){
         if(inventoryIndex < 0) return String.format("%s not in your inventory",noun);
-        // TODO: Move prints to Main or ConsoleInterface and just return strings in Game
+        // DONE: Move prints to Main or ConsoleInterface and just return strings in Game
         Item inventoryItem = getPlayer().getInventory().get(inventoryIndex);
         Integer reuse = inventoryItem.getReuse();
+        StringBuilder outputMessage = new StringBuilder(String.format("Using %s...",noun));
         if( reuse == 0 ){
             getPlayer().getInventory().remove(inventoryItem);
-            System.out.println("Removed "+noun+" from inventory");
-            if(noun.equals("key") || noun.equals("crystal femur")) System.out.printf("looks like %s fits perfectly%n",noun);
-            else System.out.println("Last chance make it count!!!");
+            outputMessage.append(String.format("Removed %s from your inventory...",noun));
+            if(noun.equals("key") || noun.equals("crystal femur")) {
+                outputMessage.append(String.format("looks like %s fits perfectly%n", noun));
+            }
+            else outputMessage.append("Last chance make it count!!!");
         }
         if( reuse > 0 )inventoryItem.setReuse( inventoryItem.getReuse() - 1 );
-        return "Using "+ noun;
+        return outputMessage.toString();
 
     }
     public void updateScannerString(){

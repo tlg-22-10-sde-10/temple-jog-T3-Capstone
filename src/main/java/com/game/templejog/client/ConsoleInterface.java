@@ -15,23 +15,6 @@ public class ConsoleInterface { // Previously TitleScreen
     static final Integer CONSOLE_HEIGHT = 25;
     static final Integer CONSOLE_WIDTH = 80;
 
-    // Use the below string for release
-    String introFromJSON = "The year is 20XX...\n\nA major government power has learned of an alien race that wants to invade Earth\n    and enslave the human race.\nThey have discovered a secret alien ship that has been here for centuries.\nIt has been disguised as a lost hidden temple the whole time!\nTheir plan is to nuke the temple from orbit. As it's\n            \"@|cyan The only way to be sure.|@\"\nFrom intel gained, your special ops team has learned that even if\n    the ship is destroyed, a signal will still be sent to the alien home-world!\nYour mission, that you already chose to accept, is to:\n@|bold,yellow       -Infiltrate the temple and gain access to the communication device.\n      -Find a way to shut it down.\n      -Get back to the landing zone for extraction before the bomb drops!\n      -You have until sun-down at 18:00 local time.|@ \n\n\n\nPress any key to parachute into the LZ...";
-//    String introFromJSON = "Press go";   // Use this when testing
-    String gameOver = "████████████████████████████████████████████████████████████████████████████████\n" +
-            "█                                                                              █\n" +
-            "█     ████     ████ ██     ██ ███████    ███████  ██    ██ ███████ ██████      █\n" +
-            "█    ██████   ██ ██ ███   ███ ███████   █████████ ██    ██ ███████ ████████    █\n" +
-            "█   ██       ██  ██ ████ ████ ██        ███   ███ ██    ██ ██      ██    ██    █\n" +
-            "█   ██       ██  ██ █████████ ██        ██     ██ ██    ██ ██      ██    ██    █\n" +
-            "█   ██       ██  ██ ██ ███ ██ █████     ██     ██ ██    ██ █████   ████████    █\n" +
-            "█   ██  ████ ██████ ██  █  ██ █████     ██     ██ ██    ██ █████   ███████     █\n" +
-            "█   ██  ████ ██████ ██     ██ ██        ███   ███ ███  ███ ██      ██  ██      █\n" +
-            "█   ██   ██  ██  ██ ██     ██ ███████   █████████   ████   ███████ ██   ██     █\n" +
-            "█    █████   ██  ██ ██     ██ ███████    ███████     ██    ███████ ██    ██    █\n" +
-            "█                                                                              █\n" +
-            "████████████████████████████████████████████████████████████████████████████████";
-
     String gameOverNuked =
             "\u001B[38;5;016m \u001B[38;5;016m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;016m \u001B[38;5;016m \u001B[38;5;016m \u001B[38;5;016m \u001B[38;5;016m \u001B[38;5;016m \u001B[38;5;016m \u001B[38;5;016m \u001B[38;5;016m \n" +
             "\u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;160m,\u001B[38;5;160m*\u001B[38;5;160m*\u001B[38;5;202m*\u001B[38;5;202m*\u001B[38;5;202m*\u001B[38;5;160m*\u001B[38;5;160m*\u001B[38;5;160m*\u001B[38;5;202m*\u001B[38;5;160m*\u001B[38;5;160m*\u001B[38;5;160m*\u001B[38;5;160m*\u001B[38;5;160m,\u001B[38;5;160m*\u001B[38;5;202m*\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;160m,\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;232m \u001B[38;5;232m \n" +
@@ -65,6 +48,7 @@ public class ConsoleInterface { // Previously TitleScreen
             "\u001B[38;5;016m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;232m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m.\u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;052m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;233m \u001B[38;5;016m " +
             "\u001B[0m";
     Game game;
+    Temple gameFiles;
 
 /*                      STATIC METHODS                          */
     public static int displaySetup() {
@@ -72,7 +56,7 @@ public class ConsoleInterface { // Previously TitleScreen
         System.out.println('┌' + addDashes() + '┐' +
                 String.valueOf(String.format(midLines, "|")).repeat(CONSOLE_HEIGHT - 5) +
                 '\n' + '└' + addDashes() + '┘' +
-                "Adjust your console to create a box that runs along the top and each side\n" +
+                "\nAdjust console window to be 80 characters wide by 30 lines tall\n" +
                 "Then hit <Enter> to continue...");
         return 0;
     }
@@ -88,7 +72,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
 /*                      BUSINESS METHODS                        */
     public int displayIntro() throws InterruptedException {
-        String title = ansi().render(introFromJSON).toString();
+        String title = ansi().render(gameFiles.getGameText().get("intro")).toString();
         char[] charArray = title.toCharArray();
         for (char c : charArray) {
             System.out.print(c);
@@ -233,7 +217,7 @@ public class ConsoleInterface { // Previously TitleScreen
         List<String> lines = new ArrayList<>();
         if (processChoice.length() > 78) {
             while (processChoice.length() > 78) {
-                int splitIndex = processChoice.indexOf(" ", 70);
+                int splitIndex = processChoice.lastIndexOf(" ", 77);
                 lines.add(processChoice.substring(0, splitIndex));
                 processChoice = processChoice.substring(splitIndex + 1);
             }
@@ -284,23 +268,23 @@ public class ConsoleInterface { // Previously TitleScreen
                 clearScreen();
                 System.out.println(gameOverNuked);
                 TimeUnit.SECONDS.sleep(5l);
-                displayResult("YOU (sort of) WIN: Earth commends you and is forever in your debt! You managed to thwart the alien threat but unfortunately you did not get out in time to escape the nuke! You will be remembered...", 7);
+                displayResult(gameFiles.getGameText().get("sortOfWin"), 7);
             } else {
                 clearScreen();
-                System.out.println(ansi().fgBrightGreen().render(gameOver).fgDefault());
-                displayResult("YOU WIN: You managed to infiltrate the alien temple, disable the device and get out before the bomb dropped. As you look back from the helicopter, you see the nuke go off on the horizon. Earth has been spared!", 7);
+                System.out.println(ansi().fgBrightGreen().render(gameFiles.getGameText().get("gameOver")).fgDefault());
+                displayResult(gameFiles.getGameText().get("winText"), 7);
             }
         } else {
             if (getGame().getPlayer().getSteps() >= 24) {
                 clearScreen();
                 System.out.print(gameOverNuked);
                 TimeUnit.SECONDS.sleep(5l);
-                displayResult("GAME OVER: You were killed by the atomic bomb blast. The aliens were still able to send a signal home before the blast went off! Earth is DOOMED!", 7);
-            } else {
+                displayResult(gameFiles.getGameText().get("outOfTime"), 7);
+            } else if(getGame().getPlayer().getHealth() <= 0) {
                 clearScreen();
                 System.out.print(gameOverNuked);
                 TimeUnit.SECONDS.sleep(5l);
-                displayResult("GAME OVER: You died trying to save the world, but failed. The aliens were still able to send a signal home before the atomic bomb dropped! Earth is DOOMED!", 7);
+                displayResult(gameFiles.getGameText().get("outOfLife"), 7);
             }
         }
     }
@@ -311,13 +295,8 @@ public class ConsoleInterface { // Previously TitleScreen
     }
 
 /*                      ACCESSORS                               */
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-
+    public Game getGame() { return game; }
+    public void setGame(Game game) { this.game = game; }
+    public Temple getGameFiles() { return gameFiles; }
+    public void setGameFiles(Temple gameFiles) { this.gameFiles = gameFiles; }
 }

@@ -4,6 +4,7 @@ import com.game.templejog.client.Main;
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Scanner;
 
 public class Sound {
@@ -12,7 +13,7 @@ public class Sound {
     /* Handles the background theme music */
     public static void themeSound(String file) {
         try {
-            InputStream landingSound = Main.class.getClassLoader().getResourceAsStream(file);
+            URL landingSound = Main.class.getClassLoader().getResource(file);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(landingSound);
             clip = AudioSystem.getClip();
             clip.open(audioStream);

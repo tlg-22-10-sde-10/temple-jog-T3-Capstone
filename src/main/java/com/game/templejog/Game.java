@@ -12,8 +12,22 @@ public class Game {
     private Player player;
     private Room currentRoom;
     private Boolean communicatorOff;
-    private static Boolean playSound;
+    private HashMap<String,String> gameText;
+    private Boolean playSound;
 
+    public Game(Temple temple) {
+        // Load in files
+        setRooms(temple.getEasymap());
+        setEncounters(temple.getEncounters());
+        setItems(temple.getItems());
+        setPlayer(temple.getPlayer());
+        setGameText(temple.getGameText());
+
+        // Set initial conditions
+        setCurrentRoom(getRooms().get("room01"));
+        setCommunicatorOff(false);
+        setQuitGame(false);
+    }
     public Game( Player player,
                  HashMap<String, Room> rooms,
                  HashMap<String, Encounter> encounters,
@@ -107,9 +121,9 @@ public class Game {
             }
         }
         if( getPlayer().inventoryHasItem(noun) >= 0 ){
-            return String.format("%s already in your inventory",noun);
+            return String.format("%s already in your inventory ",noun);
         }
-        return String.format(" %s was not found in current room...",noun);
+        return String.format(" %s was not found in current room... ",noun);
     }
     private String processUsing(String noun){
         if(noun.isEmpty()) return InvalidNounInput.BAD_USE.getWarning();
@@ -117,12 +131,7 @@ public class Game {
     }
 //    private String processHelping(String noun){
     private String processHelping(){
-        return "Go - Use 'go [direction]' command to move to designated direction \n" +
-                "Look - Use 'look [item]' for item description \n" +
-                "Get  - Use 'get [item]' command to obtain the item \n" +
-                "Use - Use 'use [item]' command to fight or kill enemy \n" +
-                "Quit - Use 'quit' command to exit out of the game \n" +
-                "Sound - Use 'sound [on/off]' to turn on or off sound";
+        return getGameText().get("gameHelp");
     }
     private String processInvalid(){
         return "Invalid Input, Type 'Help' for more information.";
@@ -134,7 +143,7 @@ public class Game {
         Integer inventoryIndex = getPlayer().inventoryHasItem(noun);
 
         if( inventoryIndex < 0 ) return String.format("%s not in your inventory", noun); // DONE: NO ITEM
-        if( getCurrentRoom().getEncounters_to().isEmpty() ) return String.format("Cannot use %s because there is no active encounter in this room",noun);// DONE: HAS ITEMS and NO ENCOUNTERS
+        if( getCurrentRoom().getEncounters_to().isEmpty() ) return String.format("Cannot use %s because there is no active encounter in this room.",noun);// DONE: HAS ITEMS and NO ENCOUNTERS
 
         // DONE: HAS ITEMS and ENCOUNTERS
         List<String> activeEncounters = getCurrentRoom().getEncounters_to();
@@ -143,7 +152,7 @@ public class Game {
 
         if( getEncounters().get(currentEncounterName) != null ) encounter = getEncounters().get(currentEncounterName);
         if( encounter != null ){
-            if( !encounter.getWeakness().contains(noun) ) return String.format(" Failed to use %s on %s", noun, currentEncounterName);
+            if( !encounter.getWeakness().contains(noun) ) return String.format(" Failed to use %s on %s ", noun, currentEncounterName);
             return handleHasItemsAndEncounters(encounter, inventoryIndex, noun, currentEncounterName);
         }
         else return "Not EFFECTIVE against "+currentEncounterName;
@@ -155,12 +164,12 @@ public class Game {
         if( encounter.getType().equals("enemy") ) outputMessage.append(handleEnemyEncounters(noun,currentEncounterName,encounter));
         if( encounter.getType().equals("environment") ) outputMessage.append(handleEnvironmentEncounters(currentEncounterName,encounter));
 
-        return String.format("%s %s",decrementItemsNumberOfReuses, outputMessage);
+        return String.format("%s %s ",decrementItemsNumberOfReuses, outputMessage);
     }
     private String handleEnemyEncounters(String noun, String currentEncounterName, Encounter encounter){
         //TODO: refactor, may not need to remove encounter object from encountersMap
         Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName);
-        StringBuilder outputMessage = new StringBuilder(String.format("%s is EFFECTIVE against %s...",noun, currentEncounterName));
+        StringBuilder outputMessage = new StringBuilder(String.format("%s is EFFECTIVE against %s... ",noun, currentEncounterName));
         if( (encounterRemovedFromCurrRoom || (getCurrentRoom().getEncounters_to().size() == 0) ) ) {
             outputMessage.append(String.format("%s",encounter.getSuccess()));
         }
@@ -172,7 +181,7 @@ public class Game {
                 setCommunicatorOff(!getCommunicatorOff());
             }
             getCurrentRoom().getEncounters_to().remove(currentEncounterName);
-            return String.format("Success!!!...%s",encounter.getSuccess());
+            return String.format("Success!!!... %s",encounter.getSuccess());
     }
 
     private String cowardiceDamage(){
@@ -264,15 +273,10 @@ public class Game {
     public void setEncounters(HashMap<String, Encounter> encounters) {this.encounters = encounters;}
     public HashMap<String, Item> getItems() { return items; }
     public void setItems(HashMap<String, Item> items) { this.items = items; }
-
     public Boolean getCommunicatorOff() { return communicatorOff; }
     public void setCommunicatorOff(Boolean communicatorOff) { this.communicatorOff = communicatorOff; }
-
-    public Boolean getPlaySound() {
-        return playSound;
-    }
-
-    public void setPlaySound(Boolean playSound) {
-        this.playSound = playSound;
-    }
+    public Boolean getPlaySound() { return playSound; }
+    public void setPlaySound(Boolean playSound) { this.playSound = playSound; }
+    public HashMap<String, String> getGameText() { return gameText; }
+    public void setGameText(HashMap<String, String> gameText) { this.gameText = gameText; }
 }

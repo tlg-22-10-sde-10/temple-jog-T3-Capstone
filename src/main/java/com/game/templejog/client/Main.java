@@ -27,8 +27,7 @@ public class Main {
 // LOAD GAME
         if (playerInput.equals("y")) {
             Temple gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
-            console.setGameFiles(gameFiles);
-            Game game = new Game(gameFiles.getPlayer(),gameFiles.getEasymap(),gameFiles.getEncounters(),gameFiles.getItems());
+            Game game = new Game(gameFiles);
             Sound.gameSound(scanner, game); //extracted method
             console.setGame(game);
 

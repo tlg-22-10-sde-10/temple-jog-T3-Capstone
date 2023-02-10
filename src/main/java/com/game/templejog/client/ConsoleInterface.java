@@ -69,7 +69,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
         // Inventory Bar Setup v2
         String inventorySpaces;
-        StringBuilder inventory = new StringBuilder();
+        StringBuilder inventory =  new StringBuilder();
         StringBuilder line =     new StringBuilder("█  Inventory: ");
         StringBuilder lineTwo =  new StringBuilder("█             ");
         for(Item item : getGame().getPlayer().getInventory()) {

@@ -66,27 +66,24 @@ public class ConsoleInterface { // Previously TitleScreen
         String statusSpace = "%" + ((CONSOLE_WIDTH - 1 - (status.length() - 24)) / 2 + status.length()) + "s";
         String endSpace = "%" + ((CONSOLE_WIDTH - (status.length() - 24)) / 2) + "s"; // "%20s"
         boolean hasEncounters = !getGame().getCurrentRoom().getEncounters_to().isEmpty();
-        // Inventory Bar Setup
-        String inventorySpace;
-        StringBuilder inventory = new StringBuilder();
-        inventory.append("█  Inventory: ");
-        for (Item item : getGame().getPlayer().getInventory()) {
-            if (inventory.length() + item.getName().length() + 3 > 75) {
-                inventorySpace = "%" + (CONSOLE_WIDTH - inventory.length()) + "s";
-                inventory.append(String.format(inventorySpace, "█"));
-                inventory.append("\n█").append(" ".repeat(14));
-            }
-            inventory.append(String.format("[%s] ", item.getName()));
-        }
 
-        if (inventory.length() < 80) {
-            inventorySpace = "%" + (CONSOLE_WIDTH - inventory.length()) + "s";
-            inventory.append(String.format(inventorySpace, "█")).append("\n");
-            inventory.append("█").append(" ".repeat(78)).append("█");
-        } else {
-            inventorySpace = "%" + (80 - (inventory.length() - CONSOLE_WIDTH - 1)) + "s";
-            inventory.append(String.format(inventorySpace, "█"));
+        // Inventory Bar Setup v2
+        String inventorySpaces;
+        StringBuilder inventory = new StringBuilder();
+        StringBuilder line =     new StringBuilder("█  Inventory: ");
+        StringBuilder lineTwo =  new StringBuilder("█             ");
+        for(Item item : getGame().getPlayer().getInventory()) {
+            if( line.length() + item.getName().length() < 75 ) {
+                line.append(String.format("[%s] ", item.getName()));
+            } else {
+                lineTwo.append(String.format("[%s] ",item.getName()));
+            }
         }
+        inventorySpaces = "%" + (CONSOLE_WIDTH - line.length()) + "s";
+        line.append(String.format(inventorySpaces,"█")).append("\n");
+        inventorySpaces = "%" + (CONSOLE_WIDTH - lineTwo.length()) + "s";
+        lineTwo.append(String.format(inventorySpaces,"█"));
+        inventory.append(line).append(lineTwo);
 
         // Encounter Setup
         StringBuilder encounterDescription = null;

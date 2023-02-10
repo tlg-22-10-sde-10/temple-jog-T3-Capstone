@@ -21,7 +21,7 @@ public class Main {
         ConsoleInterface.displayTitle();
         String playerInput = "";
         while(playerInput.isEmpty()){
-            System.out.println("Start a new Game? y/n");
+            System.out.println(UserInput.START_GAME.getUserPrompt());
             playerInput = scanner.nextLine();
         }
         playerInput = playerInput.toLowerCase().substring(0, 1);
@@ -33,7 +33,7 @@ public class Main {
             console.setGame(game);
             playerInput = "";
             do {
-                System.out.println("Please choose a difficulty: EASY, MEDIUM, HARD");
+                System.out.println(UserInput.DIFFICULTY_LEVEL.getUserPrompt());
                 playerInput = scanner.nextLine();
 
                 if(TextParser.parseText(playerInput)[0].equals("quit")) {
@@ -59,7 +59,7 @@ public class Main {
             do {
                 ConsoleInterface.clearScreen();
                 console.displayScene();
-                System.out.print("What do you want to do?\n>");
+                System.out.println(UserInput.USER_ACTION.getUserPrompt());
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 ConsoleInterface.clearScreen();

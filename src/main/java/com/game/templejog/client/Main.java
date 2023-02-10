@@ -68,7 +68,7 @@ public class Main {
                     && game.getPlayer().getSteps() < 24
                     && game.getPlayer().getHealth() > 0
                     && !(game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")));
-
+            console.displayResult("You look down as your alarm goes off. It's 18:00....",0);
             console.displayEnding();
         }
     }

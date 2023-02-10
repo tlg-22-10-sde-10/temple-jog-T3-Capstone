@@ -33,7 +33,7 @@ public class Main {
             console.setGame(game);
             playerInput = "";
             do {
-                System.out.println("Please choose a difficulty: EASY, MEDIUM, HARD");
+                System.out.println(UserInput.DIFFICULTY_LEVEL.getUserPrompt());
                 playerInput = scanner.nextLine();
 
                 if(TextParser.parseText(playerInput)[0].equals("quit")) {

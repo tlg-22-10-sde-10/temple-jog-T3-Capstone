@@ -4,6 +4,8 @@ import com.game.templejog.*;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -28,9 +30,20 @@ public class Main {
         if (playerInput.equals("y")) {
             Temple gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
             Game game = new Game(gameFiles);
-            Sound.gameSound(scanner, game); //extracted method
             console.setGame(game);
+            playerInput = "";
+            do {
+                System.out.println("Please choose a difficulty: EASY, MEDIUM, HARD");
+                playerInput = scanner.nextLine();
 
+                if(TextParser.parseText(playerInput)[0].equals("quit")) {
+                    System.out.println("Quitting... ");
+                    exit(0);
+                }
+                playerInput = TextParser.parseDifficulty(playerInput);
+            } while(playerInput.equals(""));
+            game.processDifficulty(playerInput);
+            Sound.gameSound(scanner, game);
 // Play intro
             ConsoleInterface.clearScreen();
             console.displayIntro();

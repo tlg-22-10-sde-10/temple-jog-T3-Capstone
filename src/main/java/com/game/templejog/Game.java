@@ -57,7 +57,7 @@ public class Game {
         return "";
     }
     private String processQuitting(){
-        System.out.println("Are you sure you want to quit? [Type 'y' or 'n']");
+        System.out.println(UserInput.END_GAME.getUserPrompt());
         updateScannerString();
         String playerResponse  = getScannerString().toLowerCase().substring(0, 1);
         if( playerResponse.equals("y") ) setQuitGame(!getQuitGame());

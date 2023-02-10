@@ -2,13 +2,16 @@ package com.game.templejog;
 
 public enum UserInput {
     START_GAME("Start a new Game? y/n"),
-    TURN_MUSIC("Do you want the music on? [y/n]")
+    USER_ACTION("What do you want to do?>"),
+    TURN_MUSIC("Do you want the music on? [y/n]"),
+    DIFFICULTY_LEVEL("What level of difficulty do you want to play? Easy | Medium | Hard"),
+    END_GAME("Are you sure you want to quit? [Type 'y' or 'n']")
     ;
 
-    private final String userMsg;
-    private UserInput(String msg){this.userMsg = msg; }
+    private final String userPrompt;
+    private UserInput(String msg){this.userPrompt = msg; }
 
-    public String getUserMsg(){
-        return this.getUserMsg();
+    public String getUserPrompt(){
+        return this.userPrompt;
     }
 }

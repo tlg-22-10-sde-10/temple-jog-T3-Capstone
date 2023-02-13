@@ -3,7 +3,6 @@ package com.game.templejog;
 import com.game.templejog.client.Main;
 import javax.sound.sampled.*;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -57,6 +56,26 @@ public class Sound {
     public static void stopSound(){
         if(clip != null) {
             clip.stop();
+        }
+    }
+
+    public static void ending(String filePath) {
+        try {
+            stopSound();
+            URL sound = Main.class.getClassLoader().getResource(filePath);
+            AudioInputStream audiostream = AudioSystem.getAudioInputStream(sound);
+            clip = AudioSystem.getClip();
+            clip.open(audiostream);
+            FloatControl gainControl =
+                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
+            clip.loop(0);
+        } catch (UnsupportedAudioFileException e) {
+            System.out.println("Error: Unsupported audio file format.");
+        } catch (IOException e) {
+            System.out.println("Error: Could not read audio file.");
+        } catch (LineUnavailableException e) {
+            System.out.println("Error: Could not play audio clip.");
         }
     }
 }

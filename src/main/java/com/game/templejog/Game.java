@@ -86,7 +86,7 @@ public class Game {
         if( playerResponse.equals("y") ) setQuitGame(!getQuitGame());
         else return "Returning to game...";
 
-        return "Thanks for playing!";
+        return "";
     }
     private String processNavigating(String noun){
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");

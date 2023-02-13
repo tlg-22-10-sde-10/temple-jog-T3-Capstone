@@ -59,7 +59,7 @@ public class Main {
             do {
                 ConsoleInterface.clearScreen();
                 console.displayScene();
-                System.out.println(UserInput.USER_ACTION.getUserPrompt());
+                System.out.print(UserInput.USER_ACTION.getUserPrompt());
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 ConsoleInterface.clearScreen();

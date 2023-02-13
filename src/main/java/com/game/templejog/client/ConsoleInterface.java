@@ -235,7 +235,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
     public void displayEnding() throws InterruptedException {
         if (game.getCommunicatorOff()) {
-            if (getGame().getPlayer().getSteps() >= 24 || getGame().getPlayer().getHealth() <= 0) {
+            if (getGame().getPlayer().getSteps() > 24 || getGame().getPlayer().getHealth() <= 0) {
                 displayResult("You look down as your alarm goes off. It's 18:00....",0);
                 bombSound();
                 System.out.println(getGame().getGameText().get("gameOverNuked"));
@@ -245,7 +245,9 @@ public class ConsoleInterface { // Previously TitleScreen
                 displayResult("You manage to jog back to the landing zone just as the helicopter lands. You all take off, eager to get as much distance between yourselves and the temple as possible...",0);
                 clearScreen();
                 System.out.println(ansi().fgBrightGreen().render(getGame().getGameText().get("gameOver")).fgDefault());
-                Sound.ending("sounds/victory.wav");
+                if (game.getPlaySound()) {
+                    Sound.ending("sounds/victory.wav");
+                }
                 displayResult(getGame().getGameText().get("winText"), 7);
             }
         } else {
@@ -266,10 +268,13 @@ public class ConsoleInterface { // Previously TitleScreen
     }
 
     private void bombSound() throws InterruptedException {
-        Sound.ending("sounds/falling-bomb.wav");
-        TimeUnit.SECONDS.sleep(3);
-        clearScreen();
-        Sound.ending("sounds/explosion.wav");
+        if (game.getPlaySound()) {
+            clearScreen();
+            Sound.ending("sounds/falling-bomb.wav");
+            TimeUnit.SECONDS.sleep(3);
+            clearScreen();
+            Sound.ending("sounds/explosion.wav");
+        }
     }
 
     public static void clearScreen() {

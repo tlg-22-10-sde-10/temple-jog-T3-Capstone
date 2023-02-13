@@ -12,6 +12,8 @@ public class TextParser {
     public static final List<String> QUIT_SYNONYMS = Arrays.asList("quit","exit", "end", "quit");
     public static final List<String> LOOK_SYNONYMS = Arrays.asList("look","inspect","view","observe","peek");
 
+    public static final List<String> DIFFICULTIES = Arrays.asList("easy","medium","hard");
+
     /*              PRIVATE CONSTRUCTOR                     */
     private TextParser() {}
 
@@ -32,10 +34,20 @@ public class TextParser {
             parsed[0] = "use";
         } else if(verb.equals("help")) {
             parsed[0] = "help";
+        } else if(verb.equals("sound")) {
+            parsed[0] = "sound";
         } else {
             parsed[0] = "invalid";
         }
 
         return parsed;
+    }
+
+    public static String parseDifficulty(String userInput) {
+        userInput = userInput.strip().toLowerCase().split(" ", 2)[0];
+        if(DIFFICULTIES.contains(userInput)) {
+            return userInput;
+        }
+        return "";
     }
 }

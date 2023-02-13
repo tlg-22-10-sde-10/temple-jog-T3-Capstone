@@ -15,22 +15,6 @@ public class ConsoleInterface { // Previously TitleScreen
     static final Integer CONSOLE_HEIGHT = 25;
     static final Integer CONSOLE_WIDTH = 80;
 
-    // Use the below string for release
-    String introFromJSON = "The year is 20XX...\n\nA major government power has learned of an alien race that wants to invade Earth\n    and enslave the human race.\nThey have discovered a secret alien ship that has been here for centuries.\nIt has been disguised as a lost hidden temple the whole time!\nTheir plan is to nuke the temple from orbit. As it's\n            \"@|cyan The only way to be sure.|@\"\nFrom intel gained, your special ops team has learned that even if\n    the ship is destroyed, a signal will still be sent to the alien home-world!\nYour mission, that you already chose to accept, is to:\n@|bold,yellow       -Infiltrate the temple and gain access to the communication device.\n      -Find a way to shut it down.\n      -Get back to the landing zone for extraction before the bomb drops!\n      -You have until sun-down at 18:00 local time.|@ \n\n\n\nPress any key to parachute into the LZ...";
-//    String introFromJSON = "Press go";   // Use this when testing
-    String gameOver = "████████████████████████████████████████████████████████████████████████████████\n" +
-            "█                                                                              █\n" +
-            "█     ████     ████ ██     ██ ███████    ███████  ██    ██ ███████ ██████      █\n" +
-            "█    ██████   ██ ██ ███   ███ ███████   █████████ ██    ██ ███████ ████████    █\n" +
-            "█   ██       ██  ██ ████ ████ ██        ███   ███ ██    ██ ██      ██    ██    █\n" +
-            "█   ██       ██  ██ █████████ ██        ██     ██ ██    ██ ██      ██    ██    █\n" +
-            "█   ██       ██  ██ ██ ███ ██ █████     ██     ██ ██    ██ █████   ████████    █\n" +
-            "█   ██  ████ ██████ ██  █  ██ █████     ██     ██ ██    ██ █████   ███████     █\n" +
-            "█   ██  ████ ██████ ██     ██ ██        ███   ███ ███  ███ ██      ██  ██      █\n" +
-            "█   ██   ██  ██  ██ ██     ██ ███████   █████████   ████   ███████ ██   ██     █\n" +
-            "█    █████   ██  ██ ██     ██ ███████    ███████     ██    ███████ ██    ██    █\n" +
-            "█                                                                              █\n" +
-            "████████████████████████████████████████████████████████████████████████████████";
     Game game;
 
 /*                      STATIC METHODS                          */
@@ -39,7 +23,7 @@ public class ConsoleInterface { // Previously TitleScreen
         System.out.println('┌' + addDashes() + '┐' +
                 String.valueOf(String.format(midLines, "|")).repeat(CONSOLE_HEIGHT - 5) +
                 '\n' + '└' + addDashes() + '┘' +
-                "Adjust your console to create a box that runs along the top and each side\n" +
+                "\nAdjust console window to be 80 characters wide by 30 lines tall\n" +
                 "Then hit <Enter> to continue...");
         return 0;
     }
@@ -55,7 +39,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
 /*                      BUSINESS METHODS                        */
     public int displayIntro() throws InterruptedException {
-        String title = ansi().render(introFromJSON).toString();
+        String title = ansi().render(getGame().getGameText().get("intro")).toString();
         char[] charArray = title.toCharArray();
         for (char c : charArray) {
             System.out.print(c);
@@ -72,53 +56,55 @@ public class ConsoleInterface { // Previously TitleScreen
         StringBuilder scene = new StringBuilder();
         String currentRoom = game.getCurrentRoom().getName();
         Integer health = game.getPlayer().getHealth();
+        String[] colors;
 
         // Top Bar Setup
         int hoursPlayed = game.getPlayer().getSteps() * 15;
         int hours = hoursPlayed / 60;
         int minutes = hoursPlayed % 60;
         int time = 1200 + (100 * hours) + minutes;
-        String status = String.format(ansi().render("Location:@|cyan  %s|@ █ Health:@|cyan  %s|@ █ TIME:@|cyan  %s|@").toString(), currentRoom, health, time > 999 ? Integer.toString(time) : "0" + time);
-        String statusSpace = "%" + ((CONSOLE_WIDTH - 1 - (status.length()-24)) / 2 + status.length()) + "s";
-        String endSpace = "%" + ((CONSOLE_WIDTH - (status.length()-24)) / 2) + "s"; // "%20s"
+        colors = processColor();
+        String status = String.format("Location:@|%s  %s|@ █ Health:@|%s  %s|@ █ TIME:@|%s  %s|@",
+                colors[0], currentRoom,
+                colors[1], health,
+                colors[2], time > 999 ? Integer.toString(time) : "0" + time);
+        status = ansi().render(status).toString();
+        String statusSpace = "%" + ((CONSOLE_WIDTH - 1 - (status.length() - 24)) / 2 + status.length()) + "s";
+        String endSpace = "%" + ((CONSOLE_WIDTH - (status.length() - 24)) / 2) + "s"; // "%20s"
         boolean hasEncounters = !getGame().getCurrentRoom().getEncounters_to().isEmpty();
-        // Inventory Bar Setup
-        String inventorySpace;
-        StringBuilder inventory = new StringBuilder();
-        inventory.append("█  Inventory: ");
-        for (Item item : getGame().getPlayer().getInventory()) {
-            if (inventory.length() + item.getName().length() + 3 > 75) {
-                inventorySpace = "%" + (CONSOLE_WIDTH - inventory.length()) + "s";
-                inventory.append(String.format(inventorySpace, "█"));
-                inventory.append("\n█").append(" ".repeat(14));
-            }
-            inventory.append(String.format("[%s] ", item.getName()));
-        }
 
-        if (inventory.length() < 80) {
-            inventorySpace = "%" + (CONSOLE_WIDTH - inventory.length()) + "s";
-            inventory.append(String.format(inventorySpace, "█")).append("\n");
-            inventory.append("█").append(" ".repeat(78)).append("█");
-        } else {
-            inventorySpace = "%" + (80 - (inventory.length() - CONSOLE_WIDTH - 1)) + "s";
-            inventory.append(String.format(inventorySpace, "█"));
+        // Inventory Bar Setup v2
+        String inventorySpaces;
+        StringBuilder inventory =  new StringBuilder();
+        StringBuilder line =     new StringBuilder("█  Inventory: ");
+        StringBuilder lineTwo =  new StringBuilder("█             ");
+        for(Item item : getGame().getPlayer().getInventory()) {
+            if( line.length() + item.getName().length() < 75 ) {
+                line.append(String.format("[%s] ", item.getName()));
+            } else {
+                lineTwo.append(String.format("[%s] ",item.getName()));
+            }
         }
+        inventorySpaces = "%" + (CONSOLE_WIDTH - line.length()) + "s";
+        line.append(String.format(inventorySpaces,"█")).append("\n");
+        inventorySpaces = "%" + (CONSOLE_WIDTH - lineTwo.length()) + "s";
+        lineTwo.append(String.format(inventorySpaces,"█"));
+        inventory.append(line).append(lineTwo);
 
         // Encounter Setup
         StringBuilder encounterDescription = null;
         if (hasEncounters) {
             encounterDescription = new StringBuilder();
             for (String encounter : getGame().getCurrentRoom().getEncounters_to()) {
-                encounterDescription.append(formatDisplay(getGame().getEncounters().get(encounter).getDescription(),"encounter"));
+                encounterDescription.append(formatDisplay(getGame().getEncounters().get(encounter).getDescription(), "encounter"));
             }
             encounterDescription.append("█").append(" ".repeat(78)).append("█").append("\n");
         }
 
         // Room Display Setup
         String lineOne = getGame().getCurrentRoom().getDescription();
-        String roomDescription = formatDisplay(lineOne,"room");
+        String roomDescription = formatDisplay(lineOne, "room");
         roomDescription = roomDescription.concat("█" + " ".repeat(78) + "█" + "\n");
-
 
 
         // Scene Builder
@@ -143,7 +129,6 @@ public class ConsoleInterface { // Previously TitleScreen
                 .append("\n");
 
         int displayLines = scene.length() / 80;
-        // DONE: illegalArgumentException: count is negative: -8 at line 131
         scene.append("\n".repeat(Math.max(22 - displayLines, 1)));
         System.out.println(scene);
         return 0;
@@ -171,13 +156,13 @@ public class ConsoleInterface { // Previously TitleScreen
         if (!itemList.isEmpty() && type.equals("room")) {
             lines.add("");
             StringBuilder items = new StringBuilder();
-            items.append(String.format("You see a %s",itemList.get(0)));
+            items.append(String.format("You see a %s", itemList.get(0)));
             int totalItems = itemList.size();
-            for(int i = 1; i < totalItems; i++) {
-                if(i == totalItems-1) {
-                    items.append(String.format(" and a %s",itemList.get(i)));
+            for (int i = 1; i < totalItems; i++) {
+                if (i == totalItems - 1) {
+                    items.append(String.format(" and a %s", itemList.get(i)));
                 } else {
-                    items.append(String.format(", %s",itemList.get(i)));
+                    items.append(String.format(", %s", itemList.get(i)));
                 }
             }
             items.append(".");
@@ -202,7 +187,7 @@ public class ConsoleInterface { // Previously TitleScreen
         List<String> lines = new ArrayList<>();
         if (processChoice.length() > 78) {
             while (processChoice.length() > 78) {
-                int splitIndex = processChoice.indexOf(" ", 70);
+                int splitIndex = processChoice.lastIndexOf(" ", 77);
                 lines.add(processChoice.substring(0, splitIndex));
                 processChoice = processChoice.substring(splitIndex + 1);
             }
@@ -214,8 +199,10 @@ public class ConsoleInterface { // Previously TitleScreen
         // Format string to center on page
         StringBuilder display = new StringBuilder();
         for (String line : lines) {
-            String spaceBefore = "%" + ((CONSOLE_WIDTH - 1 - line.length()) / 2 + line.length()) + "s";
-            String spaceAfter = "%" + ((CONSOLE_WIDTH - line.length()) / 2) + "s";
+            int amountOfSpaces = (CONSOLE_WIDTH - 1 - line.length()) / 2;
+            String spaceBefore = "%" + (amountOfSpaces == 0 ? "" : (amountOfSpaces + line.length())) + "s";
+            amountOfSpaces = (CONSOLE_WIDTH - line.length()) / 2;
+            String spaceAfter = "%" + (amountOfSpaces == 0 ? "" : amountOfSpaces) + "s";
             display.append(" ")
                     .append(String.format(spaceBefore, line))
                     .append(String.format(spaceAfter, " "))
@@ -224,7 +211,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
     // Print gap above
         int displayLines = display.length() / 80;
-        System.out.print("\n".repeat(lineNumber-displayLines/2));
+        System.out.print("\n".repeat(lineNumber - displayLines / 2));
     // Iterate through string like the intro
 
         char[] charArray = display.toString().toCharArray();
@@ -239,44 +226,93 @@ public class ConsoleInterface { // Previously TitleScreen
             }
         }
     // Print gap below
-        System.out.print("\n".repeat(lineNumber-1-displayLines/2));
-    // Pause
+        System.out.print("\n".repeat(lineNumber - 1 - displayLines / 2));
+        if (lineNumber == 12) System.out.print(" ".repeat(35) + "Loading...");
+        // Pause
         TimeUnit.MILLISECONDS.sleep((pause * 20L) < 1500 ? 1500 : pause * 20L);
         return 0;
     }
 
     public void displayEnding() throws InterruptedException {
-        if(game.getCommunicatorOff()) {
-            if(getGame().getPlayer().getSteps() >= 24 || getGame().getPlayer().getHealth() <= 0) {
-                System.out.println(ansi().fgBrightYellow().render(gameOver).fgDefault());
-                displayResult("YOU (sort of) WIN: Earth commends you and is forever in your debt! You managed to thwart the alien threat but unfortunately you did not get out in time to escape the nuke! You will be remembered...",7);
+        if (game.getCommunicatorOff()) {
+            if (getGame().getPlayer().getSteps() > 24 || getGame().getPlayer().getHealth() <= 0) {
+                displayResult("You look down as your alarm goes off. It's 18:00....",0);
+                bombSound();
+                System.out.println(getGame().getGameText().get("gameOverNuked"));
+                TimeUnit.SECONDS.sleep(5L);
+                displayResult(getGame().getGameText().get("sortOfWin"), 7);
             } else {
-                System.out.println(ansi().fgBrightGreen().render(gameOver).fgDefault());
-                displayResult("YOU WIN: You managed to infiltrate the alien temple, disable the device and get out before the bomb dropped. As you look back from the helicopter, you see the nuke go off on the horizon. Earth has been spared!", 7);
+                displayResult("You manage to jog back to the landing zone just as the helicopter lands. You all take off, eager to get as much distance between yourselves and the temple as possible...",0);
+                clearScreen();
+                System.out.println(ansi().fgBrightGreen().render(getGame().getGameText().get("gameOver")).fgDefault());
+                if (game.getPlaySound()) {
+                    Sound.ending("sounds/victory.wav");
+                }
+                displayResult(getGame().getGameText().get("winText"), 7);
             }
         } else {
-            if(getGame().getPlayer().getSteps() >= 24) {
-                System.out.println(ansi().fgBrightRed().render(gameOver).fgDefault());
-                displayResult("GAME OVER: You were killed by the atomic bomb blast. The aliens were still able to send a signal home before the blast went off! Earth is DOOMED!", 7);
-            } else {
-                System.out.println(ansi().fgBrightRed().render(gameOver).fgDefault());
-                displayResult("GAME OVER: You died trying to save the world, but failed. The aliens were still able to send a signal home before the atomic bomb dropped! Earth is DOOMED!", 7);
+            if (getGame().getPlayer().getSteps() >= 24) {
+                displayResult("You look down as your alarm goes off. It's 18:00....",0);
+                bombSound();
+                System.out.print(getGame().getGameText().get("gameOverNuked"));
+                TimeUnit.SECONDS.sleep(5L);
+                displayResult(getGame().getGameText().get("outOfTime"), 7);
+            } else if(getGame().getPlayer().getHealth() <= 0) {
+                displayResult("You collapse until the pressure of everything, unable to continue on...",0);
+                bombSound();
+                System.out.print(getGame().getGameText().get("gameOverNuked"));
+                TimeUnit.SECONDS.sleep(5L);
+                displayResult(getGame().getGameText().get("outOfLife"), 7);
             }
         }
     }
-    public static void clearScreen () {
+
+    private void bombSound() throws InterruptedException {
+        if (game.getPlaySound()) {
+            clearScreen();
+            Sound.ending("sounds/falling-bomb.wav");
+            TimeUnit.SECONDS.sleep(3);
+            clearScreen();
+            Sound.ending("sounds/explosion.wav");
+        }
+    }
+
+    public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
+    private String[] processColor() {
+        String locColor,timeColor,healthColor;
+
+        if(game.getPlayer().getHealth() <= 2) {
+            healthColor = "red";
+        } else if(game.getPlayer().getHealth() <= 5) {
+            healthColor = "yellow";
+        } else {
+            healthColor ="cyan";
+        }
+
+        if(game.getPlayer().getSteps() >= 20){
+            timeColor = "red";
+        } else if(game.getPlayer().getSteps() >= 12) {
+            timeColor = "yellow";
+        } else {
+            timeColor = "cyan";
+        }
+
+        if(timeColor.equals("red") || healthColor.equals("red")) {
+            locColor = "red";
+        } else if (timeColor.equals("yellow") || healthColor.equals("yellow")) {
+            locColor = "yellow";
+        } else {
+            locColor = "cyan";
+        }
+
+        return new String[]{locColor,healthColor,timeColor};
+    }
+
 /*                      ACCESSORS                               */
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-
+    public Game getGame() { return game; }
+    public void setGame(Game game) { this.game = game; }
 }

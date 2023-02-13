@@ -1,14 +1,10 @@
 package com.game.templejog.client;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.game.templejog.*;
-
-import java.io.InputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Scanner;
+
+import static java.lang.System.exit;
 
 public class Main {
 
@@ -25,55 +21,45 @@ public class Main {
         ConsoleInterface.displayTitle();
         String playerInput = "";
         while(playerInput.isEmpty()){
-            System.out.println("Start a new Game? y/n");
+            System.out.println(UserInput.START_GAME.getUserPrompt());
             playerInput = scanner.nextLine();
         }
         playerInput = playerInput.toLowerCase().substring(0, 1);
 
-
-
 // LOAD GAME
         if (playerInput.equals("y")) {
-// TODO: Implement TEMPLE CLASS
-//            try(InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("JSON/maps.json")){
-//                ObjectMapper mapper = new ObjectMapper();
-//                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-//                Temple temple = mapper.readValue(inputStream,Temple.class);
-//                System.out.println();
-//            }
-
-            HashMap<String, Room> roomsMap = new HashMap<>();
-            HashMap<String, Encounter> encountersMap = new HashMap<>();
-            HashMap<String, Item> itemsMap = new HashMap<>();
-// PARSE JSON -> CLASS
-            InputStream jsonFile =  Main.class.getClassLoader().getResourceAsStream("JSON/maps.json");
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode root = objectMapper.readTree(jsonFile);
-            for (JsonNode rm : root.get("easymap")) {
-                Room roomObj = objectMapper.treeToValue(rm, Room.class);
-                roomsMap.put(roomObj.getNumber() >= 10 ? ("room" + roomObj.getNumber()) : ("room0" + roomObj.getNumber()), roomObj);
-            }
-            for (JsonNode encounter : root.get("encounters")) {
-                Encounter encounterObj = objectMapper.treeToValue(encounter, Encounter.class);
-                encountersMap.put(encounterObj.getName(), encounterObj);
-            }
-            for (JsonNode item : root.get("items")){
-                Item itemObj = objectMapper.treeToValue(item, Item.class);
-                itemsMap.put(itemObj.getName(),itemObj);
-            }
-
-            Game game = new Game(new Player(), roomsMap, encountersMap, itemsMap);
+            Temple gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
+            Game game = new Game(gameFiles);
             console.setGame(game);
-            ConsoleInterface.clearScreen();
+            playerInput = "";
+            do {
+                System.out.println(UserInput.DIFFICULTY_LEVEL.getUserPrompt());
+                playerInput = scanner.nextLine();
 
+                if(TextParser.parseText(playerInput)[0].equals("quit")) {
+                    System.out.println("Quitting... ");
+                    exit(0);
+                }
+                playerInput = TextParser.parseDifficulty(playerInput);
+            } while(playerInput.equals(""));
+            game.processDifficulty(playerInput);
+            Sound.gameSound(scanner, game);
+// Play intro
+            ConsoleInterface.clearScreen();
             console.displayIntro();
             scanner.nextLine();
             ConsoleInterface.clearScreen();
+
+/* Stop the background music when entering landing zone */
+            if(game.getPlaySound()){
+                Sound.stopSound();
+                Sound.themeSound("sounds/landing_zone.wav");
+            }
 // GAME LOOP
             do {
                 ConsoleInterface.clearScreen();
                 console.displayScene();
-                System.out.print("What do you want to do?\n>");
+                System.out.print(UserInput.USER_ACTION.getUserPrompt());
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 ConsoleInterface.clearScreen();
@@ -82,9 +68,15 @@ public class Main {
                     && game.getPlayer().getSteps() < 24
                     && game.getPlayer().getHealth() > 0
                     && !(game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")));
-
-            console.displayEnding();
+            ConsoleInterface.clearScreen();
+            if(!game.getQuitGame()) {
+                console.displayEnding();
+            } else {
+                Sound.stopSound();
+                ConsoleInterface.clearScreen();
+                console.displayResult("Thank you for playing!",1);
+            }
         }
-
     }
+
 }

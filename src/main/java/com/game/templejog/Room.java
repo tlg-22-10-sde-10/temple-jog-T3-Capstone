@@ -15,9 +15,10 @@ public class Room {
     List<String> encounters_from = new ArrayList<>();
     Boolean hasBeenVisited;
     Boolean isLocked;
+    String sound;
 
     public Room() {}
-    public Room(Integer number, String name, String description, String west, String south, String north, String east, List<String> items, List<String> encounters_to, List<String> encounters_from, Boolean hasBeenVisited) {
+    public Room(Integer number, String name, String description, String west, String south, String north, String east, List<String> items, List<String> encounters_to, List<String> encounters_from, Boolean hasBeenVisited, String sound) {
         this.number = number;
         this.name = name;
         this.description = description;
@@ -25,10 +26,11 @@ public class Room {
         this.south = south;
         this.north = north;
         this.east = east;
-        this.items = items;
         this.encounters_to = encounters_to;
         this.encounters_from = encounters_from;
         this.hasBeenVisited = hasBeenVisited;
+        this.items = items;
+        this.sound = sound;
     }
 
 //  HELPER METHODS
@@ -139,4 +141,11 @@ public class Room {
     public Boolean getIsLocked() { return isLocked; }
 
     public void setIsLocked(Boolean locked) { isLocked = locked; }
+
+    public String getSound() {
+        return sound;
+    }
+    public void setSound(String sound) {
+        this.sound = sound;
+    }
 }

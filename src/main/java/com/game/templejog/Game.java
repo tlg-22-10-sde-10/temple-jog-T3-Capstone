@@ -61,7 +61,6 @@ public class Game {
         getPlayer().setSteps(8);
         getItems().get("desert eagle").setReuse(0);
         getItems().get("machete").setReuse(0);
-        getItems().get("crystal femur").setReuse(1);
     }
 
 // CONTROLLERS

@@ -227,7 +227,8 @@ public class ConsoleInterface { // Previously TitleScreen
         }
     // Print gap below
         System.out.print("\n".repeat(lineNumber - 1 - displayLines / 2));
-    // Pause
+        if (lineNumber == 12) System.out.print(" ".repeat(35) + "Loading...");
+        // Pause
         TimeUnit.MILLISECONDS.sleep((pause * 20L) < 1500 ? 1500 : pause * 20L);
         return 0;
     }
@@ -235,28 +236,40 @@ public class ConsoleInterface { // Previously TitleScreen
     public void displayEnding() throws InterruptedException {
         if (game.getCommunicatorOff()) {
             if (getGame().getPlayer().getSteps() >= 24 || getGame().getPlayer().getHealth() <= 0) {
-                clearScreen();
+                displayResult("You look down as your alarm goes off. It's 18:00....",0);
+                bombSound();
                 System.out.println(getGame().getGameText().get("gameOverNuked"));
                 TimeUnit.SECONDS.sleep(5L);
                 displayResult(getGame().getGameText().get("sortOfWin"), 7);
             } else {
+                displayResult("You manage to jog back to the landing zone just as the helicopter lands. You all take off, eager to get as much distance between yourselves and the temple as possible...",0);
                 clearScreen();
                 System.out.println(ansi().fgBrightGreen().render(getGame().getGameText().get("gameOver")).fgDefault());
+                Sound.ending("sounds/victory.wav");
                 displayResult(getGame().getGameText().get("winText"), 7);
             }
         } else {
             if (getGame().getPlayer().getSteps() >= 24) {
-                clearScreen();
+                displayResult("You look down as your alarm goes off. It's 18:00....",0);
+                bombSound();
                 System.out.print(getGame().getGameText().get("gameOverNuked"));
                 TimeUnit.SECONDS.sleep(5L);
                 displayResult(getGame().getGameText().get("outOfTime"), 7);
             } else if(getGame().getPlayer().getHealth() <= 0) {
-                clearScreen();
+                displayResult("You collapse until the pressure of everything, unable to continue on...",0);
+                bombSound();
                 System.out.print(getGame().getGameText().get("gameOverNuked"));
                 TimeUnit.SECONDS.sleep(5L);
                 displayResult(getGame().getGameText().get("outOfLife"), 7);
             }
         }
+    }
+
+    private void bombSound() throws InterruptedException {
+        Sound.ending("sounds/falling-bomb.wav");
+        TimeUnit.SECONDS.sleep(3);
+        clearScreen();
+        Sound.ending("sounds/explosion.wav");
     }
 
     public static void clearScreen() {

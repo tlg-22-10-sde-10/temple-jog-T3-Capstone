@@ -59,7 +59,7 @@ public class Main {
             do {
                 ConsoleInterface.clearScreen();
                 console.displayScene();
-                System.out.println(UserInput.USER_ACTION.getUserPrompt());
+                System.out.print(UserInput.USER_ACTION.getUserPrompt());
                 game.updateScannerString();
                 String[] choice = TextParser.parseText(game.getScannerString());
                 ConsoleInterface.clearScreen();
@@ -68,8 +68,14 @@ public class Main {
                     && game.getPlayer().getSteps() < 24
                     && game.getPlayer().getHealth() > 0
                     && !(game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")));
-            console.displayResult("You look down as your alarm goes off. It's 18:00....",0);
-            console.displayEnding();
+            ConsoleInterface.clearScreen();
+            if(!game.getQuitGame()) {
+                console.displayEnding();
+            } else {
+                Sound.stopSound();
+                ConsoleInterface.clearScreen();
+                console.displayResult("Thank you for playing!",1);
+            }
         }
     }
 

@@ -36,6 +36,10 @@ JSON with Java [Jackson ObjectMapper](https://jenkov.com/tutorials/java-json/jac
 
 JANSI Colors [JANSI GitHub](https://fusesource.github.io/jansi/)
 
+PixaBay sounds [Pixabay](http://www.pixabay.com/)
+
+Freeconvert MP3->WAV Convertor [FreeConvert](https://www.freeconvert.com/)
+
 ## How to install Temple Jog?
 1. For Window users, git bash is recommended as command tool and for Mac users, terminal is recommended. To download git bash, follow the link [here](https://gitforwindows.org/). 
 2. Verify JDK 11 or higher is installed by using "java --version" in terminal 

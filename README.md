@@ -48,13 +48,6 @@ Freeconvert MP3->WAV Convertor [FreeConvert](https://www.freeconvert.com/)
 5. Open your terminal and change your directory to jar file location
 6. Type "java -jar [latest temple jog jar file name]" to start the game. Please follow the instructions in the game for the best player experience.
 
-## About the Devs Pre-Capstone
-
-Lorenzo Ortega [GitHub Profile](https://github.com/antoni909)
-
-Joseph Racke [GitHub Profile](https://github.com/JMRacke)
-
-Lok Tamang [GitHub Profile](https://github.com/loktama21)
 
 ## About the Devs Final-Capstone
 

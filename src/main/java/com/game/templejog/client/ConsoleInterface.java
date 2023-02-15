@@ -52,6 +52,7 @@ public class ConsoleInterface { // Previously TitleScreen
         return 0;
     }
 
+
     public int displayScene() {
         StringBuilder scene = new StringBuilder();
         String currentRoom = game.getCurrentRoom().getName();

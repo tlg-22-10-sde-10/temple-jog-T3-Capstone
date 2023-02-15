@@ -1,7 +1,7 @@
 package com.game.templejog.client;
 
 import com.game.templejog.Game;
-import com.game.templejog.Player;
+import com.game.templejog.Item;
 import com.game.templejog.Temple;
 
 import javax.swing.*;
@@ -9,23 +9,25 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.List;
 
 public class Window {
     private final int WINDOW_HEIGHT = 600;
-    private final int WINDOW_WIDTH = 600;
+    private final int WINDOW_WIDTH = 800;
     private final JFrame window;
     private Container container;
     private JPanel titlePanel, startButtonPanel, introPanel;
     private JLabel titleText;
-    private JPanel playerPanel, mainGamePanel, directionalPanel;
+    private JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel;
     private JLabel healthLabel, timeLabel;
-    private JButton startButton, northButton, eastButton, southButton, westButton;
-    private JTextArea introTextArea, mainTextArea;
+    private JButton startButton, northButton, eastButton, southButton, westButton, item1, item2;
+    private JTextArea introTextArea, mainTextArea, encounterTextArea, itemTextArea;
     private IntroHandler introHandler = new IntroHandler();
     private NavigationHandler navigationHandler = new NavigationHandler();
-    private static Player playerOne = new Player();
+    private ItemPickUpHandler itemHandler = new ItemPickUpHandler();
     private static Game game;
     private static Temple gameFiles;
+
 
 
 
@@ -90,29 +92,53 @@ public class Window {
 
 
     public void mainGameDisplay()  {
-
         introPanel.setVisible(false);
+
         mainGamePanel = new JPanel();
-        mainGamePanel.setBounds(1,50,598,200);
+        mainGamePanel.setBounds(0,50,WINDOW_WIDTH,350);
         mainGamePanel.setBackground(Color.GREEN);
         container.add(mainGamePanel);
 
         mainTextArea = new JTextArea(String.valueOf(game.getCurrentRoom().getDescription()));
-        mainTextArea.setBounds(1,1,598,150);
+        mainTextArea.setBounds(0,50,WINDOW_WIDTH,100);
         mainTextArea.setBackground(Color.BLACK);
         mainTextArea.setForeground(Color.GREEN);
         mainTextArea.setFont(gameFont);
         mainTextArea.setLineWrap(true);
         mainGamePanel.add(mainTextArea);
 
+        encounterTextArea = new JTextArea(String.valueOf(game.getCurrentRoom().getEncounters_to()));
+        encounterTextArea.setBounds(0,150, WINDOW_WIDTH, 100);
+        encounterTextArea.setBackground(Color.RED);
+        encounterTextArea.setForeground(Color.GREEN);
+        encounterTextArea.setFont(gameFont);
+        encounterTextArea.setLineWrap(true);
+        mainGamePanel.add(encounterTextArea);
+        encounterTextArea.setVisible(false);
+
+        areaItemPanel = new JPanel();
+        areaItemPanel.setBounds(0,250,WINDOW_WIDTH,100);
+        areaItemPanel.setBackground(Color.BLUE);
+        areaItemPanel.setLayout(new GridLayout(1,4));
+        mainGamePanel.add(areaItemPanel);
+        areaItemPanel.setVisible(false);
+
         directionalPanel = new JPanel();
-        directionalPanel.setBounds(375,350,150,150);
+        directionalPanel.setBounds(WINDOW_WIDTH - 200,400,150,150);
         directionalPanel.setBackground(Color.BLACK);
         directionalPanel.setLayout(new GridLayout(4,1));
         container.add(directionalPanel);
 
+        playerInventoryPanel = new JPanel();
+        playerInventoryPanel.setBounds(0, 400, 400,150);
+        playerInventoryPanel.setBackground(Color.WHITE);
+        playerInventoryPanel.setLayout(new GridLayout(4,3));
+        container.add(playerInventoryPanel);
+        playerInventoryPanel.setVisible(false);
+
+
         playerPanel = new JPanel();
-        playerPanel.setBounds(5,10, 600,40);
+        playerPanel.setBounds(0,0, WINDOW_WIDTH,50);
         playerPanel.setBackground(Color.BLACK);
         playerPanel.setLayout(new GridLayout(1,4));
         container.add(playerPanel);
@@ -121,21 +147,13 @@ public class Window {
                 "HP: " + game.getPlayer().getHealth());
         healthLabel.setForeground(Color.GREEN);
         healthLabel.setFont(normalFont);
-//        healthValue = new JLabel(String.valueOf(playerOne.getHealth()));
-//        healthValue.setForeground(Color.GREEN);
-//        healthValue.setFont(normalFont);
 
         timeLabel = new JLabel("             TIME: " + time());
         timeLabel.setForeground(Color.GREEN);
         timeLabel.setFont(normalFont);
-//        timeValue = new JLabel(String.valueOf(playerOne.getSteps()));
-//        timeValue.setForeground(Color.GREEN);
-//        timeValue.setFont(normalFont);
 
         playerPanel.add(healthLabel);
-//        playerPanel.add(healthValue);
         playerPanel.add(timeLabel);
-//        playerPanel.add(timeValue);
 
         northButton = new JButton("North");
         northButton.setBackground(Color.red);
@@ -172,7 +190,109 @@ public class Window {
         return time;
     }
 
-    public class IntroHandler implements ActionListener {
+    private String encounterDescription() {
+        boolean hasEncounters = !game.getCurrentRoom().getEncounters_to().isEmpty();
+        StringBuilder encounterDescription = null;
+        if (hasEncounters) {
+
+            for (String encounter : game.getCurrentRoom().getEncounters_to()) {
+                encounterDescription = new StringBuilder();
+                encounterDescription.append(game.getEncounters().get(encounter).getDescription().toString());
+            }
+        }
+        else {
+            encounterDescription = new StringBuilder().append("nothing here");
+        }
+        return String.valueOf(encounterDescription);
+    }
+    public void showAreaItems() {
+        areaItemPanel.removeAll();
+        List<String> itemList = game.getCurrentRoom().getItems();
+        if (!itemList.isEmpty()) {
+            item1 = new JButton(itemList.get(0));
+            item1.setForeground(Color.BLACK);
+            item1.setBackground(Color.YELLOW);
+            item1.setFont(gameFont);
+            item1.addActionListener(itemHandler);
+            item1.setActionCommand(itemList.get(0));
+            areaItemPanel.add(item1);
+            areaItemPanel.setVisible(true);
+
+            try {
+                item2 = new JButton(itemList.get(1));
+                item2.setForeground(Color.BLACK);
+                item2.setBackground(Color.YELLOW);
+                item2.setFont(gameFont);
+                item2.addActionListener(itemHandler);
+                item2.setActionCommand(itemList.get(1));
+                areaItemPanel.add(item2);
+                areaItemPanel.setVisible(true);
+            } catch (Exception e) {
+//
+            }
+        }
+    }
+    private void pickUpItem(String item) {
+        game.processGetting(item);
+        updateItemPanel();
+    }
+
+    private void updateItemPanel() {
+        playerInventoryPanel.removeAll();
+        List<Item> items = game.getPlayer().getInventory();
+        for (Item item: items) {
+            JButton inventoryItem = new JButton(item.getName());
+            inventoryItem.setBackground(Color.WHITE);
+            inventoryItem.setForeground(Color.BLACK);
+            playerInventoryPanel.add(inventoryItem);
+        }
+        if (items.size() > 0) {
+            playerInventoryPanel.setVisible(true);
+        }
+        else playerInventoryPanel.setVisible(false);
+        updateGameScreen();
+
+
+
+
+    }
+
+    private void updateGameScreen(String direction) {
+        if (game.processNavigating(direction).contains("Traveling")) {
+            mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
+            encounterTextArea.setText(encounterDescription());
+            showAreaItems();
+
+            healthLabel.setText("Location: " + game.getCurrentRoom().getName() + "         " +
+                    "HP: " + game.getPlayer().getHealth());
+            timeLabel.setText("             TIME: " + time());
+            if (encounterDescription().equals("nothing here")) {
+                encounterTextArea.setVisible(false);
+            }
+            else {
+                encounterTextArea.setVisible(true);
+            }
+        }
+    }
+    private void updateGameScreen() {
+
+            mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
+            encounterTextArea.setText(encounterDescription());
+            showAreaItems();
+
+            healthLabel.setText("Location: " + game.getCurrentRoom().getName() + "         " +
+                    "HP: " + game.getPlayer().getHealth());
+            timeLabel.setText("             TIME: " + time());
+            if (encounterDescription().equals("nothing here")) {
+                encounterTextArea.setVisible(false);
+            }
+            else {
+                encounterTextArea.setVisible(true);
+            }
+
+    }
+
+    private class IntroHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             try {
                 createIntroScreen();
@@ -180,30 +300,22 @@ public class Window {
         }
     }
 
-    public class NavigationHandler implements ActionListener {
+    private class NavigationHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
             try {
-                String direction = event.getActionCommand();
-
-                switch (direction) {
-                    case "north":
-                        break;
-                    case "east":
-                        break;
-                    case "south":
-                        break;
-                    case "west":
-                        break;
-                }
+                updateGameScreen(event.getActionCommand());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-
-
         }
     }
-
+    private class ItemPickUpHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            pickUpItem(event.getActionCommand());
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         Window test = new Window();

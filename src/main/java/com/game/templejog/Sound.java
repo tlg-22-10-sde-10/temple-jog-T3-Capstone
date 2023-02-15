@@ -78,4 +78,8 @@ public class Sound {
             System.out.println("Error: Could not play audio clip.");
         }
     }
+
+    public static void gameIntro(){
+        Sound.themeSound("sounds/background_music.wav");
+    }
 }

@@ -145,7 +145,7 @@ public class Game {
         }
         return String.format(" %s was not found in current room... ",noun);
     }
-    private String processUsing(String noun){
+    public String processUsing(String noun){
         if(noun.isEmpty()) return InvalidNounInput.BAD_USE.getWarning();
         return subprocessCheckItemsAndEncounters(noun);
     }

@@ -51,20 +51,7 @@ public class ConsoleInterface { // Previously TitleScreen
         }
         return 0;
     }
-    public String displayIntroString() throws InterruptedException {
-        String title = ansi().render(getGame().getGameText().get("intro")).toString();
-//        char[] charArray = title.toCharArray();
-//        for (char c : charArray) {
-//            System.out.print(c);
-//            if (c == '\n') {
-//                TimeUnit.MILLISECONDS.sleep(250);
-//            } else {
-//                TimeUnit.MILLISECONDS.sleep(20);
-//            }
-//
-//        }
-        return title;
-    }
+
 
     public int displayScene() {
         StringBuilder scene = new StringBuilder();

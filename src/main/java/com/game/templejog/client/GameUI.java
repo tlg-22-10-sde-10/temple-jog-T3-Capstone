@@ -4,17 +4,20 @@ import com.game.templejog.Game;
 import com.game.templejog.Temple;
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class GameUI {
     static JFrame window;
     static Container container;
-   static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel;
+   static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel;
     static JLabel titleLabel;
     static Font titleFont = new Font("Arial", Font.PLAIN, 90);//cutomize font
-    static Font standardFont = new Font("Times New Roman", Font.PLAIN, 30);//cutom
-    static JButton startButton, quitButton, choice1, choice2, choice3;
+    static Font standardFont = new Font("Times New Roman", Font.PLAIN, 30);
+    static Font smallFont = new Font("Times New Roman", Font.PLAIN, 15);
+    static JButton startButton, quitButton, choice1, choice2, choice3, enterButton;
     static JTextArea mainText;
 
     static TitleScreenHandler tsHandler = new TitleScreenHandler();
@@ -73,12 +76,12 @@ public static void difficultyScreen() {
     startButtonPanel.setVisible(false);
     quitButtonPanel.setVisible(false);
     mainTextPanel = new JPanel();
-    mainTextPanel.setBounds(100,50,600,400);
-    mainTextPanel.setBackground(Color.BLUE);
+    mainTextPanel.setBounds(100,0,600,400);
+    mainTextPanel.setBackground(Color.BLACK);
     container.add(mainTextPanel);
 
     mainText = new JTextArea("Choose your difficulty: ");
-    mainText.setBounds(100,50,600,300);
+    mainText.setBounds(100,0,600,400);
     mainText.setBackground(Color.BLACK);
     mainText.setForeground(Color.WHITE);
     mainText.setFont(standardFont);
@@ -86,7 +89,7 @@ public static void difficultyScreen() {
     mainTextPanel.add(mainText);
 
     difficultyPanel = new JPanel();
-    difficultyPanel.setBounds(250,150,300,350);
+    difficultyPanel.setBounds(250,300,300,150);
     difficultyPanel.setBackground(Color.GREEN);
     difficultyPanel.setLayout(new GridLayout(3,1));
     container.add(difficultyPanel);
@@ -131,12 +134,26 @@ public static void easyGame() throws InterruptedException, IOException {
     choice2.setVisible(false);
     choice3.setVisible(false);
     difficultyPanel.setVisible(false);
-    ConsoleInterface console = new ConsoleInterface();
+
     Temple gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
     Game game = new Game(gameFiles);
-    console.setGame(game);
+    String intro = game.getGameText().get("intro");
+    mainText.setFont(smallFont);
+    mainText.setText(intro);
 
-    mainText.setText("" + console.displayIntroString());
+    enterPanel = new JPanel();
+    enterPanel.setBounds(350,400,100,100);
+    enterPanel.setBackground(Color.RED);
+    container.add(enterPanel);
+
+    enterButton = new JButton("Enter");
+    enterButton.setBackground(Color.BLACK);
+    enterButton.setForeground(Color.WHITE);
+    enterButton.setFont(standardFont);
+    enterButton.setFocusPainted(false);
+
+    enterPanel.add(enterButton);
+
 }
     public static void normalGame() {
         mainText.setText("You have chosen: Normal");

@@ -14,4 +14,5 @@ public enum UserInput {
     public String getUserPrompt(){
         return this.userPrompt;
     }
+    // this is just a test
 }

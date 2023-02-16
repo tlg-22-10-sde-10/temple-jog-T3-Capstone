@@ -43,6 +43,7 @@ public class Main {
                 playerInput = TextParser.parseDifficulty(playerInput);
             } while(playerInput.equals(""));
             game.processDifficulty(playerInput);
+            //Sound
             Sound.gameSound(scanner, game);
 // Play intro
             ConsoleInterface.clearScreen();

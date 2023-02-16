@@ -471,53 +471,22 @@ public class GameUI {
         getMusicPanel().setBounds(25, 5, 340, 180);
         getMusicPanel().setBackground(Color.white);
         String select[] = {"ON", "OFF"};
+
+
         setMusicStatus(new JComboBox(select));
+        getMusicStatus().addActionListener(actionHandler);
+        getMusicStatus().setActionCommand("toggle sound");
         setSoundFXStatus(new JComboBox(select));
         setMusicLabel(new JLabel("Music"));
         setSoundFxLabel(new JLabel("SoundFX"));
-        setVolumeDown(new JButton("Volume Down"));
+        setVolumeDown(new JButton("volume down"));
+        getVolumeDown().addActionListener(actionHandler);
+        getVolumeDown().setActionCommand("volume down");
         setVolumeUp(new JButton("Volume Up"));
+        getVolumeUp().addActionListener(actionHandler);
+        getVolumeUp().setActionCommand("volume up");
         getVolumeDown().setBounds(80, 120, 150, 25);
         getVolumeUp().setBounds(80, 90, 150, 25);
-//        getVolumeDown().addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                gm.getMusic().volumeDown();
-//            }
-//        });
-//        getVolumeUp().addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                gm.getMusic().volumeUp();
-//            }
-//        });
-//        getMusicStatus().addItemListener(new ItemListener() {
-//            @Override
-//            public void itemStateChanged(ItemEvent e) {
-//                String state = (String) getMusicStatus().getSelectedItem();
-//                if (state.equals("ON")) {
-//                    gm.getMusic().playMusic(getMusicFile());
-//                } else {
-//                    gm.getMusic().stopMusic(getMusicFile());
-//                }
-//            }
-//        });
-//        getSoundFXStatus().addItemListener(new ItemListener() {
-//            @Override
-//            public void itemStateChanged(ItemEvent e) {
-//                String state = (String) getSoundFXStatus().getSelectedItem();
-//                if (state.equals("ON")) {
-//                    gm.getMusic().setFxOff(false);
-//                } else {
-//                    gm.getMusic().stopFx();
-//                }
-//            }
-//        });
-
-//        getMusicStatus().setFont(oldRetro.deriveFont(Font.ITALIC, 10));
-//        getSoundFXStatus().setFont(oldRetro.deriveFont(Font.ITALIC, 10));
-//        getMusicLabel().setFont(oldRetro.deriveFont(Font.ITALIC, 10));
-//        getSoundFxLabel().setFont(oldRetro.deriveFont(Font.ITALIC, 10));
         getMusicLabel().setBounds(80, 30, 75, 25);
         getSoundFxLabel().setBounds(80, 60, 75, 25);
         getMusicStatus().setBounds(150, 30, 85, 25);

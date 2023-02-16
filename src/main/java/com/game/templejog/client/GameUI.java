@@ -439,6 +439,7 @@ public class GameUI {
         else {
             Sound.wrongWaySound();
         }
+        checkWinLoss();
     }
 
     private static void updateGameScreen() {
@@ -448,12 +449,26 @@ public class GameUI {
                 "HP: " + game.getPlayer().getHealth()+ "             TIME: " + time());
     }
 
-    private void checkWinLoss() {
+    private static void checkWinLoss() {
         if (game.getPlayer().getSteps() >= 24 || game.getPlayer().getHealth() <= 0) {
             //TODO showLossScreen();
+            mainGamePanel.removeAll();
+            directionalPanel.setVisible(false);
+            playerInventoryPanel.setVisible(false);
+            mainTextArea.setText("Sorry You lose...");
+            mainGamePanel.add(mainTextArea);
+
         }
         else if (game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")) {
             //TODO showWinScreen();
+            mainGamePanel.removeAll();
+            directionalPanel.setVisible(false);
+            playerInventoryPanel.setVisible(false);
+            mainTextArea.setText("You Win!!!");
+            mainGamePanel.add(mainTextArea);
+        }
+        else {
+
         }
     }
 
@@ -588,8 +603,8 @@ public class GameUI {
         GameUI.soundFXStatus = soundFXStatus;
     }
 
-    public static void main(String[] args) {
-        new GameUI();
-    }
+//    public static void main(String[] args) {
+//        new GameUI();
+//    }
 
 }

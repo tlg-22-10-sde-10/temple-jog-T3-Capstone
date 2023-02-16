@@ -79,7 +79,11 @@ public class Sound {
         }
     }
 
-    public static void gameIntro(){
+    public static void gameIntro(Game game){
+        game.setPlaySound(true);
+        Sound.themeSound("sounds/background_music.wav");
+    }
+    public static void Title(){
         Sound.themeSound("sounds/background_music.wav");
     }
 }

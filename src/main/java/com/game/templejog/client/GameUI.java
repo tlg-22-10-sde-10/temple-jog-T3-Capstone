@@ -82,7 +82,7 @@ public class GameUI {
         container.add(startButtonPanel);
         container.add(quitButtonPanel);
 
-       // Sound.gameIntro();
+        Sound.Title();
         settings = eventPanel(200, 150, 400, 200, "settings");
         settings.setVisible(false);
     }
@@ -156,6 +156,13 @@ public class GameUI {
 
         gameFiles = FileLoader.jsonLoader("JSON/gameFiles.json");
         game = new Game(gameFiles);
+        Sound.stopSound();
+        Sound.gameIntro(game);
+        /* Stop the background music when entering landing zone */
+        if(game.getPlaySound()){
+            Sound.stopSound();
+            Sound.themeSound("sounds/landing_zone.wav");
+        }
         String intro = game.getGameText().get("intro");
         mainTextArea.setFont(smallFont);
         mainTextArea.setText(intro);

@@ -15,6 +15,8 @@ import java.util.List;
 public class GameUI {
     private static final int WINDOW_HEIGHT = 600;
     private static final int WINDOW_WIDTH = 800;
+    private static final Color PRIMARY_COLOR = new Color(0,0,0);
+    private static final Color SECONDARY_COLOR = new Color(0,0,0);
     static JFrame window;
     static Container container;
     static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
@@ -23,7 +25,6 @@ public class GameUI {
     static JButton northButton, eastButton, southButton, westButton, soundOnOffButton, VolumeDown, VolumeUp;
     static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton;
     static JTextArea mainTextArea, encounterTextArea;
-
 
     static JComboBox musicStatus, soundFXStatus;
 
@@ -40,7 +41,7 @@ public class GameUI {
 
     public GameUI() {
         window = new JFrame("Temple Jog");
-        window.setSize(800, 600);
+        window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // close when window is closed
         window.getContentPane().setBackground(Color.BLACK);
         window.setLayout(null);
@@ -254,6 +255,7 @@ public class GameUI {
         healthLabel.setForeground(Color.GREEN);
         healthLabel.setFont(normalFont);
 
+
         playerPanel.add(healthLabel);
 
 
@@ -412,6 +414,9 @@ public class GameUI {
         else if (action.contains("Success!!!")) {
             encounterTextArea.setText(action);
         }
+        else {
+            Sound.wrongItemSound();
+        }
         updateItemPanel();
 
     }
@@ -431,25 +436,27 @@ public class GameUI {
                 encounterTextArea.setVisible(true);
             }
         }
+        else {
+            Sound.wrongWaySound();
+        }
     }
 
     private static void updateGameScreen() {
-
         mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
-//            encounterTextArea.setText(encounterDescription());
         showAreaItems();
-
         healthLabel.setText("Location: " + game.getCurrentRoom().getName() + "         " +
                 "HP: " + game.getPlayer().getHealth()+ "             TIME: " + time());
-
-//            if (encounterDescription().equals("nothing here")) {
-//                encounterTextArea.setVisible(false);
-//            }
-//            else {
-//                encounterTextArea.setVisible(true);
-//            }
-
     }
+
+    private void checkWinLoss() {
+        if (game.getPlayer().getSteps() >= 24 || game.getPlayer().getHealth() <= 0) {
+            //TODO showLossScreen();
+        }
+        else if (game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")) {
+            //TODO showWinScreen();
+        }
+    }
+
     public void setSettings(JPanel settings) {
         this.settings = settings;
     }

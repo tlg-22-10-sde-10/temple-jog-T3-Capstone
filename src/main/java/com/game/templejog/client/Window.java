@@ -39,7 +39,8 @@ public class Window {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.getContentPane().setBackground(Color.black);
         window.setLayout(null);
-        window.setVisible(true);
+
+
         container = window.getContentPane();
 
         titlePanel = new JPanel();
@@ -63,6 +64,7 @@ public class Window {
         titlePanel.add(titleText);
         container.add(titlePanel);
         container.add(startButtonPanel);
+        window.setVisible(true);
     }
 
     public void createIntroScreen() throws InterruptedException, IOException {

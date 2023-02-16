@@ -21,6 +21,7 @@ public class ActionHandler implements ActionListener {
                 try {
                     GameUI.easyGame();
                 } catch (InterruptedException | IOException ex) {
+
                     ex.printStackTrace();
                 }
                 break;
@@ -39,6 +40,7 @@ public class ActionHandler implements ActionListener {
             case "west":
                 try {
                     GameUI.updateGameScreen(userChoice);
+                    GameUI.getSettings().setVisible(false);
                 } catch (Exception event) {
                     throw new RuntimeException(event);
                 }
@@ -51,6 +53,7 @@ public class ActionHandler implements ActionListener {
             case "crystal femur":
             case "ball o yarn":
                 GameUI.pickUpItem(userChoice);
+                GameUI.getSettings().setVisible(false);
                 break;
             case "use desert eagle":
             case "use grenade":
@@ -60,14 +63,20 @@ public class ActionHandler implements ActionListener {
             case "use crystal femur":
             case "use ball o yarn":
                 GameUI.useItem(userChoice);
+                GameUI.getSettings().setVisible(false);
                 break;
             case "close":
                 GameUI.eventPanelClose();
                 break;
             case "settings":
-                GameUI.getSettings().setVisible(true);
-                break;
+                if (GameUI.getSettings().isVisible()) {
+                    GameUI.getSettings().setVisible(false);
+                } else {
+                    GameUI.getSettings().setVisible(true);
+                    break;
+
+                }
 
         }
-
-    }}
+    }
+}

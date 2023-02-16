@@ -15,6 +15,8 @@ import java.util.List;
 public class GameUI {
     private static final int WINDOW_HEIGHT = 600;
     private static final int WINDOW_WIDTH = 800;
+    private static final Color PRIMARY_COLOR = new Color(0,0,0);
+    private static final Color SECONDARY_COLOR = new Color(0,0,0);
     static JFrame window;
     static Container container;
     static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel;
@@ -24,7 +26,7 @@ public class GameUI {
     static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton;
     static JTextArea mainTextArea, encounterTextArea;
 
-    static Font titleFont = new Font("Arial", Font.PLAIN, 90);//cutomize font
+    static Font titleFont = new Font("Arial", Font.PLAIN, 90);//customize font
     static Font standardFont = new Font("Times New Roman", Font.PLAIN, 30);
     static Font smallFont = new Font("Times New Roman", Font.PLAIN, 15);
     static Font normalFont = new Font("Times New Roman", Font.PLAIN, 20);
@@ -37,12 +39,13 @@ public class GameUI {
 
     public GameUI() {
         window = new JFrame("Temple Jog");
-        window.setSize(800, 600);
+        window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // close when window is closed
         window.getContentPane().setBackground(Color.BLACK);
         window.setLayout(null);
         window.setVisible(true);
         container = window.getContentPane();
+
 
         titleNamePanel = new JPanel();
         titleNamePanel.setBounds(100, 100, 600, 150); //x and y axis starting top left. width starting from xy axis. height starting from top.
@@ -85,6 +88,8 @@ public class GameUI {
         Sound.Title();
         settings = eventPanel(200, 150, 400, 200, "settings");
         settings.setVisible(false);
+
+
     }
 
 
@@ -250,12 +255,9 @@ public class GameUI {
         healthLabel.setForeground(Color.GREEN);
         healthLabel.setFont(normalFont);
 
-//        timeLabel = new JLabel("             TIME: " + time());
-//        timeLabel.setForeground(Color.GREEN);
-//        timeLabel.setFont(normalFont);
 
         playerPanel.add(healthLabel);
-//        playerPanel.add(timeLabel);
+
 
         northButton = new JButton("North");
         northButton.setBackground(Color.red);
@@ -402,6 +404,9 @@ public class GameUI {
         else if (action.contains("Success!!!")) {
             encounterTextArea.setText(action);
         }
+        else {
+            Sound.wrongItemSound();
+        }
         updateItemPanel();
 
     }
@@ -421,25 +426,27 @@ public class GameUI {
                 encounterTextArea.setVisible(true);
             }
         }
+        else {
+            Sound.wrongWaySound();
+        }
     }
 
     private static void updateGameScreen() {
-
         mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
-//            encounterTextArea.setText(encounterDescription());
         showAreaItems();
-
         healthLabel.setText("Location: " + game.getCurrentRoom().getName() + "         " +
                 "HP: " + game.getPlayer().getHealth()+ "             TIME: " + time());
-
-//            if (encounterDescription().equals("nothing here")) {
-//                encounterTextArea.setVisible(false);
-//            }
-//            else {
-//                encounterTextArea.setVisible(true);
-//            }
-
     }
+    
+    private void checkWinLoss() {
+        if (game.getPlayer().getSteps() >= 24 || game.getPlayer().getHealth() <= 0) {
+            //TODO showLossScreen();
+        }
+        else if (game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")) {
+            //TODO showWinScreen();
+        }
+    }
+
     public void setSettings(JPanel settings) {
         this.settings = settings;
     }

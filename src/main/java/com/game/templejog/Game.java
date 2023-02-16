@@ -87,7 +87,7 @@ public class Game {
 
         return "";
     }
-    private String processNavigating(String noun){
+    public String processNavigating(String noun){
         List<String> standardDirections = Arrays.asList("north", "south", "east", "west");
         if( noun.isEmpty() || !standardDirections.contains(noun.toLowerCase()) ) return InvalidNounInput.BAD_NAV.getWarning();
         String directionValue = getCurrentRoom().checkDirection(noun);
@@ -104,6 +104,7 @@ public class Game {
             setCurrentRoom(validRoom);
             getCurrentRoom().setHasBeenVisited(true);
             getPlayer().setSteps(getPlayer().getSteps()+1);
+            //Sound
             currentRoomSound();
             return String.format("Traveling to %s... %s",getCurrentRoom().getName(), outputMessage);
         }
@@ -130,10 +131,10 @@ public class Game {
         return String.format("%s is not found in your inventory ",noun);
 
     }
-    private String processGetting(String noun){
+    public String processGetting(String noun){
         if(noun.isEmpty()) return InvalidNounInput.BAD_GET.getWarning();
         for(String item: getCurrentRoom().getItems()){
-            if(item.toLowerCase().equals(noun)){
+            if(item.equals(noun)){
                 Item poppedItem = popItemFromMap(noun);
                 getPlayer().getInventory().add(poppedItem);
                 getCurrentRoom().getItems().remove(noun);
@@ -145,7 +146,7 @@ public class Game {
         }
         return String.format(" %s was not found in current room... ",noun);
     }
-    private String processUsing(String noun){
+    public String processUsing(String noun){
         if(noun.isEmpty()) return InvalidNounInput.BAD_USE.getWarning();
         return subprocessCheckItemsAndEncounters(noun);
     }

@@ -52,6 +52,7 @@ public class ConsoleInterface { // Previously TitleScreen
         return 0;
     }
 
+
     public int displayScene() {
         StringBuilder scene = new StringBuilder();
         String currentRoom = game.getCurrentRoom().getName();
@@ -134,7 +135,7 @@ public class ConsoleInterface { // Previously TitleScreen
         return 0;
     }
 
-    private String formatDisplay(String description, String type) {
+    public String formatDisplay(String description, String type) {
         List<String> lines = new ArrayList<>();
         String roomSpaceBefore, roomSpaceAfter;
         StringBuilder sceneDescription = new StringBuilder();

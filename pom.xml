@@ -40,7 +40,7 @@
     DONE: Replace "replace.me.project.com.game.templejog.client.Main" with the fully qualified class name of the project's main class,
      without any quotes, as the content of the <main-class.name> element.
     -->
-    <main-class.name>com.game.templejog.client.Main</main-class.name>
+    <main-class.name>com.game.templejog.client.MainUI</main-class.name>
 
   </properties>
 

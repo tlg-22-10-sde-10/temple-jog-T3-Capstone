@@ -28,6 +28,24 @@ public class Sound {
             System.out.println("Error: Could not play audio clip.");
         }
     }
+    public static void onceSound(String file) {
+        try {
+            URL landingSound = Main.class.getClassLoader().getResource(file);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(landingSound);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            FloatControl gainControl =
+                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
+            clip.start();
+        } catch (UnsupportedAudioFileException e) {
+            System.out.println("Error: Unsupported audio file format.");
+        } catch (IOException e) {
+            System.out.println("Error: Could not read audio file.");
+        } catch (LineUnavailableException e) {
+            System.out.println("Error: Could not play audio clip.");
+        }
+    }
 
     public static String turningSound(String noun, Game game){
         if(noun.isEmpty()){
@@ -77,5 +95,20 @@ public class Sound {
         } catch (LineUnavailableException e) {
             System.out.println("Error: Could not play audio clip.");
         }
+    }
+
+    public static void gameIntro(Game game){
+        game.setPlaySound(true);
+        Sound.themeSound("sounds/background_music.wav");
+    }
+    public static void Title(){
+        Sound.themeSound("sounds/background_music.wav");
+    }
+
+    public static void wrongWaySound() {
+        Sound.onceSound("sounds/wrong_way.wav");
+    }
+    public static void wrongItemSound() {
+        Sound.onceSound("sounds/ineffective_item.wav");
     }
 }

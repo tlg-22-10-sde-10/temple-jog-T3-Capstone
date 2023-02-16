@@ -17,12 +17,15 @@ public class GameUI {
     private static final int WINDOW_WIDTH = 800;
     static JFrame window;
     static Container container;
-    static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel;
+    static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
     static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel, settings, settingsPanel;
-    static JLabel healthLabel, timeLabel, titleLabel;
-    static JButton northButton, eastButton, southButton, westButton, item1, item2;
+    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel;
+    static JButton northButton, eastButton, southButton, westButton, soundOnOffButton, VolumeDown, VolumeUp;
     static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton;
     static JTextArea mainTextArea, encounterTextArea;
+
+
+    static JComboBox musicStatus, soundFXStatus;
 
     static Font titleFont = new Font("Arial", Font.PLAIN, 90);//cutomize font
     static Font standardFont = new Font("Times New Roman", Font.PLAIN, 30);
@@ -85,6 +88,7 @@ public class GameUI {
         Sound.Title();
         settings = eventPanel(200, 150, 400, 200, "settings");
         settings.setVisible(false);
+        settingMenuOption();
     }
 
 
@@ -250,12 +254,8 @@ public class GameUI {
         healthLabel.setForeground(Color.GREEN);
         healthLabel.setFont(normalFont);
 
-//        timeLabel = new JLabel("             TIME: " + time());
-//        timeLabel.setForeground(Color.GREEN);
-//        timeLabel.setFont(normalFont);
-
         playerPanel.add(healthLabel);
-//        playerPanel.add(timeLabel);
+
 
         northButton = new JButton("North");
         northButton.setBackground(Color.red);
@@ -282,6 +282,16 @@ public class GameUI {
         directionalPanel.add(eastButton);
         directionalPanel.add(southButton);
         directionalPanel.add(westButton);
+
+        soundOnOffButton = new JButton("Sound On/Off");
+        soundOnOffButton.setBackground(Color.BLACK);
+        soundOnOffButton.setForeground(Color.RED);
+        soundOnOffButton.setBounds(200, 200, 100, 50);
+        soundOnOffButton.setFont(standardFont);
+        soundOnOffButton.setFocusPainted(false);
+
+        settings.add(soundOnOffButton);
+
 
         //Setting options
         settingsPanel = new JPanel();
@@ -446,6 +456,129 @@ public class GameUI {
 
     public static JPanel getSettings() {
         return settings;
+    }
+
+    public void settingMenuOption() {
+        //holds setting options for musix and sfx
+        setMusicPanel(new JPanel());
+        getMusicPanel().setBounds(25, 5, 340, 180);
+        getMusicPanel().setBackground(Color.white);
+        String select[] = {"ON", "OFF"};
+        setMusicStatus(new JComboBox(select));
+        setSoundFXStatus(new JComboBox(select));
+        setMusicLabel(new JLabel("Music"));
+        setSoundFxLabel(new JLabel("SoundFX"));
+        setVolumeDown(new JButton("Volume Down"));
+        setVolumeUp(new JButton("Volume Up"));
+        getVolumeDown().setBounds(80, 120, 150, 25);
+        getVolumeUp().setBounds(80, 90, 150, 25);
+//        getVolumeDown().addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                gm.getMusic().volumeDown();
+//            }
+//        });
+//        getVolumeUp().addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                gm.getMusic().volumeUp();
+//            }
+//        });
+//        getMusicStatus().addItemListener(new ItemListener() {
+//            @Override
+//            public void itemStateChanged(ItemEvent e) {
+//                String state = (String) getMusicStatus().getSelectedItem();
+//                if (state.equals("ON")) {
+//                    gm.getMusic().playMusic(getMusicFile());
+//                } else {
+//                    gm.getMusic().stopMusic(getMusicFile());
+//                }
+//            }
+//        });
+//        getSoundFXStatus().addItemListener(new ItemListener() {
+//            @Override
+//            public void itemStateChanged(ItemEvent e) {
+//                String state = (String) getSoundFXStatus().getSelectedItem();
+//                if (state.equals("ON")) {
+//                    gm.getMusic().setFxOff(false);
+//                } else {
+//                    gm.getMusic().stopFx();
+//                }
+//            }
+//        });
+
+//        getMusicStatus().setFont(oldRetro.deriveFont(Font.ITALIC, 10));
+//        getSoundFXStatus().setFont(oldRetro.deriveFont(Font.ITALIC, 10));
+//        getMusicLabel().setFont(oldRetro.deriveFont(Font.ITALIC, 10));
+//        getSoundFxLabel().setFont(oldRetro.deriveFont(Font.ITALIC, 10));
+        getMusicLabel().setBounds(80, 30, 75, 25);
+        getSoundFxLabel().setBounds(80, 60, 75, 25);
+        getMusicStatus().setBounds(150, 30, 85, 25);
+        getSoundFXStatus().setBounds(150, 60, 85, 25);
+
+        settings.add(getVolumeDown());
+        settings.add(getVolumeUp());
+        settings.add(getSoundFxLabel());
+        settings.add(getMusicLabel());
+        settings.add(getMusicStatus());
+        settings.add(getSoundFXStatus());
+        settings.add(musicPanel);
+    }
+
+    public static JPanel getMusicPanel() {
+        return musicPanel;
+    }
+
+    public static void setMusicPanel(JPanel musicPanel) {
+        GameUI.musicPanel = musicPanel;
+    }
+
+    public static JLabel getMusicLabel() {
+        return musicLabel;
+    }
+
+    public static void setMusicLabel(JLabel musicLabel) {
+        GameUI.musicLabel = musicLabel;
+    }
+
+    public static JLabel getSoundFxLabel() {
+        return soundFxLabel;
+    }
+
+    public static void setSoundFxLabel(JLabel soundFxLabel) {
+        GameUI.soundFxLabel = soundFxLabel;
+    }
+
+    public static JButton getVolumeDown() {
+        return VolumeDown;
+    }
+
+    public static void setVolumeDown(JButton volumeDown) {
+        VolumeDown = volumeDown;
+    }
+
+    public static JButton getVolumeUp() {
+        return VolumeUp;
+    }
+
+    public static void setVolumeUp(JButton volumeUp) {
+        VolumeUp = volumeUp;
+    }
+
+    public static JComboBox getMusicStatus() {
+        return musicStatus;
+    }
+
+    public static void setMusicStatus(JComboBox musicStatus) {
+        GameUI.musicStatus = musicStatus;
+    }
+
+    public static JComboBox getSoundFXStatus() {
+        return soundFXStatus;
+    }
+
+    public static void setSoundFXStatus(JComboBox soundFXStatus) {
+        GameUI.soundFXStatus = soundFXStatus;
     }
 
     public static void main(String[] args) {

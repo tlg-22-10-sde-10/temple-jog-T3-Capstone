@@ -49,7 +49,7 @@ public class ActionHandler implements ActionListener {
             case "flamethrower":
             case "key":
             case "crystal femur":
-            case "ball O yarn":
+            case "ball o yarn":
                 GameUI.pickUpItem(userChoice);
                 break;
             case "use desert eagle":
@@ -58,7 +58,7 @@ public class ActionHandler implements ActionListener {
             case "use flamethrower":
             case "use key":
             case "use crystal femur":
-            case "use ball O yarn":
+            case "use ball o yarn":
                 GameUI.useItem(userChoice);
                 break;
             case "close":

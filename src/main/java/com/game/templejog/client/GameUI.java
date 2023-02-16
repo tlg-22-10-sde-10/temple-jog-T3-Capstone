@@ -82,7 +82,7 @@ public class GameUI {
         container.add(startButtonPanel);
         container.add(quitButtonPanel);
 
-        Sound.gameIntro();
+       // Sound.gameIntro();
         settings = eventPanel(200, 150, 400, 200, "settings");
         settings.setVisible(false);
     }
@@ -92,6 +92,13 @@ public class GameUI {
         titleNamePanel.setVisible(false);
         startButtonPanel.setVisible(false);
         quitButtonPanel.setVisible(false);
+
+        difficultyPanel = new JPanel();
+        difficultyPanel.setBounds(250, 300, 300, 150);
+        difficultyPanel.setBackground(Color.GREEN);
+        difficultyPanel.setLayout(new GridLayout(3, 1));
+        container.add(difficultyPanel);
+
         mainTextPanel = new JPanel();
         mainTextPanel.setBounds(100, 0, 600, 400);
         mainTextPanel.setBackground(Color.BLACK);
@@ -104,12 +111,6 @@ public class GameUI {
         mainTextArea.setFont(standardFont);
         mainTextArea.setLineWrap(true);
         mainTextPanel.add(mainTextArea);
-
-        difficultyPanel = new JPanel();
-        difficultyPanel.setBounds(250, 300, 300, 150);
-        difficultyPanel.setBackground(Color.GREEN);
-        difficultyPanel.setLayout(new GridLayout(3, 1));
-        container.add(difficultyPanel);
 
         choice1 = new JButton("choice1");
         choice1.setBackground(Color.BLACK);
@@ -238,16 +239,16 @@ public class GameUI {
         container.add(playerPanel);
 
         healthLabel = new JLabel("Location: " + game.getCurrentRoom().getName() + "         " +
-                "HP: " + game.getPlayer().getHealth());
+                "HP: " + game.getPlayer().getHealth() + "             TIME: " + time());
         healthLabel.setForeground(Color.GREEN);
         healthLabel.setFont(normalFont);
 
-        timeLabel = new JLabel("             TIME: " + time());
-        timeLabel.setForeground(Color.GREEN);
-        timeLabel.setFont(normalFont);
+//        timeLabel = new JLabel("             TIME: " + time());
+//        timeLabel.setForeground(Color.GREEN);
+//        timeLabel.setFont(normalFont);
 
         playerPanel.add(healthLabel);
-        playerPanel.add(timeLabel);
+//        playerPanel.add(timeLabel);
 
         northButton = new JButton("North");
         northButton.setBackground(Color.red);
@@ -405,11 +406,11 @@ public class GameUI {
             showAreaItems();
 
             healthLabel.setText("Location: " + game.getCurrentRoom().getName() + "         " +
-                    "HP: " + game.getPlayer().getHealth());
-            timeLabel.setText("             TIME: " + time());
+                    "HP: " + game.getPlayer().getHealth()+ "             TIME: " + time());
             if (encounterDescription().equals("nothing here")) {
                 encounterTextArea.setVisible(false);
-            } else {
+            }
+            else {
                 encounterTextArea.setVisible(true);
             }
         }

@@ -52,6 +52,15 @@ public class ActionHandler implements ActionListener {
             case "ball O yarn":
                 GameUI.pickUpItem(userChoice);
                 break;
+            case "use desert eagle":
+            case "use grenade":
+            case "use machete":
+            case "use flamethrower":
+            case "use key":
+            case "use crystal femur":
+            case "use ball O yarn":
+                GameUI.useItem(userChoice);
+                break;
             case "close":
                 GameUI.eventPanelClose();
                 break;

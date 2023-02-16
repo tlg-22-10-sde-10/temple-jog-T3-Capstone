@@ -315,13 +315,7 @@ public class GameUI {
         return panelBuilder;
     }
 
-    public void setSettings(JPanel settings) {
-        this.settings = settings;
-    }
 
-    public static JPanel getSettings() {
-        return settings;
-    }
 
     private static int time() {
         int hoursPlayed = game.getPlayer().getSteps() * 15;
@@ -348,28 +342,17 @@ public class GameUI {
 
     public static void showAreaItems() {
         areaItemPanel.removeAll();
-        java.util.List<String> itemList = game.getCurrentRoom().getItems();
+        List<String> itemList = game.getCurrentRoom().getItems();
         if (!itemList.isEmpty()) {
-            item1 = new JButton(itemList.get(0));
-            item1.setForeground(Color.BLACK);
-            item1.setBackground(Color.YELLOW);
-            item1.setFont(gameFont);
-            item1.addActionListener(actionHandler);
-            item1.setActionCommand(itemList.get(0));
-            areaItemPanel.add(item1);
-            areaItemPanel.setVisible(true);
-
-            try {
-                item2 = new JButton(itemList.get(1));
-                item2.setForeground(Color.BLACK);
-                item2.setBackground(Color.YELLOW);
-                item2.setFont(gameFont);
-                item2.addActionListener(actionHandler);
-                item2.setActionCommand(itemList.get(1));
-                areaItemPanel.add(item2);
+            for (String item : itemList) {
+                JButton areaItem = new JButton(item);
+                areaItem.setForeground(Color.BLACK);
+                areaItem.setBackground(Color.YELLOW);
+                areaItem.setFont(gameFont);
+                areaItem.addActionListener(actionHandler);
+                areaItem.setActionCommand(item);
+                areaItemPanel.add(areaItem);
                 areaItemPanel.setVisible(true);
-            } catch (Exception e) {
-//
             }
         }
     }
@@ -384,15 +367,34 @@ public class GameUI {
         List<Item> items = game.getPlayer().getInventory();
         for (Item item : items) {
             JButton inventoryItem = new JButton(item.getName());
+            inventoryItem.setActionCommand("use "+item.getName());
             inventoryItem.setBackground(Color.WHITE);
             inventoryItem.setForeground(Color.BLACK);
+            inventoryItem.addActionListener(actionHandler);
             playerInventoryPanel.add(inventoryItem);
-        }
-        if (items.size() > 0) {
-            playerInventoryPanel.setVisible(true);
-        } else playerInventoryPanel.setVisible(false);
-        updateGameScreen();
+            if (item.getReuse() < 1) {
+                inventoryItem.setVisible(false);
+            }
+            if (items.size() > 0) {
+                playerInventoryPanel.setVisible(true);
+            }
+            else playerInventoryPanel.setVisible(true);
+            updateGameScreen();
 
+        }
+
+    }
+    static void useItem(String item) {
+        String itemName = item.replace("use ", "");
+        String action = game.processUsing(itemName);
+
+        if (action.contains("is EFFECTIVE against")) {
+            encounterTextArea.setText(action);
+        }
+        else if (action.contains("Success!!!")) {
+            encounterTextArea.setText(action);
+        }
+        updateItemPanel();
 
     }
 
@@ -416,20 +418,27 @@ public class GameUI {
     private static void updateGameScreen() {
 
         mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
-        encounterTextArea.setText(encounterDescription());
+//            encounterTextArea.setText(encounterDescription());
         showAreaItems();
 
         healthLabel.setText("Location: " + game.getCurrentRoom().getName() + "         " +
-                "HP: " + game.getPlayer().getHealth());
-        timeLabel.setText("             TIME: " + time());
-        if (encounterDescription().equals("nothing here")) {
-            encounterTextArea.setVisible(false);
-        } else {
-            encounterTextArea.setVisible(true);
-        }
+                "HP: " + game.getPlayer().getHealth()+ "             TIME: " + time());
+
+//            if (encounterDescription().equals("nothing here")) {
+//                encounterTextArea.setVisible(false);
+//            }
+//            else {
+//                encounterTextArea.setVisible(true);
+//            }
 
     }
+    public void setSettings(JPanel settings) {
+        this.settings = settings;
+    }
 
+    public static JPanel getSettings() {
+        return settings;
+    }
 
     public static void main(String[] args) {
         new GameUI();

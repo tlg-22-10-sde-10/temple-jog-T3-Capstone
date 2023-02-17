@@ -75,6 +75,7 @@ public class Sound {
             game.setPlaySound(true);
             Sound.themeSound("sounds/background_music.wav");
         } else {
+            Sound.stopSound();
             game.setPlaySound(false);
         }
     }

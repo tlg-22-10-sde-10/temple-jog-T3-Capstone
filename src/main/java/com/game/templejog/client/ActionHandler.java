@@ -1,5 +1,6 @@
 package com.game.templejog.client;
 
+import com.game.templejog.Game;
 import com.game.templejog.Sound;
 
 import java.awt.event.ActionEvent;
@@ -86,7 +87,15 @@ public class ActionHandler implements ActionListener {
                 break;
             case "toggle sound":
                 if (GameUI.getMusicStatus().getSelectedItem().equals("ON")){
-                    Sound.stopSound();}
+                    if(Game.getPlaySound().equals(false))
+                    {Game.setPlaySound(true);
+                        String currentRoomSound = Game.getCurrentRoom().getSound();
+                       Sound.themeSound(currentRoomSound);
+                    }}
+                else if (GameUI.getMusicStatus().getSelectedItem().equals("OFF")){
+                    Sound.stopSound();
+                    Game.setPlaySound(false);
+                }
 
                 break;
 

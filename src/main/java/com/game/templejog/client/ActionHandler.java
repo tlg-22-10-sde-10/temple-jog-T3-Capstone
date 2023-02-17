@@ -2,6 +2,9 @@ package com.game.templejog.client;
 
 import com.game.templejog.animation.Animation;
 
+import com.game.templejog.Game;
+import com.game.templejog.Sound;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -79,6 +82,25 @@ public class ActionHandler implements ActionListener {
                     break;
 
                 }
+            case "volume up":
+                Sound.volumeUp();
+                break;
+            case "volume down":
+                Sound.volumeDown();
+                break;
+            case "toggle sound":
+                if (GameUI.getMusicStatus().getSelectedItem().equals("ON")) {
+                    if (Game.getPlaySound().equals(false)) {
+                        Game.setPlaySound(true);
+                        String currentRoomSound = Game.getCurrentRoom().getSound();
+                        Sound.themeSound(currentRoomSound);
+                    }
+                } else if (GameUI.getMusicStatus().getSelectedItem().equals("OFF")) {
+                    Sound.stopSound();
+                    Game.setPlaySound(false);
+                }
+
+                break;
 
         }
     }

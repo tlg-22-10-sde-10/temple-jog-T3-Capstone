@@ -3,6 +3,8 @@ package com.game.templejog;
 import java.util.*;
 
 public class Game {
+    private static Boolean playSound;
+    private static Room currentRoom;
     // MODEL
     private Boolean quitGame;
     private String scannerString;
@@ -10,10 +12,8 @@ public class Game {
     private HashMap<String, Encounter> encounters;
     private HashMap<String, Item> items;
     private Player player;
-    private Room currentRoom;
     private Boolean communicatorOff;
     private HashMap<String,String> gameText;
-    private Boolean playSound;
 
 // CONSTRUCTORS
     public Game(Temple temple) {
@@ -279,7 +279,7 @@ public class Game {
     }
 
 //  ACCESSOR METHODS
-    public Room getCurrentRoom() { return currentRoom;}
+    public static Room getCurrentRoom() { return currentRoom;}
     public void setCurrentRoom(Room currentRoom) { this.currentRoom = currentRoom;}
     public Player getPlayer() { return player; }
     public void setPlayer(Player player) { this.player = player; }
@@ -295,8 +295,8 @@ public class Game {
     public void setItems(HashMap<String, Item> items) { this.items = items; }
     public Boolean getCommunicatorOff() { return communicatorOff; }
     public void setCommunicatorOff(Boolean communicatorOff) { this.communicatorOff = communicatorOff; }
-    public Boolean getPlaySound() { return playSound; }
-    public void setPlaySound(Boolean playSound) { this.playSound = playSound; }
+    public static Boolean getPlaySound() { return playSound; }
+    public static void setPlaySound(Boolean playSound) { Game.playSound = playSound; }
     public HashMap<String, String> getGameText() { return gameText; }
     public void setGameText(HashMap<String, String> gameText) { this.gameText = gameText; }
 }

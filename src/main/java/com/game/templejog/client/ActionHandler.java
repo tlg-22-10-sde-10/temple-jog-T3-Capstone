@@ -71,8 +71,10 @@ public class ActionHandler implements ActionListener {
                 GameUI.useItem(userChoice);
                 GameUI.getSettings().setVisible(false);
                 break;
-            case "close":
-                GameUI.eventPanelClose();
+            case "close settings":
+            case "close help":
+            case "close playerMap":
+                GameUI.eventPanelClose(userChoice);
                 break;
             case "settings":
                 if (GameUI.getSettings().isVisible()) {
@@ -80,7 +82,13 @@ public class ActionHandler implements ActionListener {
                 } else {
                     GameUI.getSettings().setVisible(true);
                     break;
-
+                }
+            case "help":
+                if (GameUI.getHelpeventPanel().isVisible()) {
+                    GameUI.getHelpeventPanel().setVisible(false);
+                } else {
+                    GameUI.getHelpeventPanel().setVisible(true);
+                    break;
                 }
             case "volume up":
                 Sound.volumeUp();

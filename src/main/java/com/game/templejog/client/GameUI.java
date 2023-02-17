@@ -23,11 +23,11 @@ public class GameUI {
     static JFrame window;
     static Container container;
     static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
-    static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel, settings, settingsPanel;
+    static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel,settings, helpeventPanel,mapPanel,settingsPanel;
     static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel;
     static JButton northButton, eastButton, southButton, westButton, soundOnOffButton, VolumeDown, VolumeUp;
-    static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton;
-    static JTextArea mainTextArea, encounterTextArea;
+    static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton,helpButton;
+    static JTextArea mainTextArea, encounterTextArea,helpMenuTextArea;
 
     static JComboBox musicStatus, soundFXStatus;
 
@@ -98,6 +98,12 @@ public class GameUI {
         settings = eventPanel(200, 150, 400, 200, "settings");
         settings.setVisible(false);
         settingMenuOption();
+
+        helpeventPanel = eventPanel(200,150,800,400,"help");
+        helpeventPanel.setVisible(false);
+
+        mapPanel = eventPanel(200,150,800,400,"map");
+        mapPanel.setVisible(false);
     }
 
 
@@ -300,9 +306,10 @@ public class GameUI {
         settings.add(soundOnOffButton);
 
 
-        //Setting options
+        //Setting Panel
         settingsPanel = new JPanel();
-        settingsPanel.setBounds(500, 500, 50, 50);
+        settingsPanel.setLayout(new GridLayout(1, 3));
+        settingsPanel.setBounds(400, 500, 150, 50);
         settingsPanel.setBackground(Color.RED);
         container.add(settingsPanel);
 
@@ -313,12 +320,35 @@ public class GameUI {
         settingsButton.addActionListener(actionHandler);
         settingsButton.setActionCommand("settings");
         settingsPanel.add(settingsButton);
-    }
+
+        //HelpPanel
+
+
+        //help button
+        helpButton = new JButton("help");
+        helpButton.setBackground(Color.red);
+        helpButton.setForeground(Color.WHITE);
+        helpButton.addActionListener(actionHandler);
+        helpButton.setActionCommand("help");
+        settingsPanel.add(helpButton);
+   }
 
 
 
-    public static void eventPanelClose() {
-        settings.setVisible(false);
+    public static void eventPanelClose(String name) {
+        String panelName = name.replace("close ", "");
+        switch (panelName) {
+            case "playerMap":
+                //remove all used to update map everytime it is pulled up
+                //playerMap.setVisible(false);
+                //playerMap.removeAll();
+                break;
+            case "settings":
+                settings.setVisible(false);
+                break;
+            case "help":
+                helpeventPanel.setVisible(false);
+        }
     }
 
     public static JPanel eventPanel(int x, int y, int width, int height, String target) {
@@ -337,7 +367,7 @@ public class GameUI {
         exitButton.setBounds(width - 30, 0, 30, 30);
         exitButton.setBackground(Color.GRAY);
         exitButton.addActionListener(actionHandler);
-        exitButton.setActionCommand("close");
+        exitButton.setActionCommand("close " + target);
         panelBuilder.add(exitButton);
         return panelBuilder;
     }
@@ -489,13 +519,9 @@ public class GameUI {
         }
     }
 
-    public void setSettings(JPanel settings) {
-        this.settings = settings;
-    }
 
-    public static JPanel getSettings() {
-        return settings;
-    }
+
+
 
     public void settingMenuOption() {
         //holds setting options for musix and sfx
@@ -589,7 +615,23 @@ public class GameUI {
         GameUI.soundFXStatus = soundFXStatus;
     }
 
-//    public static void main(String[] args) {
+    public void setSettings(JPanel settings) {
+        this.settings = settings;
+    }
+
+    public static JPanel getSettings() {
+        return settings;
+    }
+
+    public static JPanel getHelpeventPanel() {
+        return helpeventPanel;
+    }
+
+    public static void setHelpeventPanel(JPanel helpeventPanel) {
+        GameUI.helpeventPanel = helpeventPanel;
+    }
+
+    //    public static void main(String[] args) {
 //        new GameUI();
 //    }
 

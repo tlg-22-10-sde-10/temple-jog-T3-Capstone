@@ -1,5 +1,7 @@
 package com.game.templejog.client;
 
+import com.game.templejog.animation.Animation;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -16,6 +18,7 @@ public class ActionHandler implements ActionListener {
         switch (userChoice) {
             case "start":
                 GameUI.difficultyScreen();
+
                 break;
             case "c1":
                 try {

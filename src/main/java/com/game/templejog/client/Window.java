@@ -3,6 +3,8 @@ import com.game.templejog.Game;
 import com.game.templejog.Item;
 import com.game.templejog.Temple;
 
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -64,6 +66,8 @@ public class Window {
         titlePanel.add(titleText);
         container.add(titlePanel);
         container.add(startButtonPanel);
+
+
         window.setVisible(true);
     }
 

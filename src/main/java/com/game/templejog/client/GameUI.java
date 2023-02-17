@@ -4,6 +4,7 @@ import com.game.templejog.Game;
 import com.game.templejog.Item;
 import com.game.templejog.Sound;
 import com.game.templejog.Temple;
+import com.game.templejog.animation.Animation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,8 @@ public class GameUI {
     private static final int WINDOW_WIDTH = 800;
     private static final Color PRIMARY_COLOR = new Color(0,0,0);
     private static final Color SECONDARY_COLOR = new Color(0,0,0);
+    static Animation animation;
+
     static JFrame window;
     static Container container;
     static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
@@ -39,7 +42,7 @@ public class GameUI {
     static Temple gameFiles;
 
 
-    public GameUI() {
+    public GameUI() throws InterruptedException {
         window = new JFrame("Temple Jog");
         window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // close when window is closed
@@ -81,10 +84,15 @@ public class GameUI {
         titleNamePanel.add(titleLabel);
         startButtonPanel.add(startButton);
         quitButtonPanel.add(quitButton);
+//        Image icon = new ImageIcon("src/main/resources/car.jpg").getImage();
+//        animation = new Animation(icon);
+//        animation.setBounds(50,300,200,200);
+//        container.add(animation);
 
         container.add(titleNamePanel);
         container.add(startButtonPanel);
         container.add(quitButtonPanel);
+
 
         Sound.Title();
         settings = eventPanel(200, 150, 400, 200, "settings");
@@ -243,7 +251,6 @@ public class GameUI {
         container.add(playerInventoryPanel);
         playerInventoryPanel.setVisible(false);
 
-
         playerPanel = new JPanel();
         playerPanel.setBounds(0, 0, WINDOW_WIDTH, 50);
         playerPanel.setBackground(Color.BLACK);
@@ -255,9 +262,7 @@ public class GameUI {
         healthLabel.setForeground(Color.GREEN);
         healthLabel.setFont(normalFont);
 
-
         playerPanel.add(healthLabel);
-
 
         northButton = new JButton("North");
         northButton.setBackground(Color.red);
@@ -310,6 +315,8 @@ public class GameUI {
         settingsPanel.add(settingsButton);
     }
 
+
+
     public static void eventPanelClose() {
         settings.setVisible(false);
     }
@@ -335,8 +342,6 @@ public class GameUI {
         return panelBuilder;
     }
 
-
-
     private static int time() {
         int hoursPlayed = game.getPlayer().getSteps() * 15;
         int hours = hoursPlayed / 60;
@@ -353,7 +358,10 @@ public class GameUI {
             for (String encounter : game.getCurrentRoom().getEncounters_to()) {
                 encounterDescription = new StringBuilder();
                 encounterDescription.append(game.getEncounters().get(encounter).getDescription().toString());
+
             }
+            Image icon = new ImageIcon("src/main/resources/car.jpg").getImage();
+
         } else {
             encounterDescription = new StringBuilder().append("nothing here");
         }
@@ -404,12 +412,14 @@ public class GameUI {
         }
 
     }
+
     static void useItem(String item) {
         String itemName = item.replace("use ", "");
         String action = game.processUsing(itemName);
 
         if (action.contains("is EFFECTIVE against")) {
             encounterTextArea.setText(action);
+
         }
         else if (action.contains("Success!!!")) {
             encounterTextArea.setText(action);
@@ -458,6 +468,7 @@ public class GameUI {
             mainTextArea.setText("Sorry You lose...");
             mainGamePanel.add(mainTextArea);
 
+
         }
         else if (game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")) {
             //TODO showWinScreen();
@@ -465,7 +476,13 @@ public class GameUI {
             directionalPanel.setVisible(false);
             playerInventoryPanel.setVisible(false);
             mainTextArea.setText("You Win!!!");
+            mainGamePanel.setOpaque(false);
             mainGamePanel.add(mainTextArea);
+            Image icon = new ImageIcon("src/main/resources/helicopter.jpg").getImage();
+            animation = new Animation(icon);
+            animation.setBounds(200,100,400,400);
+//            animation.setOpaque(false);
+            container.add(animation);
         }
         else {
 

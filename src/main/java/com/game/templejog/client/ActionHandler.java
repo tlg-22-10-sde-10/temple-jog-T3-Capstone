@@ -1,5 +1,7 @@
 package com.game.templejog.client;
 
+import com.game.templejog.animation.Animation;
+
 import com.game.templejog.Game;
 import com.game.templejog.Sound;
 
@@ -19,6 +21,7 @@ public class ActionHandler implements ActionListener {
         switch (userChoice) {
             case "start":
                 GameUI.difficultyScreen();
+
                 break;
             case "c1":
                 try {
@@ -86,13 +89,13 @@ public class ActionHandler implements ActionListener {
                 Sound.volumeDown();
                 break;
             case "toggle sound":
-                if (GameUI.getMusicStatus().getSelectedItem().equals("ON")){
-                    if(Game.getPlaySound().equals(false))
-                    {Game.setPlaySound(true);
+                if (GameUI.getMusicStatus().getSelectedItem().equals("ON")) {
+                    if (Game.getPlaySound().equals(false)) {
+                        Game.setPlaySound(true);
                         String currentRoomSound = Game.getCurrentRoom().getSound();
-                       Sound.themeSound(currentRoomSound);
-                    }}
-                else if (GameUI.getMusicStatus().getSelectedItem().equals("OFF")){
+                        Sound.themeSound(currentRoomSound);
+                    }
+                } else if (GameUI.getMusicStatus().getSelectedItem().equals("OFF")) {
                     Sound.stopSound();
                     Game.setPlaySound(false);
                 }

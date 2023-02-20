@@ -6,11 +6,13 @@ import com.game.templejog.Sound;
 import com.game.templejog.Temple;
 import com.game.templejog.animation.Animation;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class GameUI {
@@ -20,11 +22,13 @@ public class GameUI {
     private static final Color SECONDARY_COLOR = new Color(0, 0, 0);
     static Animation animation;
 
+    static Image icon;
+
     static JFrame window;
     static Container container;
     static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
     static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel, settings, helpeventPanel, mapPanel, settingsPanel;
-    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel;
+    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel,  mapLabel;
     static JButton northButton, eastButton, southButton, westButton, getMapButton, VolumeDown, VolumeUp;
     static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton, helpButton;
     static JTextArea mainTextArea, encounterTextArea, helpMenuTextArea;
@@ -339,6 +343,7 @@ public class GameUI {
         helpButton.setActionCommand("help");
         settingsPanel.add(helpButton);
 
+
         ImageIcon mapIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("img/mapIcon.png"));
         getMapButton = new JButton();
         getMapButton.setIcon(mapIcon);
@@ -349,6 +354,22 @@ public class GameUI {
         getMapButton.addActionListener(actionHandler);
         getMapButton.setActionCommand("getMap");
         settingsPanel.add(getMapButton);
+
+
+        //TODO: Trying to add image to mapPanel
+        String currentLocationMap = game.getCurrentRoom().getCurLocation();
+       // ImageIcon currentRoom = new ImageIcon(GameUI.class.getClassLoader().getResource(currentLocationMap));
+        //mapLabel = new JLabel( new ImageIcon(GameUI.class.getClassLoader().getResource(currentLocationMap)));
+
+//        try(InputStream inputStream = GameUI.class.getClassLoader().getResourceAsStream(currentLocationMap)){
+//            //noinspection ConstantConditions
+//            icon = ImageIO.read(inputStream);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//
+//        }
+//        mapLabel.add(icon);
+//        mapPanel.add(icon);
     }
 
 

@@ -1,7 +1,5 @@
 package com.game.templejog.client;
 
-import com.game.templejog.animation.Animation;
-
 import com.game.templejog.Game;
 import com.game.templejog.Sound;
 
@@ -32,10 +30,22 @@ public class ActionHandler implements ActionListener {
                 }
                 break;
             case "c2":
-                GameUI.normalGame();
+                try {
+                    GameUI.mediumGame();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
                 break;
             case "c3":
-                GameUI.hardGame();
+                try {
+                    GameUI.hardGame();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
                 break;
             case "play":
                 GameUI.mainGameDisplay();
@@ -88,6 +98,13 @@ public class ActionHandler implements ActionListener {
                     GameUI.getHelpeventPanel().setVisible(false);
                 } else {
                     GameUI.getHelpeventPanel().setVisible(true);
+                    break;
+                }
+            case "getMap":
+                if (GameUI.getMapPanel().isVisible()) {
+                    GameUI.getMapPanel().setVisible(false);
+                } else {
+                    GameUI.getMapPanel().setVisible(true);
                     break;
                 }
             case "volume up":

@@ -8,8 +8,10 @@ import java.util.Scanner;
 
 public class Sound {
     private static Clip clip;
+    private static Clip fx;
     public static float currentVolume = 0;
     private static FloatControl floatControl;
+    private static boolean soundFx = true;
 
     void Sound() {
         volumeUp();
@@ -40,12 +42,12 @@ public class Sound {
         try {
             URL landingSound = Main.class.getClassLoader().getResource(file);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(landingSound);
-            clip = AudioSystem.getClip();
-            clip.open(audioStream);
+            fx = AudioSystem.getClip();
+            fx.open(audioStream);
             FloatControl gainControl =
-                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                    (FloatControl) fx.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
-            clip.start();
+            fx.start();
         } catch (UnsupportedAudioFileException e) {
             System.out.println("Error: Unsupported audio file format.");
         } catch (IOException e) {
@@ -131,11 +133,15 @@ public class Sound {
     }
 
     public static void wrongWaySound() {
-        Sound.onceSound("sounds/wrong_way.wav");
+        if (soundFx) {
+            Sound.onceSound("sounds/wrong_way.wav");
+        }
     }
 
     public static void wrongItemSound() {
-        Sound.onceSound("sounds/ineffective_item.wav");
+        if (soundFx) {
+            Sound.onceSound("sounds/ineffective_item.wav");
+        }
     }
 
     public static float getCurrentVolume() {
@@ -145,13 +151,13 @@ public class Sound {
     public static void setCurrentVolume(float currentVolume) {
         Sound.currentVolume = currentVolume;
     }
+
+    public static boolean isSoundFx() {
+        return soundFx;
+    }
+
+    public static void setSoundFx(boolean soundFx) {
+        Sound.soundFx = soundFx;
+    }
 }
 
-//    public static FloatControl getFloatControl() {
-//        return floatControl;
-//    }
-//
-//    public void setFloatControl(FloatControl floatControl) {
-//        this.floatControl = floatControl;
-//    }
-//}

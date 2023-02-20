@@ -17,7 +17,7 @@ public class Animation extends JPanel implements ActionListener {
     static int xVelocity = 1;
     static int yVelocity = 0;
     int x = 0;
-    int y = 0;
+    int y = 200;
 
 
     public Animation() {

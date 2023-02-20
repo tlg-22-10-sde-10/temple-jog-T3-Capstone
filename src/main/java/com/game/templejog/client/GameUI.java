@@ -8,6 +8,8 @@ import com.game.templejog.animation.Animation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
@@ -397,15 +399,17 @@ public class GameUI {
 
     private static String encounterDescription() {
         boolean hasEncounters = !game.getCurrentRoom().getEncounters_to().isEmpty();
-        StringBuilder encounterDescription = null;
+        StringBuilder encounterDescription = new StringBuilder();
         if (hasEncounters) {
 
             for (String encounter : game.getCurrentRoom().getEncounters_to()) {
-                encounterDescription = new StringBuilder();
+//                encounterDescription = new StringBuilder();
                 encounterDescription.append(game.getEncounters().get(encounter).getDescription().toString());
+                encounterDescription.append("\n");
+                encounterDescription.append("\n");
 
             }
-            Image icon = new ImageIcon("src/main/resources/car.jpg").getImage();
+//            Image icon = new ImageIcon("src/main/resources/car.jpg").getImage();
 
         } else {
             encounterDescription = new StringBuilder().append("nothing here");
@@ -514,16 +518,16 @@ public class GameUI {
             mainGamePanel.removeAll();
             directionalPanel.setVisible(false);
             playerInventoryPanel.setVisible(false);
+            settingsPanel.setVisible(false);
+            helpeventPanel.setVisible(false);
             mainTextArea.setText("You Win!!!");
             mainGamePanel.setOpaque(false);
             mainGamePanel.add(mainTextArea);
-            Image icon = new ImageIcon("src/main/resources/helicopter.jpg").getImage();
-            animation = new Animation(icon);
-            animation.setBounds(200, 100, 400, 400);
-//            animation.setOpaque(false);
+            Image heliIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("helicopter.jpg")).getImage();
+            animation = new Animation(heliIcon);
+            animation.setBounds(200,100,400,400);
             container.add(animation);
         } else {
-
         }
     }
 
@@ -535,13 +539,14 @@ public class GameUI {
         getMusicPanel().setBackground(Color.white);
         String select[] = {"ON", "OFF"};
 
-
         setMusicStatus(new JComboBox(select));
         getMusicStatus().addActionListener(actionHandler);
         getMusicStatus().setActionCommand("toggle sound");
         setSoundFXStatus(new JComboBox(select));
         setMusicLabel(new JLabel("Music"));
         setSoundFxLabel(new JLabel("SoundFX"));
+        getSoundFXStatus().addActionListener(actionHandler);
+        getSoundFXStatus().setActionCommand("toggle fx");
         setVolumeDown(new JButton("volume down"));
         getVolumeDown().addActionListener(actionHandler);
         getVolumeDown().setActionCommand("volume down");

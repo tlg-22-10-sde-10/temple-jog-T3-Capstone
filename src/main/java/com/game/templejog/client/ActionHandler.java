@@ -124,9 +124,16 @@ public class ActionHandler implements ActionListener {
                     Sound.stopSound();
                     Game.setPlaySound(false);
                 }
-
                 break;
-
+            case "toggle fx":
+                if (GameUI.getSoundFXStatus().getSelectedItem().equals("ON")) {
+                    Sound.setSoundFx(true);
+                }
+                else{
+                    Sound.setSoundFx(false);
+                }
+                break;
+            }
         }
     }
-}
+

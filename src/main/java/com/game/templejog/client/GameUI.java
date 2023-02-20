@@ -369,7 +369,7 @@ public class GameUI {
 //
 //        }
 //        mapLabel.add(icon);
-//        mapPanel.add(icon);
+//        mapPanel.add(ico
     }
 
 

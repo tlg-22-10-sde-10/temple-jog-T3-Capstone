@@ -8,26 +8,24 @@ import com.game.templejog.animation.Animation;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
 public class GameUI {
     private static final int WINDOW_HEIGHT = 600;
     private static final int WINDOW_WIDTH = 800;
-    private static final Color PRIMARY_COLOR = new Color(0,0,0);
-    private static final Color SECONDARY_COLOR = new Color(0,0,0);
+    private static final Color PRIMARY_COLOR = new Color(0, 0, 0);
+    private static final Color SECONDARY_COLOR = new Color(0, 0, 0);
     static Animation animation;
 
     static JFrame window;
     static Container container;
     static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
-    static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel,settings, helpeventPanel,mapPanel,settingsPanel;
+    static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel, settings, helpeventPanel, mapPanel, settingsPanel;
     static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel;
     static JButton northButton, eastButton, southButton, westButton, soundOnOffButton, VolumeDown, VolumeUp;
-    static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton,helpButton;
-    static JTextArea mainTextArea, encounterTextArea,helpMenuTextArea;
+    static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton, helpButton;
+    static JTextArea mainTextArea, encounterTextArea, helpMenuTextArea;
 
     static JComboBox musicStatus, soundFXStatus;
 
@@ -99,10 +97,10 @@ public class GameUI {
         settings.setVisible(false);
         settingMenuOption();
 
-        helpeventPanel = eventPanel(200,150,800,400,"help");
+        helpeventPanel = eventPanel(200, 150, 800, 400, "help");
         helpeventPanel.setVisible(false);
 
-        mapPanel = eventPanel(200,150,800,400,"map");
+        mapPanel = eventPanel(200, 150, 800, 400, "map");
         mapPanel.setVisible(false);
     }
 
@@ -178,7 +176,7 @@ public class GameUI {
         Sound.stopSound();
         Sound.gameIntro(game);
         /* Stop the background music when entering landing zone */
-        if(game.getPlaySound()){
+        if (game.getPlaySound()) {
             Sound.stopSound();
             Sound.themeSound("sounds/landing_zone.wav");
         }
@@ -296,27 +294,22 @@ public class GameUI {
         directionalPanel.add(southButton);
         directionalPanel.add(westButton);
 
-        soundOnOffButton = new JButton("Sound On/Off");
-        soundOnOffButton.setBackground(Color.BLACK);
-        soundOnOffButton.setForeground(Color.RED);
-        soundOnOffButton.setBounds(200, 200, 100, 50);
-        soundOnOffButton.setFont(standardFont);
-        soundOnOffButton.setFocusPainted(false);
-
-        settings.add(soundOnOffButton);
-
 
         //Setting Panel
         settingsPanel = new JPanel();
         settingsPanel.setLayout(new GridLayout(1, 3));
         settingsPanel.setBounds(400, 500, 150, 50);
-        settingsPanel.setBackground(Color.RED);
+        settingsPanel.setBackground(Color.BLACK);
         container.add(settingsPanel);
 
         //settings button
-        settingsButton = new JButton("settings");
-        settingsButton.setBackground(Color.red);
-        settingsButton.setForeground(Color.WHITE);
+        ImageIcon settingIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("img/gear.png"));
+        settingsButton = new JButton();
+        settingsButton.setIcon(settingIcon);
+        settingsButton.setBorderPainted(false);
+        settingsButton.setFocusPainted(false);
+        settingsButton.setContentAreaFilled(false);
+        settingsButton.setPreferredSize(new Dimension(50, 50));
         settingsButton.addActionListener(actionHandler);
         settingsButton.setActionCommand("settings");
         settingsPanel.add(settingsButton);
@@ -325,14 +318,19 @@ public class GameUI {
 
 
         //help button
-        helpButton = new JButton("help");
-        helpButton.setBackground(Color.red);
-        helpButton.setForeground(Color.WHITE);
+        ImageIcon helpIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("img/monitor.png"));
+        helpButton = new JButton();
+        helpButton.setIcon(helpIcon);
+        helpButton.setBorderPainted(false);
+        helpButton.setFocusPainted(false);
+        helpButton.setContentAreaFilled(false);
+        helpButton.setPreferredSize(new Dimension(50, 50));
+//        helpButton.setBackground(Color.red);
+//        helpButton.setForeground(Color.WHITE);
         helpButton.addActionListener(actionHandler);
         helpButton.setActionCommand("help");
         settingsPanel.add(helpButton);
-   }
-
+    }
 
 
     public static void eventPanelClose(String name) {
@@ -425,7 +423,7 @@ public class GameUI {
         List<Item> items = game.getPlayer().getInventory();
         for (Item item : items) {
             JButton inventoryItem = new JButton(item.getName());
-            inventoryItem.setActionCommand("use "+item.getName());
+            inventoryItem.setActionCommand("use " + item.getName());
             inventoryItem.setBackground(Color.WHITE);
             inventoryItem.setForeground(Color.BLACK);
             inventoryItem.addActionListener(actionHandler);
@@ -435,8 +433,7 @@ public class GameUI {
             }
             if (items.size() > 0) {
                 playerInventoryPanel.setVisible(true);
-            }
-            else playerInventoryPanel.setVisible(true);
+            } else playerInventoryPanel.setVisible(true);
             updateGameScreen();
 
         }
@@ -450,11 +447,9 @@ public class GameUI {
         if (action.contains("is EFFECTIVE against")) {
             encounterTextArea.setText(action);
 
-        }
-        else if (action.contains("Success!!!")) {
+        } else if (action.contains("Success!!!")) {
             encounterTextArea.setText(action);
-        }
-        else {
+        } else {
             Sound.wrongItemSound();
         }
         updateItemPanel();
@@ -468,15 +463,13 @@ public class GameUI {
             showAreaItems();
 
             healthLabel.setText("Location: " + game.getCurrentRoom().getName() + "         " +
-                    "HP: " + game.getPlayer().getHealth()+ "             TIME: " + time());
+                    "HP: " + game.getPlayer().getHealth() + "             TIME: " + time());
             if (encounterDescription().equals("nothing here")) {
                 encounterTextArea.setVisible(false);
-            }
-            else {
+            } else {
                 encounterTextArea.setVisible(true);
             }
-        }
-        else {
+        } else {
             Sound.wrongWaySound();
         }
         checkWinLoss();
@@ -486,7 +479,7 @@ public class GameUI {
         mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
         showAreaItems();
         healthLabel.setText("Location: " + game.getCurrentRoom().getName() + "         " +
-                "HP: " + game.getPlayer().getHealth()+ "             TIME: " + time());
+                "HP: " + game.getPlayer().getHealth() + "             TIME: " + time());
     }
 
     private static void checkWinLoss() {
@@ -499,8 +492,7 @@ public class GameUI {
             mainGamePanel.add(mainTextArea);
 
 
-        }
-        else if (game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")) {
+        } else if (game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")) {
             //TODO showWinScreen();
             mainGamePanel.removeAll();
             directionalPanel.setVisible(false);
@@ -510,17 +502,13 @@ public class GameUI {
             mainGamePanel.add(mainTextArea);
             Image icon = new ImageIcon("src/main/resources/helicopter.jpg").getImage();
             animation = new Animation(icon);
-            animation.setBounds(200,100,400,400);
+            animation.setBounds(200, 100, 400, 400);
 //            animation.setOpaque(false);
             container.add(animation);
-        }
-        else {
+        } else {
 
         }
     }
-
-
-
 
 
     public void settingMenuOption() {

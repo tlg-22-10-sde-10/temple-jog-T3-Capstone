@@ -75,21 +75,27 @@ public class ActionHandler implements ActionListener {
             case "close help":
             case "close playerMap":
                 GameUI.eventPanelClose(userChoice);
+                GameUI.areaItemPanel.setVisible(true);
                 break;
             case "settings":
                 if (GameUI.getSettings().isVisible()) {
                     GameUI.getSettings().setVisible(false);
+                    GameUI.areaItemPanel.setVisible(true);
                 } else {
                     GameUI.getSettings().setVisible(true);
-                    break;
+                    GameUI.areaItemPanel.setVisible(false);
+
                 }
+                break;
             case "help":
                 if (GameUI.getHelpeventPanel().isVisible()) {
                     GameUI.getHelpeventPanel().setVisible(false);
+                    GameUI.areaItemPanel.setVisible(true);
                 } else {
                     GameUI.getHelpeventPanel().setVisible(true);
-                    break;
+                    GameUI.areaItemPanel.setVisible(false);
                 }
+                break;
             case "volume up":
                 Sound.volumeUp();
                 break;

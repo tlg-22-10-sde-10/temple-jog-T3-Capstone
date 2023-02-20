@@ -25,7 +25,7 @@ public class GameUI {
     static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
     static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel, settings, helpeventPanel, mapPanel, settingsPanel;
     static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel;
-    static JButton northButton, eastButton, southButton, westButton, soundOnOffButton, VolumeDown, VolumeUp;
+    static JButton northButton, eastButton, southButton, westButton, getMapButton, VolumeDown, VolumeUp;
     static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton, helpButton;
     static JTextArea mainTextArea, encounterTextArea, helpMenuTextArea;
 
@@ -102,7 +102,7 @@ public class GameUI {
         helpeventPanel = eventPanel(200, 150, 800, 400, "help");
         helpeventPanel.setVisible(false);
 
-        mapPanel = eventPanel(200, 150, 800, 400, "map");
+        mapPanel = eventPanel(200, 150, 800, 400, "getMap");
         mapPanel.setVisible(false);
     }
 
@@ -203,12 +203,18 @@ public class GameUI {
 
     }
 
-    public static void normalGame() {
-        mainTextArea.setText("You have chosen: Normal");
+    public static void mediumGame() throws IOException, InterruptedException {
+        easyGame();
+        game.getPlayer().setHealth(5);
+        game.getPlayer().setSteps(4);;
     }
 
-    public static void hardGame() {
-        mainTextArea.setText("You have chosen: Hard");
+    public static void hardGame() throws IOException, InterruptedException {
+        easyGame();
+        game.getPlayer().setHealth(1);
+        game.getPlayer().setSteps(8);
+        game.getItems().get("desert eagle").setReuse(1);
+        game.getItems().get("machete").setReuse(1);
     }
 
     public static void mainGameDisplay() {
@@ -300,8 +306,8 @@ public class GameUI {
         //Setting Panel
         settingsPanel = new JPanel();
         settingsPanel.setLayout(new GridLayout(1, 3));
-        settingsPanel.setBounds(400, 500, 150, 50);
-        settingsPanel.setBackground(Color.BLACK);
+        settingsPanel.setBounds(400, 500, 150, 100);
+        settingsPanel.setBackground(Color.RED);
         container.add(settingsPanel);
 
         //settings button
@@ -320,7 +326,7 @@ public class GameUI {
 
 
         //help button
-        ImageIcon helpIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("img/monitor.png"));
+        ImageIcon helpIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("img/helpTextBubble.png"));
         helpButton = new JButton();
         helpButton.setIcon(helpIcon);
         helpButton.setBorderPainted(false);
@@ -332,6 +338,17 @@ public class GameUI {
         helpButton.addActionListener(actionHandler);
         helpButton.setActionCommand("help");
         settingsPanel.add(helpButton);
+
+        ImageIcon mapIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("img/mapIcon.png"));
+        getMapButton = new JButton();
+        getMapButton.setIcon(mapIcon);
+        getMapButton.setBorderPainted(false);
+        getMapButton.setFocusPainted(false);
+        getMapButton.setContentAreaFilled(false);
+        getMapButton.setPreferredSize(new Dimension(50, 50));
+        getMapButton.addActionListener(actionHandler);
+        getMapButton.setActionCommand("getMap");
+        settingsPanel.add(getMapButton);
     }
 
 
@@ -624,8 +641,11 @@ public class GameUI {
         GameUI.helpeventPanel = helpeventPanel;
     }
 
-    //    public static void main(String[] args) {
-//        new GameUI();
-//    }
+    public static JPanel getMapPanel() {
+        return mapPanel;
+    }
 
+    public static void setMapPanel(JPanel mapPanel) {
+        GameUI.mapPanel = mapPanel;
+    }
 }

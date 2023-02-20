@@ -1,9 +1,12 @@
 package com.game.templejog.animation;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Animation extends JPanel implements ActionListener {
 
@@ -19,6 +22,13 @@ public class Animation extends JPanel implements ActionListener {
 
     public Animation() {
         this.setBackground(Color.BLACK);
+        try(InputStream inputStream = getClass().getClassLoader().getResourceAsStream("car.jpg")){
+            //noinspection ConstantConditions
+            icon = ImageIO.read(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+        }
         icon = new ImageIcon("src/main/resources/car.jpg").getImage();
         timer = new Timer(10, this);
         timer.start();

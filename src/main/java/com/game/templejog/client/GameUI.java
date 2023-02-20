@@ -352,15 +352,17 @@ public class GameUI {
 
     private static String encounterDescription() {
         boolean hasEncounters = !game.getCurrentRoom().getEncounters_to().isEmpty();
-        StringBuilder encounterDescription = null;
+        StringBuilder encounterDescription = new StringBuilder();
         if (hasEncounters) {
 
             for (String encounter : game.getCurrentRoom().getEncounters_to()) {
-                encounterDescription = new StringBuilder();
+//                encounterDescription = new StringBuilder();
                 encounterDescription.append(game.getEncounters().get(encounter).getDescription().toString());
+                encounterDescription.append("\n");
+                encounterDescription.append("\n");
 
             }
-            Image icon = new ImageIcon("src/main/resources/car.jpg").getImage();
+//            Image icon = new ImageIcon("src/main/resources/car.jpg").getImage();
 
         } else {
             encounterDescription = new StringBuilder().append("nothing here");
@@ -431,7 +433,7 @@ public class GameUI {
 
     }
 
-    static void updateGameScreen(String direction) {
+    static void updateGameScreen(String direction) throws Exception {
         if (game.processNavigating(direction).contains("Traveling")) {
             mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
             encounterTextArea.setText(encounterDescription());
@@ -478,10 +480,12 @@ public class GameUI {
             mainTextArea.setText("You Win!!!");
             mainGamePanel.setOpaque(false);
             mainGamePanel.add(mainTextArea);
-            Image icon = new ImageIcon("src/main/resources/helicopter.jpg").getImage();
-            animation = new Animation(icon);
+            Image heliIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("helicopter.jpg")).getImage();
+
+
+            animation = new Animation(heliIcon);
             animation.setBounds(200,100,400,400);
-//            animation.setOpaque(false);
+
             container.add(animation);
         }
         else {

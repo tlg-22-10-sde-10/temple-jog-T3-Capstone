@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Game {
     private static Boolean playSound;
+    private static Boolean playFxSound;
     private static Room currentRoom;
     // MODEL
     private Boolean quitGame;
@@ -298,5 +299,11 @@ public class Game {
     public static Boolean getPlaySound() { return playSound; }
     public static void setPlaySound(Boolean playSound) { Game.playSound = playSound; }
     public HashMap<String, String> getGameText() { return gameText; }
+    public static Boolean getPlayFxSound() {
+        return playFxSound;
+    }
+    public static void setPlayFxSound(Boolean playFxSound) {
+        Game.playFxSound = playFxSound;
+    }
     public void setGameText(HashMap<String, String> gameText) { this.gameText = gameText; }
 }

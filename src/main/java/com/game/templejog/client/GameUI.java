@@ -501,18 +501,16 @@ public class GameUI {
             mainGamePanel.removeAll();
             directionalPanel.setVisible(false);
             playerInventoryPanel.setVisible(false);
+            settingsPanel.setVisible(false);
+            helpeventPanel.setVisible(false);
             mainTextArea.setText("You Win!!!");
             mainGamePanel.setOpaque(false);
             mainGamePanel.add(mainTextArea);
             Image heliIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("helicopter.jpg")).getImage();
-
-
             animation = new Animation(heliIcon);
             animation.setBounds(200,100,400,400);
-
             container.add(animation);
         } else {
-
         }
     }
 
@@ -524,13 +522,14 @@ public class GameUI {
         getMusicPanel().setBackground(Color.white);
         String select[] = {"ON", "OFF"};
 
-
         setMusicStatus(new JComboBox(select));
         getMusicStatus().addActionListener(actionHandler);
         getMusicStatus().setActionCommand("toggle sound");
         setSoundFXStatus(new JComboBox(select));
         setMusicLabel(new JLabel("Music"));
         setSoundFxLabel(new JLabel("SoundFX"));
+        getSoundFXStatus().addActionListener(actionHandler);
+        getSoundFXStatus().setActionCommand("toggle fx");
         setVolumeDown(new JButton("volume down"));
         getVolumeDown().addActionListener(actionHandler);
         getVolumeDown().setActionCommand("volume down");

@@ -13,7 +13,8 @@
       "items": [],
       "encounters_to": [],
       "encounters_from": [],
-      "sound": "sounds/landing_zone.wav"
+      "sound": "sounds/landing_zone.wav",
+      "curLocation": "img/landingZone.png"
     },
     "room02": {
       "hasBeenVisited": false,

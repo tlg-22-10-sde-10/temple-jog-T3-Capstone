@@ -318,7 +318,7 @@ public class GameUI {
 
 
         //help button
-        ImageIcon helpIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("img/helpImage.png"));
+        ImageIcon helpIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("img/monitor.png"));
         helpButton = new JButton();
         helpButton.setIcon(helpIcon);
         helpButton.setBorderPainted(false);

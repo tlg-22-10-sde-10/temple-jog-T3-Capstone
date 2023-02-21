@@ -50,14 +50,18 @@ public class GameUI {
         window = new JFrame("Temple Jog");
         window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // close when window is closed
-        window.getContentPane().setBackground(Color.BLACK);
+        window.setContentPane(new JLabel(new ImageIcon
+                ((getClass().getClassLoader().getResource
+                        ("img/8_bit_ufo.png")))));;
         window.setLayout(null);
         window.setVisible(true);
+        window.setResizable(false);
         container = window.getContentPane();
 
         titleNamePanel = new JPanel();
         titleNamePanel.setBounds(100, 100, 600, 150); //x and y axis starting top left. width starting from xy axis. height starting from top.
         titleNamePanel.setBackground(Color.BLUE);
+        titleNamePanel.setOpaque(false);
         titleLabel = new JLabel("Temple Jog"); //text label
         titleLabel.setForeground(Color.WHITE);// text color
         titleLabel.setFont(titleFont);
@@ -65,6 +69,7 @@ public class GameUI {
         startButtonPanel = new JPanel();
         startButtonPanel.setBounds(250, 300, 200, 75);
         startButtonPanel.setBackground(Color.GREEN);
+        startButtonPanel.setOpaque(false);
 
         startButton = new JButton("New Game");
         startButton.setBackground(Color.BLACK);
@@ -78,6 +83,7 @@ public class GameUI {
         quitButtonPanel = new JPanel();
         quitButtonPanel.setBounds(450, 300, 100, 75);
         quitButtonPanel.setBackground(Color.RED);
+        quitButtonPanel.setOpaque(false);
 
         quitButton = new JButton("Quit");
         quitButton.setBackground(Color.BLACK);
@@ -88,10 +94,7 @@ public class GameUI {
         titleNamePanel.add(titleLabel);
         startButtonPanel.add(startButton);
         quitButtonPanel.add(quitButton);
-//        Image icon = new ImageIcon("src/main/resources/car.jpg").getImage();
-//        animation = new Animation(icon);
-//        animation.setBounds(50,300,200,200);
-//        container.add(animation);
+
 
         container.add(titleNamePanel);
         container.add(startButtonPanel);
@@ -112,7 +115,7 @@ public class GameUI {
     }
 
 
-    public static void difficultyScreen() {
+    public static void difficultyScreen()  {
         titleNamePanel.setVisible(false);
         startButtonPanel.setVisible(false);
         quitButtonPanel.setVisible(false);
@@ -121,11 +124,13 @@ public class GameUI {
         difficultyPanel.setBounds(250, 300, 300, 150);
         difficultyPanel.setBackground(Color.GREEN);
         difficultyPanel.setLayout(new GridLayout(3, 1));
+        difficultyPanel.setOpaque(false);
         container.add(difficultyPanel);
 
         mainTextPanel = new JPanel();
         mainTextPanel.setBounds(100, 0, 600, 400);
         mainTextPanel.setBackground(Color.BLACK);
+        mainTextPanel.setOpaque(false);
         container.add(mainTextPanel);
 
         mainTextArea = new JTextArea("Choose your difficulty: ");
@@ -219,7 +224,6 @@ public class GameUI {
         easyGame();
         game.getPlayer().setHealth(1);
         game.getPlayer().setSteps(8);
-        game.getItems().get("desert eagle").setReuse(1);
         game.getItems().get("machete").setReuse(1);
     }
 
@@ -230,6 +234,7 @@ public class GameUI {
         mainGamePanel = new JPanel();
         mainGamePanel.setBounds(0, 50, WINDOW_WIDTH, 350);
         mainGamePanel.setBackground(Color.GREEN);
+        mainGamePanel.setOpaque(false);
         container.add(mainGamePanel);
 
         mainTextArea = new JTextArea(String.valueOf(game.getCurrentRoom().getDescription()));
@@ -242,8 +247,8 @@ public class GameUI {
 
         encounterTextArea = new JTextArea(String.valueOf(game.getCurrentRoom().getEncounters_to()));
         encounterTextArea.setBounds(0, 150, WINDOW_WIDTH, 100);
-        encounterTextArea.setBackground(Color.RED);
-        encounterTextArea.setForeground(Color.GREEN);
+        encounterTextArea.setBackground(Color.BLACK);
+        encounterTextArea.setForeground(Color.RED);
         encounterTextArea.setFont(gameFont);
         encounterTextArea.setLineWrap(true);
         mainGamePanel.add(encounterTextArea);
@@ -263,9 +268,10 @@ public class GameUI {
         container.add(directionalPanel);
 
         playerInventoryPanel = new JPanel();
-        playerInventoryPanel.setBounds(0, 400, 400, 150);
-        playerInventoryPanel.setBackground(Color.WHITE);
-        playerInventoryPanel.setLayout(new GridLayout(4, 3));
+        playerInventoryPanel.setBounds(0, 400, 200, 160);
+        playerInventoryPanel.setBackground(Color.LIGHT_GRAY);
+        playerInventoryPanel.setLayout(new GridLayout(7, 1));
+        playerInventoryPanel.setOpaque(false);
         container.add(playerInventoryPanel);
         playerInventoryPanel.setVisible(false);
 
@@ -283,23 +289,23 @@ public class GameUI {
         playerPanel.add(healthLabel);
 
         northButton = new JButton("North");
-        northButton.setBackground(Color.red);
+        northButton.setBackground(Color.BLACK);
         northButton.setForeground(Color.WHITE);
         northButton.addActionListener(actionHandler);
         northButton.setActionCommand("north");
         eastButton = new JButton("East");
-        eastButton.setBackground(Color.red);
-        eastButton.setForeground(Color.WHITE);
+        eastButton.setBackground(Color.GREEN);
+        eastButton.setForeground(Color.BLACK);
         eastButton.addActionListener(actionHandler);
         eastButton.setActionCommand("east");
         southButton = new JButton("South");
-        southButton.setBackground(Color.red);
+        southButton.setBackground(Color.BLACK);
         southButton.setForeground(Color.WHITE);
         southButton.addActionListener(actionHandler);
         southButton.setActionCommand("south");
         westButton = new JButton("West");
-        westButton.setBackground(Color.red);
-        westButton.setForeground(Color.WHITE);
+        westButton.setBackground(Color.GREEN);
+        westButton.setForeground(Color.BLACK);
         westButton.addActionListener(actionHandler);
         westButton.setActionCommand("west");
 
@@ -314,6 +320,7 @@ public class GameUI {
         settingsPanel.setLayout(new GridLayout(1, 3));
         settingsPanel.setBounds(400, 500, 150, 100);
         settingsPanel.setBackground(Color.RED);
+        settingsPanel.setOpaque(false);
         container.add(settingsPanel);
 
         //settings button
@@ -425,16 +432,10 @@ public class GameUI {
         boolean hasEncounters = !game.getCurrentRoom().getEncounters_to().isEmpty();
         StringBuilder encounterDescription = new StringBuilder();
         if (hasEncounters) {
-
             for (String encounter : game.getCurrentRoom().getEncounters_to()) {
-//                encounterDescription = new StringBuilder();
                 encounterDescription.append(game.getEncounters().get(encounter).getDescription().toString());
                 encounterDescription.append("\n");
-                encounterDescription.append("\n");
-
             }
-//            Image icon = new ImageIcon("src/main/resources/car.jpg").getImage();
-
         } else {
             encounterDescription = new StringBuilder().append("nothing here");
         }

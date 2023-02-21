@@ -83,7 +83,7 @@ public class ActionHandler implements ActionListener {
                 break;
             case "close settings":
             case "close help":
-            case "close playerMap":
+            case "close getMap":
                 GameUI.eventPanelClose(userChoice);
                 GameUI.areaItemPanel.setVisible(true);
                 break;
@@ -109,9 +109,11 @@ public class ActionHandler implements ActionListener {
             case "getMap":
                 if (GameUI.getMapPanel().isVisible()) {
                     GameUI.getMapPanel().setVisible(false);
+
                 } else {
                     GameUI.getMapPanel().setVisible(true);
                     GameUI.areaItemPanel.setVisible(false);
+                    GameUI.directionalPanel.setVisible(false);
 
                 }
                 break;

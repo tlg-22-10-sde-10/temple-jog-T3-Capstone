@@ -23,7 +23,7 @@ public class GameUI {
     static Animation animation;
     static String currentLocationMap;
     static Image icon;
-
+    static FileLoader fileLoader = new FileLoader();
     static JFrame window;
     static Container container;
     static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
@@ -40,6 +40,7 @@ public class GameUI {
     static Font smallFont = new Font("Times New Roman", Font.PLAIN, 15);
     static Font normalFont = new Font("Times New Roman", Font.PLAIN, 20);
     static Font gameFont = new Font("Times New Roman", Font.PLAIN, 25);
+    static Font extraSmall =new Font ("Times New Roman", Font.PLAIN, 5);
 
     static ActionHandler actionHandler = new ActionHandler();
     static Game game;
@@ -106,7 +107,7 @@ public class GameUI {
         settings.setVisible(false);
         settingMenuOption();
 
-        helpeventPanel = eventPanel(200, 150, 800, 400, "help");
+        helpeventPanel = eventPanel(200, 150, 400, 200, "help");
         helpeventPanel.setVisible(false);
 
         mapPanel = eventPanel(0, 0, 780, 550, "getMap");
@@ -318,13 +319,13 @@ public class GameUI {
         //Setting Panel
         settingsPanel = new JPanel();
         settingsPanel.setLayout(new GridLayout(1, 3));
-        settingsPanel.setBounds(400, 500, 150, 100);
-        settingsPanel.setBackground(Color.RED);
+        settingsPanel.setBounds(575, 310, 200, 100);
+        settingsPanel.setBackground(Color.BLACK);
         settingsPanel.setOpaque(false);
         container.add(settingsPanel);
 
         //settings button
-        ImageIcon settingIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("gear.png"));
+        ImageIcon settingIcon = new ImageIcon(fileLoader.imageLoader("gear.png"));
         settingsButton = new JButton();
         settingsButton.setIcon(settingIcon);
         settingsButton.setBorderPainted(false);
@@ -339,21 +340,19 @@ public class GameUI {
 
 
         //help button
-        ImageIcon helpIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("helpBubble.png"));
+        ImageIcon helpIcon = new ImageIcon(fileLoader.imageLoader("helpBubble.png"));
         helpButton = new JButton();
         helpButton.setIcon(helpIcon);
         helpButton.setBorderPainted(false);
         helpButton.setFocusPainted(false);
         helpButton.setContentAreaFilled(false);
         helpButton.setPreferredSize(new Dimension(50, 50));
-//        helpButton.setBackground(Color.red);
-//        helpButton.setForeground(Color.WHITE);
         helpButton.addActionListener(actionHandler);
         helpButton.setActionCommand("help");
         settingsPanel.add(helpButton);
 
 
-        ImageIcon mapIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("earth.png"));
+        ImageIcon mapIcon = new ImageIcon(fileLoader.imageLoader("radar4.png"));
         getMapButton = new JButton();
         getMapButton.setIcon(mapIcon);
         getMapButton.setBorderPainted(false);
@@ -366,13 +365,7 @@ public class GameUI {
 
 
         currentLocationMap = game.getCurrentRoom().getCurLocation();
-        try (InputStream inputStream = GameUI.class.getClassLoader().getResourceAsStream(currentLocationMap)) {
-            //noinspection ConstantConditions
-            icon = ImageIO.read(inputStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-
-        }
+        icon = fileLoader.imageLoader(currentLocationMap);
         ImageIcon roomIcon = new ImageIcon(icon);
         JLabel locationMap = new JLabel();
         locationMap.setIcon(roomIcon);
@@ -386,10 +379,8 @@ public class GameUI {
     public static void eventPanelClose(String name) {
         String panelName = name.replace("close ", "");
         switch (panelName) {
-            case "playerMap":
-                //remove all used to update map everytime it is pulled up
-                //playerMap.setVisible(false);
-                //playerMap.removeAll();
+            case "getMap":
+                mapPanel.setVisible(false);
                 break;
             case "settings":
                 settings.setVisible(false);
@@ -409,11 +400,11 @@ public class GameUI {
         panelBuilder.setOpaque(true);
         window.add(panelBuilder);
         JButton exitButton = new JButton("X");
-        exitButton.setForeground(Color.black);
-        //exitButton.setFont(getOldRetro().deriveFont(Font.ITALIC, 15));
-        exitButton.setOpaque(false);
-        exitButton.setBounds(width - 30, 0, 30, 30);
-        exitButton.setBackground(Color.GRAY);
+        exitButton.setForeground(Color.WHITE);
+        exitButton.setFont(normalFont);
+        //exitButton.setOpaque(false);
+        exitButton.setBounds(width - 50, 0, 50, 30);
+        exitButton.setBackground(Color.RED);
         exitButton.addActionListener(actionHandler);
         exitButton.setActionCommand("close " + target);
         panelBuilder.add(exitButton);
@@ -507,13 +498,7 @@ public class GameUI {
             mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
             mapPanel.removeAll();
             String newMap = game.getCurrentRoom().getCurLocation();
-            try (InputStream inputStream = GameUI.class.getClassLoader().getResourceAsStream(newMap)) {
-                //noinspection ConstantConditions
-                icon = ImageIO.read(inputStream);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-
-            }
+            icon = fileLoader.imageLoader(newMap);
             ImageIcon roomIcon = new ImageIcon(icon);
             JLabel locationMap = new JLabel();
             locationMap.setIcon(roomIcon);

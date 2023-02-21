@@ -191,7 +191,7 @@ public class Game {
     private String handleEnemyEncounters(String noun, String currentEncounterName, Encounter encounter){
         //TODO: refactor, may not need to remove encounter object from encountersMap
         Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName);
-        StringBuilder outputMessage = new StringBuilder(String.format("%s is EFFECTIVE against %s... ",noun, currentEncounterName));
+        StringBuilder outputMessage = new StringBuilder(String.format("%s is EFFECTIVE against %s... \n",noun, currentEncounterName));
         if( (encounterRemovedFromCurrRoom || (getCurrentRoom().getEncounters_to().size() == 0) ) ) {
             outputMessage.append(String.format("%s",encounter.getSuccess()));
         }

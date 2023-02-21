@@ -9,11 +9,11 @@ import com.game.templejog.animation.Animation;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+//import static com.game.templejog.Game.currentRoom;
 
 public class GameUI {
     private static final int WINDOW_HEIGHT = 600;
@@ -21,14 +21,14 @@ public class GameUI {
     private static final Color PRIMARY_COLOR = new Color(0, 0, 0);
     private static final Color SECONDARY_COLOR = new Color(0, 0, 0);
     static Animation animation;
-
+    static String currentLocationMap;
     static Image icon;
 
     static JFrame window;
     static Container container;
     static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
     static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel, settings, helpeventPanel, mapPanel, settingsPanel;
-    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel,  mapLabel;
+    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel, mapLabel;
     static JButton northButton, eastButton, southButton, westButton, getMapButton, VolumeDown, VolumeUp;
     static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton, helpButton;
     static JTextArea mainTextArea, encounterTextArea, helpMenuTextArea;
@@ -106,8 +106,9 @@ public class GameUI {
         helpeventPanel = eventPanel(200, 150, 800, 400, "help");
         helpeventPanel.setVisible(false);
 
-        mapPanel = eventPanel(200, 150, 800, 400, "getMap");
+        mapPanel = eventPanel(0, 0, 780, 550, "getMap");
         mapPanel.setVisible(false);
+        mapPanel.setBackground(Color.BLACK);
     }
 
 
@@ -210,7 +211,8 @@ public class GameUI {
     public static void mediumGame() throws IOException, InterruptedException {
         easyGame();
         game.getPlayer().setHealth(5);
-        game.getPlayer().setSteps(4);;
+        game.getPlayer().setSteps(4);
+        ;
     }
 
     public static void hardGame() throws IOException, InterruptedException {
@@ -315,7 +317,7 @@ public class GameUI {
         container.add(settingsPanel);
 
         //settings button
-        ImageIcon settingIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("img/gear.png"));
+        ImageIcon settingIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("gear.png"));
         settingsButton = new JButton();
         settingsButton.setIcon(settingIcon);
         settingsButton.setBorderPainted(false);
@@ -330,7 +332,7 @@ public class GameUI {
 
 
         //help button
-        ImageIcon helpIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("img/helpTextBubble.png"));
+        ImageIcon helpIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("helpBubble.png"));
         helpButton = new JButton();
         helpButton.setIcon(helpIcon);
         helpButton.setBorderPainted(false);
@@ -344,7 +346,7 @@ public class GameUI {
         settingsPanel.add(helpButton);
 
 
-        ImageIcon mapIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("img/mapIcon.png"));
+        ImageIcon mapIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("earth.png"));
         getMapButton = new JButton();
         getMapButton.setIcon(mapIcon);
         getMapButton.setBorderPainted(false);
@@ -356,20 +358,21 @@ public class GameUI {
         settingsPanel.add(getMapButton);
 
 
-        //TODO: Trying to add image to mapPanel
-        String currentLocationMap = game.getCurrentRoom().getCurLocation();
-       // ImageIcon currentRoom = new ImageIcon(GameUI.class.getClassLoader().getResource(currentLocationMap));
-        //mapLabel = new JLabel( new ImageIcon(GameUI.class.getClassLoader().getResource(currentLocationMap)));
+        currentLocationMap = game.getCurrentRoom().getCurLocation();
+        try (InputStream inputStream = GameUI.class.getClassLoader().getResourceAsStream(currentLocationMap)) {
+            //noinspection ConstantConditions
+            icon = ImageIO.read(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
 
-//        try(InputStream inputStream = GameUI.class.getClassLoader().getResourceAsStream(currentLocationMap)){
-//            //noinspection ConstantConditions
-//            icon = ImageIO.read(inputStream);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//
-//        }
-//        mapLabel.add(icon);
-//        mapPanel.add(ico
+        }
+        ImageIcon roomIcon = new ImageIcon(icon);
+        JLabel locationMap = new JLabel();
+        locationMap.setIcon(roomIcon);
+        locationMap.setBounds(0, 0, 800, 550);
+
+        mapPanel.add(locationMap);
+
     }
 
 
@@ -501,6 +504,22 @@ public class GameUI {
     static void updateGameScreen(String direction) {
         if (game.processNavigating(direction).contains("Traveling")) {
             mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
+            mapPanel.removeAll();
+            String newMap = game.getCurrentRoom().getCurLocation();
+            try (InputStream inputStream = GameUI.class.getClassLoader().getResourceAsStream(newMap)) {
+                //noinspection ConstantConditions
+                icon = ImageIO.read(inputStream);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+
+            }
+            ImageIcon roomIcon = new ImageIcon(icon);
+            JLabel locationMap = new JLabel();
+            locationMap.setIcon(roomIcon);
+            locationMap.setBounds(0, 0, 800, 550);
+
+            mapPanel.add(locationMap);
+
             encounterTextArea.setText(encounterDescription());
             showAreaItems();
 
@@ -546,7 +565,7 @@ public class GameUI {
             mainGamePanel.add(mainTextArea);
             Image heliIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("helicopter.jpg")).getImage();
             animation = new Animation(heliIcon);
-            animation.setBounds(200,100,400,400);
+            animation.setBounds(200, 100, 400, 400);
             container.add(animation);
         } else {
         }

@@ -504,6 +504,16 @@ public class GameUI {
             locationMap.setIcon(roomIcon);
             locationMap.setBounds(0, 0, 800, 550);
 
+
+            JButton exitButton = new JButton("X");
+            exitButton.setForeground(Color.WHITE);
+            exitButton.setFont(normalFont);
+            //exitButton.setOpaque(false);
+            exitButton.setBounds(780 - 50, 0, 50, 30);
+            exitButton.setBackground(Color.RED);
+            exitButton.addActionListener(actionHandler);
+            exitButton.setActionCommand("close getMap");
+            mapPanel.add(exitButton);
             mapPanel.add(locationMap);
 
             encounterTextArea.setText(encounterDescription());

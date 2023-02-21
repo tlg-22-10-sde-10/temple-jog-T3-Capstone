@@ -14,10 +14,10 @@ public class Animation extends JPanel implements ActionListener {
     Image background;
     Timer timer;
     int timeDelay = 100;
-    static int xVelocity = 1;
-    static int yVelocity = 0;
+    static int xVelocity = 0;
+    static int yVelocity = 1;
     int x = 0;
-    int y = 0;
+    int y = 200;
 
 
     public Animation() {
@@ -27,7 +27,6 @@ public class Animation extends JPanel implements ActionListener {
             icon = ImageIO.read(inputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
-
         }
         icon = new ImageIcon("src/main/resources/car.jpg").getImage();
         timer = new Timer(10, this);
@@ -36,6 +35,7 @@ public class Animation extends JPanel implements ActionListener {
 
     public Animation(Image image) {
         this.setBackground(Color.BLACK);
+        this.setOpaque(false);
         this.icon = image;
         timer = new Timer(10, this);
         timer.start();
@@ -49,10 +49,10 @@ public class Animation extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (x > 200) {
-            setxVelocity(0);
-            setyVelocity(1);
-        }
+//        if (x > 400) {
+//            setxVelocity(0);
+//            setyVelocity(1);
+//        }
         if (y > 200) {
             setxVelocity(-1);
             setyVelocity(0);
@@ -61,7 +61,7 @@ public class Animation extends JPanel implements ActionListener {
             setxVelocity(0);
             setyVelocity(-1);
         }
-        if (y < 0 && x < 100 ) {
+        if (y < 100 && x < 100 ) {
             setxVelocity(1);
             setyVelocity(0);
         }

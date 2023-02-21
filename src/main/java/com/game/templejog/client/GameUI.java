@@ -81,25 +81,25 @@ public class GameUI {
         startButton.addActionListener(actionHandler);
         startButton.setFocusPainted(false);
 
-        quitButtonPanel = new JPanel();
-        quitButtonPanel.setBounds(450, 300, 100, 75);
-        quitButtonPanel.setBackground(Color.RED);
-        quitButtonPanel.setOpaque(false);
+//        quitButtonPanel = new JPanel();
+//        quitButtonPanel.setBounds(450, 300, 100, 75);
+//        quitButtonPanel.setBackground(Color.RED);
+//        quitButtonPanel.setOpaque(false);
 
-        quitButton = new JButton("Quit");
-        quitButton.setBackground(Color.BLACK);
-        quitButton.setForeground(Color.WHITE);
-        quitButton.setFont(standardFont);
-        quitButton.setFocusPainted(false);
+//        quitButton = new JButton("Quit");
+//        quitButton.setBackground(Color.BLACK);
+//        quitButton.setForeground(Color.WHITE);
+//        quitButton.setFont(standardFont);
+//        quitButton.setFocusPainted(false);
 
         titleNamePanel.add(titleLabel);
         startButtonPanel.add(startButton);
-        quitButtonPanel.add(quitButton);
+//        quitButtonPanel.add(quitButton);
 
 
         container.add(titleNamePanel);
         container.add(startButtonPanel);
-        container.add(quitButtonPanel);
+//        container.add(quitButtonPanel);
 
 
         Sound.Title();
@@ -119,7 +119,7 @@ public class GameUI {
     public static void difficultyScreen()  {
         titleNamePanel.setVisible(false);
         startButtonPanel.setVisible(false);
-        quitButtonPanel.setVisible(false);
+//        quitButtonPanel.setVisible(false);
 
         difficultyPanel = new JPanel();
         difficultyPanel.setBounds(250, 300, 300, 150);

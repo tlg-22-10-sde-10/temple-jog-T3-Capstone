@@ -4,8 +4,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.game.templejog.Temple;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+
+
 
 public class FileLoader {
     public static Temple jsonLoader(String path) throws IOException {
@@ -16,5 +20,18 @@ public class FileLoader {
                 gameFiles = mapper.readValue(inputStream,Temple.class);
             return gameFiles;
         }
+
+
+    }
+    public Image imageLoader(String imagePath){
+        Image image = null;
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(imagePath)) {
+            //noinspection ConstantConditions
+            image = ImageIO.read(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+        }
+        return image;
     }
 }

@@ -425,7 +425,6 @@ public class GameUI {
         if (hasEncounters) {
             for (String encounter : game.getCurrentRoom().getEncounters_to()) {
                 encounterDescription.append(game.getEncounters().get(encounter).getDescription().toString());
-                encounterDescription.append("\n");
             }
         } else {
             encounterDescription = new StringBuilder().append("nothing here");

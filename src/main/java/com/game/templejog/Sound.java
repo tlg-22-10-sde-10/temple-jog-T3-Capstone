@@ -8,6 +8,15 @@ import java.util.Scanner;
 
 public class Sound {
     private static Clip clip;
+    private static Clip fx;
+    public static float currentVolume = 0;
+    private static FloatControl floatControl;
+    private static boolean soundFx = true;
+
+    void Sound() {
+        volumeUp();
+        volumeDown();
+    }
 
     /* Handles the background theme music */
     public static void themeSound(String file) {
@@ -28,16 +37,17 @@ public class Sound {
             System.out.println("Error: Could not play audio clip.");
         }
     }
+
     public static void onceSound(String file) {
         try {
             URL landingSound = Main.class.getClassLoader().getResource(file);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(landingSound);
-            clip = AudioSystem.getClip();
-            clip.open(audioStream);
+            fx = AudioSystem.getClip();
+            fx.open(audioStream);
             FloatControl gainControl =
-                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                    (FloatControl) fx.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
-            clip.start();
+            fx.start();
         } catch (UnsupportedAudioFileException e) {
             System.out.println("Error: Unsupported audio file format.");
         } catch (IOException e) {
@@ -47,13 +57,13 @@ public class Sound {
         }
     }
 
-    public static String turningSound(String noun, Game game){
-        if(noun.isEmpty()){
+    public static String turningSound(String noun, Game game) {
+        if (noun.isEmpty()) {
             return InvalidNounInput.BAD_SOUND.getWarning();
-        } else if(noun.equalsIgnoreCase("on")){
+        } else if (noun.equalsIgnoreCase("on")) {
             game.setPlaySound(true);
             Sound.themeSound(game.getCurrentRoom().getSound());
-        } else if(noun.equalsIgnoreCase("off")){
+        } else if (noun.equalsIgnoreCase("off")) {
             Sound.stopSound();
             game.setPlaySound(false);
         }
@@ -63,18 +73,33 @@ public class Sound {
     public static void gameSound(Scanner scanner, Game game) {
         System.out.println(UserInput.TURN_MUSIC.getUserPrompt());
         String musicOn = scanner.nextLine();
-        if (musicOn.equalsIgnoreCase("y")){
+        if (musicOn.equalsIgnoreCase("y")) {
             game.setPlaySound(true);
             Sound.themeSound("sounds/background_music.wav");
         } else {
+            Sound.stopSound();
             game.setPlaySound(false);
         }
     }
 
-    public static void stopSound(){
-        if(clip != null) {
+    public static void stopSound() {
+        if (clip != null) {
             clip.stop();
         }
+    }
+
+    public static void volumeUp() {
+        FloatControl gainControl =
+                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        if (currentVolume < 6.0f) {
+            gainControl.setValue(+1.0f); // Reduce volume by 10 decibels.
+        }
+    }
+
+    public static void volumeDown() {
+        FloatControl gainControl =
+                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
     }
 
     public static void ending(String filePath) {
@@ -97,18 +122,42 @@ public class Sound {
         }
     }
 
-    public static void gameIntro(Game game){
+
+    public static void gameIntro(Game game) {
         game.setPlaySound(true);
         Sound.themeSound("sounds/background_music.wav");
     }
-    public static void Title(){
+
+    public static void Title() {
         Sound.themeSound("sounds/background_music.wav");
     }
 
     public static void wrongWaySound() {
-        Sound.onceSound("sounds/wrong_way.wav");
+        if (soundFx) {
+            Sound.onceSound("sounds/wrong_way.wav");
+        }
     }
+
     public static void wrongItemSound() {
-        Sound.onceSound("sounds/ineffective_item.wav");
+        if (soundFx) {
+            Sound.onceSound("sounds/ineffective_item.wav");
+        }
+    }
+
+    public static float getCurrentVolume() {
+        return currentVolume;
+    }
+
+    public static void setCurrentVolume(float currentVolume) {
+        Sound.currentVolume = currentVolume;
+    }
+
+    public static boolean isSoundFx() {
+        return soundFx;
+    }
+
+    public static void setSoundFx(boolean soundFx) {
+        Sound.soundFx = soundFx;
     }
 }
+

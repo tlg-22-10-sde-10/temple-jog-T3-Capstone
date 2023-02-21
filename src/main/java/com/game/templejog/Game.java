@@ -3,6 +3,9 @@ package com.game.templejog;
 import java.util.*;
 
 public class Game {
+    private static Boolean playSound;
+    private static Boolean playFxSound;
+    private static Room currentRoom;
     // MODEL
     private Boolean quitGame;
     private String scannerString;
@@ -10,10 +13,8 @@ public class Game {
     private HashMap<String, Encounter> encounters;
     private HashMap<String, Item> items;
     private Player player;
-    private Room currentRoom;
     private Boolean communicatorOff;
     private HashMap<String,String> gameText;
-    private Boolean playSound;
 
 // CONSTRUCTORS
     public Game(Temple temple) {
@@ -190,7 +191,7 @@ public class Game {
     private String handleEnemyEncounters(String noun, String currentEncounterName, Encounter encounter){
         //TODO: refactor, may not need to remove encounter object from encountersMap
         Boolean encounterRemovedFromCurrRoom = getCurrentRoom().removeEncounter(currentEncounterName);
-        StringBuilder outputMessage = new StringBuilder(String.format("%s is EFFECTIVE against %s... ",noun, currentEncounterName));
+        StringBuilder outputMessage = new StringBuilder(String.format("%s is EFFECTIVE against %s... \n",noun, currentEncounterName));
         if( (encounterRemovedFromCurrRoom || (getCurrentRoom().getEncounters_to().size() == 0) ) ) {
             outputMessage.append(String.format("%s",encounter.getSuccess()));
         }
@@ -279,7 +280,7 @@ public class Game {
     }
 
 //  ACCESSOR METHODS
-    public Room getCurrentRoom() { return currentRoom;}
+    public static Room getCurrentRoom() { return currentRoom;}
     public void setCurrentRoom(Room currentRoom) { this.currentRoom = currentRoom;}
     public Player getPlayer() { return player; }
     public void setPlayer(Player player) { this.player = player; }
@@ -295,8 +296,14 @@ public class Game {
     public void setItems(HashMap<String, Item> items) { this.items = items; }
     public Boolean getCommunicatorOff() { return communicatorOff; }
     public void setCommunicatorOff(Boolean communicatorOff) { this.communicatorOff = communicatorOff; }
-    public Boolean getPlaySound() { return playSound; }
-    public void setPlaySound(Boolean playSound) { this.playSound = playSound; }
+    public static Boolean getPlaySound() { return playSound; }
+    public static void setPlaySound(Boolean playSound) { Game.playSound = playSound; }
     public HashMap<String, String> getGameText() { return gameText; }
+    public static Boolean getPlayFxSound() {
+        return playFxSound;
+    }
+    public static void setPlayFxSound(Boolean playFxSound) {
+        Game.playFxSound = playFxSound;
+    }
     public void setGameText(HashMap<String, String> gameText) { this.gameText = gameText; }
 }

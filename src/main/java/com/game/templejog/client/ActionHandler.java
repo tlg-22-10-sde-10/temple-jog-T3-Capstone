@@ -1,5 +1,8 @@
 package com.game.templejog.client;
 
+import com.game.templejog.Game;
+import com.game.templejog.Sound;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -16,6 +19,7 @@ public class ActionHandler implements ActionListener {
         switch (userChoice) {
             case "start":
                 GameUI.difficultyScreen();
+
                 break;
             case "c1":
                 try {
@@ -26,10 +30,22 @@ public class ActionHandler implements ActionListener {
                 }
                 break;
             case "c2":
-                GameUI.normalGame();
+                try {
+                    GameUI.mediumGame();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
                 break;
             case "c3":
-                GameUI.hardGame();
+                try {
+                    GameUI.hardGame();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
                 break;
             case "play":
                 GameUI.mainGameDisplay();
@@ -41,6 +57,7 @@ public class ActionHandler implements ActionListener {
                 try {
                     GameUI.updateGameScreen(userChoice);
                     GameUI.getSettings().setVisible(false);
+                    GameUI.getHelpeventPanel().setVisible(false);
                 } catch (Exception event) {
                     throw new RuntimeException(event);
                 }
@@ -65,18 +82,88 @@ public class ActionHandler implements ActionListener {
                 GameUI.useItem(userChoice);
                 GameUI.getSettings().setVisible(false);
                 break;
-            case "close":
-                GameUI.eventPanelClose();
+            case "close settings":
+            case "close help":
+            case "close getMap":
+                GameUI.eventPanelClose(userChoice);
+                GameUI.areaItemPanel.setVisible(true);
+                GameUI.playerInventoryPanel.setVisible(true);
+                GameUI.directionalPanel.setVisible(true);
+                GameUI.mainGamePanel.setVisible(true);
                 break;
             case "settings":
                 if (GameUI.getSettings().isVisible()) {
                     GameUI.getSettings().setVisible(false);
+                    GameUI.areaItemPanel.setVisible(true);
+                    GameUI.playerInventoryPanel.setVisible(true);
+                    GameUI.directionalPanel.setVisible(true);;
+                    GameUI.mainGamePanel.setVisible(true);
                 } else {
                     GameUI.getSettings().setVisible(true);
-                    break;
+                    GameUI.areaItemPanel.setVisible(false);
+                    GameUI.playerInventoryPanel.setVisible(false);
+                    GameUI.directionalPanel.setVisible(false);
+                    GameUI.mainGamePanel.setVisible(false);
+                }
+                break;
+            case "help":
+                if (GameUI.getHelpeventPanel().isVisible()) {
+                    GameUI.getHelpeventPanel().setVisible(false);
+                    GameUI.areaItemPanel.setVisible(true);
+                    GameUI.playerInventoryPanel.setVisible(true);
+                    GameUI.directionalPanel.setVisible(true);
+                    GameUI.mainGamePanel.setVisible(true);
+                } else {
+                    GameUI.getHelpeventPanel().setVisible(true);
+                    GameUI.areaItemPanel.setVisible(false);
+                    GameUI.playerInventoryPanel.setVisible(false);
+                    GameUI.directionalPanel.setVisible(false);
+                    GameUI.mainGamePanel.setVisible(false);
 
                 }
-
+                break;
+            case "getMap":
+                if (GameUI.getMapPanel().isVisible()) {
+                    GameUI.getMapPanel().setVisible(false);
+                    GameUI.areaItemPanel.setVisible(true);
+                    GameUI.playerInventoryPanel.setVisible(true);
+                    GameUI.directionalPanel.setVisible(true);
+                    GameUI.mainGamePanel.setVisible(true);
+                } else {
+                    GameUI.getMapPanel().setVisible(true);
+                    GameUI.areaItemPanel.setVisible(false);
+                    GameUI.playerInventoryPanel.setVisible(false);
+                    GameUI.directionalPanel.setVisible(false);
+                    GameUI.mainGamePanel.setVisible(false);
+                }
+                break;
+            case "volume up":
+                Sound.volumeUp();
+                break;
+            case "volume down":
+                Sound.volumeDown();
+                break;
+            case "toggle sound":
+                if (GameUI.getMusicStatus().getSelectedItem().equals("ON")) {
+                    if (Game.getPlaySound().equals(false)) {
+                        Game.setPlaySound(true);
+                        String currentRoomSound = Game.getCurrentRoom().getSound();
+                        Sound.themeSound(currentRoomSound);
+                    }
+                } else if (GameUI.getMusicStatus().getSelectedItem().equals("OFF")) {
+                    Sound.stopSound();
+                    Game.setPlaySound(false);
+                }
+                break;
+            case "toggle fx":
+                if (GameUI.getSoundFXStatus().getSelectedItem().equals("ON")) {
+                    Sound.setSoundFx(true);
+                }
+                else{
+                    Sound.setSoundFx(false);
+                }
+                break;
         }
     }
 }
+

@@ -4,27 +4,34 @@ import com.game.templejog.Game;
 import com.game.templejog.Item;
 import com.game.templejog.Sound;
 import com.game.templejog.Temple;
+import com.game.templejog.animation.Animation;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+//import static com.game.templejog.Game.currentRoom;
 
 public class GameUI {
     private static final int WINDOW_HEIGHT = 600;
     private static final int WINDOW_WIDTH = 800;
-    private static final Color PRIMARY_COLOR = new Color(0,0,0);
-    private static final Color SECONDARY_COLOR = new Color(0,0,0);
+    private static final Color PRIMARY_COLOR = new Color(0, 0, 0);
+    private static final Color SECONDARY_COLOR = new Color(0, 0, 0);
+    static Animation animation;
+    static String currentLocationMap;
+    static Image icon;
+    static FileLoader fileLoader = new FileLoader();
     static JFrame window;
     static Container container;
     static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
-    static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel, settings, settingsPanel;
-    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel;
-    static JButton northButton, eastButton, southButton, westButton, soundOnOffButton, VolumeDown, VolumeUp;
-    static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton;
-    static JTextArea mainTextArea, encounterTextArea;
+    static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel, settings, helpeventPanel, mapPanel, settingsPanel;
+    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel, mapLabel;
+    static JButton northButton, eastButton, southButton, westButton, getMapButton, VolumeDown, VolumeUp;
+    static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton, helpButton;
+    static JTextArea mainTextArea, encounterTextArea, helpMenuTextArea;
 
     static JComboBox musicStatus, soundFXStatus;
 
@@ -33,24 +40,29 @@ public class GameUI {
     static Font smallFont = new Font("Times New Roman", Font.PLAIN, 15);
     static Font normalFont = new Font("Times New Roman", Font.PLAIN, 20);
     static Font gameFont = new Font("Times New Roman", Font.PLAIN, 25);
+    static Font extraSmall =new Font ("Times New Roman", Font.PLAIN, 5);
 
     static ActionHandler actionHandler = new ActionHandler();
     static Game game;
     static Temple gameFiles;
 
 
-    public GameUI() {
+    public GameUI() throws InterruptedException {
         window = new JFrame("Temple Jog");
         window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // close when window is closed
-        window.getContentPane().setBackground(Color.BLACK);
+        window.setContentPane(new JLabel(new ImageIcon
+                ((getClass().getClassLoader().getResource
+                        ("img/8_bit_ufo.png")))));;
         window.setLayout(null);
         window.setVisible(true);
+        window.setResizable(false);
         container = window.getContentPane();
 
         titleNamePanel = new JPanel();
         titleNamePanel.setBounds(100, 100, 600, 150); //x and y axis starting top left. width starting from xy axis. height starting from top.
         titleNamePanel.setBackground(Color.BLUE);
+        titleNamePanel.setOpaque(false);
         titleLabel = new JLabel("Temple Jog"); //text label
         titleLabel.setForeground(Color.WHITE);// text color
         titleLabel.setFont(titleFont);
@@ -58,6 +70,7 @@ public class GameUI {
         startButtonPanel = new JPanel();
         startButtonPanel.setBounds(250, 300, 200, 75);
         startButtonPanel.setBackground(Color.GREEN);
+        startButtonPanel.setOpaque(false);
 
         startButton = new JButton("New Game");
         startButton.setBackground(Color.BLACK);
@@ -68,45 +81,57 @@ public class GameUI {
         startButton.addActionListener(actionHandler);
         startButton.setFocusPainted(false);
 
-        quitButtonPanel = new JPanel();
-        quitButtonPanel.setBounds(450, 300, 100, 75);
-        quitButtonPanel.setBackground(Color.RED);
+//        quitButtonPanel = new JPanel();
+//        quitButtonPanel.setBounds(450, 300, 100, 75);
+//        quitButtonPanel.setBackground(Color.RED);
+//        quitButtonPanel.setOpaque(false);
 
-        quitButton = new JButton("Quit");
-        quitButton.setBackground(Color.BLACK);
-        quitButton.setForeground(Color.WHITE);
-        quitButton.setFont(standardFont);
-        quitButton.setFocusPainted(false);
+//        quitButton = new JButton("Quit");
+//        quitButton.setBackground(Color.BLACK);
+//        quitButton.setForeground(Color.WHITE);
+//        quitButton.setFont(standardFont);
+//        quitButton.setFocusPainted(false);
 
         titleNamePanel.add(titleLabel);
         startButtonPanel.add(startButton);
-        quitButtonPanel.add(quitButton);
+//        quitButtonPanel.add(quitButton);
+
 
         container.add(titleNamePanel);
         container.add(startButtonPanel);
-        container.add(quitButtonPanel);
+//        container.add(quitButtonPanel);
+
 
         Sound.Title();
         settings = eventPanel(200, 150, 400, 200, "settings");
         settings.setVisible(false);
         settingMenuOption();
+
+        helpeventPanel = eventPanel(200, 150, 400, 200, "help");
+        helpeventPanel.setVisible(false);
+
+        mapPanel = eventPanel(0, 0, 780, 550, "getMap");
+        mapPanel.setVisible(false);
+        mapPanel.setBackground(Color.BLACK);
     }
 
 
-    public static void difficultyScreen() {
+    public static void difficultyScreen()  {
         titleNamePanel.setVisible(false);
         startButtonPanel.setVisible(false);
-        quitButtonPanel.setVisible(false);
+//        quitButtonPanel.setVisible(false);
 
         difficultyPanel = new JPanel();
         difficultyPanel.setBounds(250, 300, 300, 150);
         difficultyPanel.setBackground(Color.GREEN);
         difficultyPanel.setLayout(new GridLayout(3, 1));
+        difficultyPanel.setOpaque(false);
         container.add(difficultyPanel);
 
         mainTextPanel = new JPanel();
         mainTextPanel.setBounds(100, 0, 600, 400);
         mainTextPanel.setBackground(Color.BLACK);
+        mainTextPanel.setOpaque(false);
         container.add(mainTextPanel);
 
         mainTextArea = new JTextArea("Choose your difficulty: ");
@@ -164,7 +189,7 @@ public class GameUI {
         Sound.stopSound();
         Sound.gameIntro(game);
         /* Stop the background music when entering landing zone */
-        if(game.getPlaySound()){
+        if (game.getPlaySound()) {
             Sound.stopSound();
             Sound.themeSound("sounds/landing_zone.wav");
         }
@@ -189,12 +214,18 @@ public class GameUI {
 
     }
 
-    public static void normalGame() {
-        mainTextArea.setText("You have chosen: Normal");
+    public static void mediumGame() throws IOException, InterruptedException {
+        easyGame();
+        game.getPlayer().setHealth(5);
+        game.getPlayer().setSteps(4);
+        ;
     }
 
-    public static void hardGame() {
-        mainTextArea.setText("You have chosen: Hard");
+    public static void hardGame() throws IOException, InterruptedException {
+        easyGame();
+        game.getPlayer().setHealth(1);
+        game.getPlayer().setSteps(8);
+        game.getItems().get("machete").setReuse(1);
     }
 
     public static void mainGameDisplay() {
@@ -204,6 +235,7 @@ public class GameUI {
         mainGamePanel = new JPanel();
         mainGamePanel.setBounds(0, 50, WINDOW_WIDTH, 350);
         mainGamePanel.setBackground(Color.GREEN);
+        mainGamePanel.setOpaque(false);
         container.add(mainGamePanel);
 
         mainTextArea = new JTextArea(String.valueOf(game.getCurrentRoom().getDescription()));
@@ -216,8 +248,8 @@ public class GameUI {
 
         encounterTextArea = new JTextArea(String.valueOf(game.getCurrentRoom().getEncounters_to()));
         encounterTextArea.setBounds(0, 150, WINDOW_WIDTH, 100);
-        encounterTextArea.setBackground(Color.RED);
-        encounterTextArea.setForeground(Color.GREEN);
+        encounterTextArea.setBackground(Color.BLACK);
+        encounterTextArea.setForeground(Color.RED);
         encounterTextArea.setFont(gameFont);
         encounterTextArea.setLineWrap(true);
         mainGamePanel.add(encounterTextArea);
@@ -237,12 +269,12 @@ public class GameUI {
         container.add(directionalPanel);
 
         playerInventoryPanel = new JPanel();
-        playerInventoryPanel.setBounds(0, 400, 400, 150);
-        playerInventoryPanel.setBackground(Color.WHITE);
-        playerInventoryPanel.setLayout(new GridLayout(4, 3));
+        playerInventoryPanel.setBounds(0, 400, 200, 160);
+        playerInventoryPanel.setBackground(Color.LIGHT_GRAY);
+        playerInventoryPanel.setLayout(new GridLayout(7, 1));
+        playerInventoryPanel.setOpaque(false);
         container.add(playerInventoryPanel);
         playerInventoryPanel.setVisible(false);
-
 
         playerPanel = new JPanel();
         playerPanel.setBounds(0, 0, WINDOW_WIDTH, 50);
@@ -255,28 +287,26 @@ public class GameUI {
         healthLabel.setForeground(Color.GREEN);
         healthLabel.setFont(normalFont);
 
-
         playerPanel.add(healthLabel);
 
-
         northButton = new JButton("North");
-        northButton.setBackground(Color.red);
+        northButton.setBackground(Color.BLACK);
         northButton.setForeground(Color.WHITE);
         northButton.addActionListener(actionHandler);
         northButton.setActionCommand("north");
         eastButton = new JButton("East");
-        eastButton.setBackground(Color.red);
-        eastButton.setForeground(Color.WHITE);
+        eastButton.setBackground(Color.GREEN);
+        eastButton.setForeground(Color.BLACK);
         eastButton.addActionListener(actionHandler);
         eastButton.setActionCommand("east");
         southButton = new JButton("South");
-        southButton.setBackground(Color.red);
+        southButton.setBackground(Color.BLACK);
         southButton.setForeground(Color.WHITE);
         southButton.addActionListener(actionHandler);
         southButton.setActionCommand("south");
         westButton = new JButton("West");
-        westButton.setBackground(Color.red);
-        westButton.setForeground(Color.WHITE);
+        westButton.setBackground(Color.GREEN);
+        westButton.setForeground(Color.BLACK);
         westButton.addActionListener(actionHandler);
         westButton.setActionCommand("west");
 
@@ -285,33 +315,79 @@ public class GameUI {
         directionalPanel.add(southButton);
         directionalPanel.add(westButton);
 
-        soundOnOffButton = new JButton("Sound On/Off");
-        soundOnOffButton.setBackground(Color.BLACK);
-        soundOnOffButton.setForeground(Color.RED);
-        soundOnOffButton.setBounds(200, 200, 100, 50);
-        soundOnOffButton.setFont(standardFont);
-        soundOnOffButton.setFocusPainted(false);
 
-        settings.add(soundOnOffButton);
-
-
-        //Setting options
+        //Setting Panel
         settingsPanel = new JPanel();
-        settingsPanel.setBounds(500, 500, 50, 50);
-        settingsPanel.setBackground(Color.RED);
+        settingsPanel.setLayout(new GridLayout(1, 3));
+        settingsPanel.setBounds(575, 310, 200, 100);
+        settingsPanel.setBackground(Color.BLACK);
+        settingsPanel.setOpaque(false);
         container.add(settingsPanel);
 
         //settings button
-        settingsButton = new JButton("settings");
-        settingsButton.setBackground(Color.red);
-        settingsButton.setForeground(Color.WHITE);
+        ImageIcon settingIcon = new ImageIcon(fileLoader.imageLoader("gear.png"));
+        settingsButton = new JButton();
+        settingsButton.setIcon(settingIcon);
+        settingsButton.setBorderPainted(false);
+        settingsButton.setFocusPainted(false);
+        settingsButton.setContentAreaFilled(false);
+        settingsButton.setPreferredSize(new Dimension(50, 50));
         settingsButton.addActionListener(actionHandler);
         settingsButton.setActionCommand("settings");
         settingsPanel.add(settingsButton);
+
+        //HelpPanel
+
+
+        //help button
+        ImageIcon helpIcon = new ImageIcon(fileLoader.imageLoader("helpBubble.png"));
+        helpButton = new JButton();
+        helpButton.setIcon(helpIcon);
+        helpButton.setBorderPainted(false);
+        helpButton.setFocusPainted(false);
+        helpButton.setContentAreaFilled(false);
+        helpButton.setPreferredSize(new Dimension(50, 50));
+        helpButton.addActionListener(actionHandler);
+        helpButton.setActionCommand("help");
+        settingsPanel.add(helpButton);
+
+
+        ImageIcon mapIcon = new ImageIcon(fileLoader.imageLoader("radar4.png"));
+        getMapButton = new JButton();
+        getMapButton.setIcon(mapIcon);
+        getMapButton.setBorderPainted(false);
+        getMapButton.setFocusPainted(false);
+        getMapButton.setContentAreaFilled(false);
+        getMapButton.setPreferredSize(new Dimension(50, 50));
+        getMapButton.addActionListener(actionHandler);
+        getMapButton.setActionCommand("getMap");
+        settingsPanel.add(getMapButton);
+
+
+        currentLocationMap = game.getCurrentRoom().getCurLocation();
+        icon = fileLoader.imageLoader(currentLocationMap);
+        ImageIcon roomIcon = new ImageIcon(icon);
+        JLabel locationMap = new JLabel();
+        locationMap.setIcon(roomIcon);
+        locationMap.setBounds(0, 0, 800, 550);
+
+        mapPanel.add(locationMap);
+
     }
 
-    public static void eventPanelClose() {
-        settings.setVisible(false);
+
+    public static void eventPanelClose(String name) {
+        String panelName = name.replace("close ", "");
+        switch (panelName) {
+            case "getMap":
+                mapPanel.setVisible(false);
+                break;
+            case "settings":
+                settings.setVisible(false);
+                break;
+            case "help":
+                helpeventPanel.setVisible(false);
+        }
     }
 
     public static JPanel eventPanel(int x, int y, int width, int height, String target) {
@@ -324,18 +400,16 @@ public class GameUI {
         panelBuilder.setOpaque(true);
         window.add(panelBuilder);
         JButton exitButton = new JButton("X");
-        exitButton.setForeground(Color.black);
-        //exitButton.setFont(getOldRetro().deriveFont(Font.ITALIC, 15));
-        exitButton.setOpaque(false);
-        exitButton.setBounds(width - 30, 0, 30, 30);
-        exitButton.setBackground(Color.GRAY);
+        exitButton.setForeground(Color.WHITE);
+        exitButton.setFont(normalFont);
+        //exitButton.setOpaque(false);
+        exitButton.setBounds(width - 50, 0, 50, 30);
+        exitButton.setBackground(Color.RED);
         exitButton.addActionListener(actionHandler);
-        exitButton.setActionCommand("close");
+        exitButton.setActionCommand("close " + target);
         panelBuilder.add(exitButton);
         return panelBuilder;
     }
-
-
 
     private static int time() {
         int hoursPlayed = game.getPlayer().getSteps() * 15;
@@ -347,11 +421,9 @@ public class GameUI {
 
     private static String encounterDescription() {
         boolean hasEncounters = !game.getCurrentRoom().getEncounters_to().isEmpty();
-        StringBuilder encounterDescription = null;
+        StringBuilder encounterDescription = new StringBuilder();
         if (hasEncounters) {
-
             for (String encounter : game.getCurrentRoom().getEncounters_to()) {
-                encounterDescription = new StringBuilder();
                 encounterDescription.append(game.getEncounters().get(encounter).getDescription().toString());
             }
         } else {
@@ -387,7 +459,7 @@ public class GameUI {
         List<Item> items = game.getPlayer().getInventory();
         for (Item item : items) {
             JButton inventoryItem = new JButton(item.getName());
-            inventoryItem.setActionCommand("use "+item.getName());
+            inventoryItem.setActionCommand("use " + item.getName());
             inventoryItem.setBackground(Color.WHITE);
             inventoryItem.setForeground(Color.BLACK);
             inventoryItem.addActionListener(actionHandler);
@@ -397,24 +469,23 @@ public class GameUI {
             }
             if (items.size() > 0) {
                 playerInventoryPanel.setVisible(true);
-            }
-            else playerInventoryPanel.setVisible(true);
+            } else playerInventoryPanel.setVisible(true);
             updateGameScreen();
 
         }
 
     }
+
     static void useItem(String item) {
         String itemName = item.replace("use ", "");
         String action = game.processUsing(itemName);
 
         if (action.contains("is EFFECTIVE against")) {
             encounterTextArea.setText(action);
-        }
-        else if (action.contains("Success!!!")) {
+
+        } else if (action.contains("Success!!!")) {
             encounterTextArea.setText(action);
-        }
-        else {
+        } else {
             Sound.wrongItemSound();
         }
         updateItemPanel();
@@ -424,19 +495,37 @@ public class GameUI {
     static void updateGameScreen(String direction) {
         if (game.processNavigating(direction).contains("Traveling")) {
             mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
+            mapPanel.removeAll();
+            String newMap = game.getCurrentRoom().getCurLocation();
+            icon = fileLoader.imageLoader(newMap);
+            ImageIcon roomIcon = new ImageIcon(icon);
+            JLabel locationMap = new JLabel();
+            locationMap.setIcon(roomIcon);
+            locationMap.setBounds(0, 0, 800, 550);
+
+
+            JButton exitButton = new JButton("X");
+            exitButton.setForeground(Color.WHITE);
+            exitButton.setFont(normalFont);
+            //exitButton.setOpaque(false);
+            exitButton.setBounds(780 - 50, 0, 50, 30);
+            exitButton.setBackground(Color.RED);
+            exitButton.addActionListener(actionHandler);
+            exitButton.setActionCommand("close getMap");
+            mapPanel.add(exitButton);
+            mapPanel.add(locationMap);
+
             encounterTextArea.setText(encounterDescription());
             showAreaItems();
 
             healthLabel.setText("Location: " + game.getCurrentRoom().getName() + "         " +
-                    "HP: " + game.getPlayer().getHealth()+ "             TIME: " + time());
+                    "HP: " + game.getPlayer().getHealth() + "             TIME: " + time());
             if (encounterDescription().equals("nothing here")) {
                 encounterTextArea.setVisible(false);
-            }
-            else {
+            } else {
                 encounterTextArea.setVisible(true);
             }
-        }
-        else {
+        } else {
             Sound.wrongWaySound();
         }
         checkWinLoss();
@@ -446,7 +535,7 @@ public class GameUI {
         mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
         showAreaItems();
         healthLabel.setText("Location: " + game.getCurrentRoom().getName() + "         " +
-                "HP: " + game.getPlayer().getHealth()+ "             TIME: " + time());
+                "HP: " + game.getPlayer().getHealth() + "             TIME: " + time());
     }
 
     private static void checkWinLoss() {
@@ -458,27 +547,25 @@ public class GameUI {
             mainTextArea.setText("Sorry You lose...");
             mainGamePanel.add(mainTextArea);
 
-        }
-        else if (game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")) {
+
+        } else if (game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")) {
             //TODO showWinScreen();
             mainGamePanel.removeAll();
             directionalPanel.setVisible(false);
             playerInventoryPanel.setVisible(false);
+            settingsPanel.setVisible(false);
+            helpeventPanel.setVisible(false);
             mainTextArea.setText("You Win!!!");
+            mainGamePanel.setOpaque(false);
             mainGamePanel.add(mainTextArea);
+            Image heliIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("helicopter.jpg")).getImage();
+            animation = new Animation(heliIcon);
+            animation.setBounds(200, 100, 400, 400);
+            container.add(animation);
+        } else {
         }
-        else {
-
-        }
     }
 
-    public void setSettings(JPanel settings) {
-        this.settings = settings;
-    }
-
-    public static JPanel getSettings() {
-        return settings;
-    }
 
     public void settingMenuOption() {
         //holds setting options for musix and sfx
@@ -486,53 +573,23 @@ public class GameUI {
         getMusicPanel().setBounds(25, 5, 340, 180);
         getMusicPanel().setBackground(Color.white);
         String select[] = {"ON", "OFF"};
+
         setMusicStatus(new JComboBox(select));
+        getMusicStatus().addActionListener(actionHandler);
+        getMusicStatus().setActionCommand("toggle sound");
         setSoundFXStatus(new JComboBox(select));
         setMusicLabel(new JLabel("Music"));
         setSoundFxLabel(new JLabel("SoundFX"));
-        setVolumeDown(new JButton("Volume Down"));
+        getSoundFXStatus().addActionListener(actionHandler);
+        getSoundFXStatus().setActionCommand("toggle fx");
+        setVolumeDown(new JButton("volume down"));
+        getVolumeDown().addActionListener(actionHandler);
+        getVolumeDown().setActionCommand("volume down");
         setVolumeUp(new JButton("Volume Up"));
+        getVolumeUp().addActionListener(actionHandler);
+        getVolumeUp().setActionCommand("volume up");
         getVolumeDown().setBounds(80, 120, 150, 25);
         getVolumeUp().setBounds(80, 90, 150, 25);
-//        getVolumeDown().addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                gm.getMusic().volumeDown();
-//            }
-//        });
-//        getVolumeUp().addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                gm.getMusic().volumeUp();
-//            }
-//        });
-//        getMusicStatus().addItemListener(new ItemListener() {
-//            @Override
-//            public void itemStateChanged(ItemEvent e) {
-//                String state = (String) getMusicStatus().getSelectedItem();
-//                if (state.equals("ON")) {
-//                    gm.getMusic().playMusic(getMusicFile());
-//                } else {
-//                    gm.getMusic().stopMusic(getMusicFile());
-//                }
-//            }
-//        });
-//        getSoundFXStatus().addItemListener(new ItemListener() {
-//            @Override
-//            public void itemStateChanged(ItemEvent e) {
-//                String state = (String) getSoundFXStatus().getSelectedItem();
-//                if (state.equals("ON")) {
-//                    gm.getMusic().setFxOff(false);
-//                } else {
-//                    gm.getMusic().stopFx();
-//                }
-//            }
-//        });
-
-//        getMusicStatus().setFont(oldRetro.deriveFont(Font.ITALIC, 10));
-//        getSoundFXStatus().setFont(oldRetro.deriveFont(Font.ITALIC, 10));
-//        getMusicLabel().setFont(oldRetro.deriveFont(Font.ITALIC, 10));
-//        getSoundFxLabel().setFont(oldRetro.deriveFont(Font.ITALIC, 10));
         getMusicLabel().setBounds(80, 30, 75, 25);
         getSoundFxLabel().setBounds(80, 60, 75, 25);
         getMusicStatus().setBounds(150, 30, 85, 25);
@@ -603,8 +660,27 @@ public class GameUI {
         GameUI.soundFXStatus = soundFXStatus;
     }
 
-//    public static void main(String[] args) {
-//        new GameUI();
-//    }
+    public void setSettings(JPanel settings) {
+        this.settings = settings;
+    }
 
+    public static JPanel getSettings() {
+        return settings;
+    }
+
+    public static JPanel getHelpeventPanel() {
+        return helpeventPanel;
+    }
+
+    public static void setHelpeventPanel(JPanel helpeventPanel) {
+        GameUI.helpeventPanel = helpeventPanel;
+    }
+
+    public static JPanel getMapPanel() {
+        return mapPanel;
+    }
+
+    public static void setMapPanel(JPanel mapPanel) {
+        GameUI.mapPanel = mapPanel;
+    }
 }

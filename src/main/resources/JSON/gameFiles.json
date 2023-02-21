@@ -14,7 +14,7 @@
       "encounters_to": [],
       "encounters_from": [],
       "sound": "sounds/landing_zone.wav",
-      "curLocation": "img/landingZone.png"
+      "curLocation": "landingZone.png"
     },
     "room02": {
       "hasBeenVisited": false,
@@ -29,7 +29,8 @@
       "items": ["desert eagle"],
       "encounters_to": [],
       "encounters_from": ["cougar"],
-      "sound": "sounds/jungle_path.wav"
+      "sound": "sounds/jungle_path.wav",
+      "curLocation": "junglePath.png"
     },
     "room03": {
       "hasBeenVisited": false,
@@ -44,7 +45,8 @@
       "items": [],
       "encounters_to": ["bald eagle"],
       "encounters_from": [],
-      "sound": "sounds/jungle_clearing.wav"
+      "sound": "sounds/jungle_clearing.wav",
+      "curLocation": "jungleClearing.png"
     },
     "room04": {
       "hasBeenVisited": false,
@@ -59,7 +61,8 @@
       "items": ["grenade", "machete"],
       "encounters_to": [ "anaconda" ],
       "encounters_from": [],
-      "sound": "sounds/base_of_temple.wav"
+      "sound": "sounds/base_of_temple.wav",
+      "curLocation": "baseOfTemple.png"
     },
     "room05": {
       "hasBeenVisited": false,
@@ -74,7 +77,8 @@
       "items": [],
       "encounters_to": [ "face mugger", "pit" ],
       "encounters_from": [],
-      "sound": "sounds/face_mugging_torment.wav"
+      "sound": "sounds/face_mugging_torment.wav",
+      "curLocation": "pitOfMug.png"
     },
     "room06": {
       "hasBeenVisited": false,
@@ -89,7 +93,8 @@
       "items": [ "flamethrower" ],
       "encounters_to": [],
       "encounters_from": ["lion"],
-      "sound": "sounds/central_chamber.wav"
+      "sound": "sounds/central_chamber.wav",
+      "curLocation": "centralChamber.png"
     },
     "room07": {
       "hasBeenVisited": false,
@@ -104,7 +109,8 @@
       "items": [ "key" ],
       "encounters_to": [],
       "encounters_from": [ "mummy" ],
-      "sound": "sounds/temple_entrance.wav"
+      "sound": "sounds/temple_entrance.wav",
+      "curLocation": "templeEntrance.png"
     },
     "room08": {
       "hasBeenVisited": false,
@@ -119,7 +125,8 @@
       "items": [ "crystal femur" ],
       "encounters_to": [ "alien guard" ],
       "encounters_from": [],
-      "sound": "sounds/shrine_room.wav"
+      "sound": "sounds/shrine_room.wav",
+      "curLocation": "shrineRoom.png"
     },
     "room09": {
       "hasBeenVisited": false,
@@ -134,7 +141,8 @@
       "items": ["ball o yarn"],
       "encounters_to": ["locked door"],
       "encounters_from": [],
-      "sound": "sounds/store_room.wav"
+      "sound": "sounds/store_room.wav",
+      "curLocation": "storeRoom.png"
     },
     "room10": {
       "hasBeenVisited": false,
@@ -149,7 +157,8 @@
       "items": [],
       "encounters_to": [ "communicator" ],
       "encounters_from": ["alien boss"],
-      "sound": "sounds/communication_room.wav"
+      "sound": "sounds/communication_room.wav",
+      "curLocation": "comRoom.png"
     }
   },
   "encounters": {

@@ -8,7 +8,7 @@ public enum InvalidNounInput {
     BAD_NAV("Invalid command. Please provide a direction or type 'help'.");
     private final String warning_message;
 
-    private InvalidNounInput(String msg){
+    InvalidNounInput(String msg){
         this.warning_message = msg;
     }
     public String getWarning(){

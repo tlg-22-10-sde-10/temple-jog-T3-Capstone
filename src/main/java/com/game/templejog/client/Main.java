@@ -52,7 +52,7 @@ public class Main {
             ConsoleInterface.clearScreen();
 
 /* Stop the background music when entering landing zone */
-            if(game.getPlaySound()){
+            if(Game.getPlaySound()){
                 Sound.stopSound();
                 Sound.themeSound("sounds/landing_zone.wav");
             }
@@ -68,7 +68,7 @@ public class Main {
             } while ( !game.getQuitGame()
                     && game.getPlayer().getSteps() < 24
                     && game.getPlayer().getHealth() > 0
-                    && !(game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")));
+                    && !(game.getCommunicatorOff() && Game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")));
             ConsoleInterface.clearScreen();
             if(!game.getQuitGame()) {
                 console.displayEnding();

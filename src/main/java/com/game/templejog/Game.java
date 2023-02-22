@@ -281,7 +281,7 @@ public class Game {
 
 //  ACCESSOR METHODS
     public static Room getCurrentRoom() { return currentRoom;}
-    public void setCurrentRoom(Room currentRoom) { this.currentRoom = currentRoom;}
+    public void setCurrentRoom(Room currentRoom) { Game.currentRoom = currentRoom;}
     public Player getPlayer() { return player; }
     public void setPlayer(Player player) { this.player = player; }
     public Map<String, Room> getRooms() { return rooms; }

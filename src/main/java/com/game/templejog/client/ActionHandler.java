@@ -13,7 +13,7 @@ public class ActionHandler implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String userChoice = e.getActionCommand();
-        List<String> navList = Arrays.asList(new String[]{"north", "east", "south", "west"});
+        List<String> navList = Arrays.asList("north", "east", "south", "west");
         boolean direction = navList.contains(userChoice);
 
         switch (userChoice) {
@@ -96,7 +96,7 @@ public class ActionHandler implements ActionListener {
                     GameUI.getSettings().setVisible(false);
                     GameUI.areaItemPanel.setVisible(true);
                     GameUI.playerInventoryPanel.setVisible(true);
-                    GameUI.directionalPanel.setVisible(true);;
+                    GameUI.directionalPanel.setVisible(true);
                     GameUI.mainGamePanel.setVisible(true);
                 } else {
                     GameUI.getSettings().setVisible(true);
@@ -156,12 +156,7 @@ public class ActionHandler implements ActionListener {
                 }
                 break;
             case "toggle fx":
-                if (GameUI.getSoundFXStatus().getSelectedItem().equals("ON")) {
-                    Sound.setSoundFx(true);
-                }
-                else{
-                    Sound.setSoundFx(false);
-                }
+                Sound.setSoundFx(GameUI.getSoundFXStatus().getSelectedItem().equals("ON"));
                 break;
         }
     }

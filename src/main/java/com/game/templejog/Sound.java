@@ -2,7 +2,9 @@ package com.game.templejog;
 
 import com.game.templejog.client.Main;
 import javax.sound.sampled.*;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -21,7 +23,8 @@ public class Sound {
     /* Handles the background theme music */
     public static void themeSound(String file) {
         try {
-            URL landingSound = Main.class.getClassLoader().getResource(file);
+            //noinspection ConstantConditions
+            InputStream landingSound = new BufferedInputStream(Main.class.getClassLoader().getResourceAsStream(file));
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(landingSound);
             clip = AudioSystem.getClip();
             clip.open(audioStream);
@@ -40,7 +43,8 @@ public class Sound {
 
     public static void onceSound(String file) {
         try {
-            URL landingSound = Main.class.getClassLoader().getResource(file);
+            //noinspection ConstantConditions
+            InputStream landingSound = new BufferedInputStream(Main.class.getClassLoader().getResourceAsStream(file));
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(landingSound);
             fx = AudioSystem.getClip();
             fx.open(audioStream);
@@ -61,11 +65,11 @@ public class Sound {
         if (noun.isEmpty()) {
             return InvalidNounInput.BAD_SOUND.getWarning();
         } else if (noun.equalsIgnoreCase("on")) {
-            game.setPlaySound(true);
-            Sound.themeSound(game.getCurrentRoom().getSound());
+            Game.setPlaySound(true);
+            Sound.themeSound(Game.getCurrentRoom().getSound());
         } else if (noun.equalsIgnoreCase("off")) {
             Sound.stopSound();
-            game.setPlaySound(false);
+            Game.setPlaySound(false);
         }
         return "Turning sound " + noun;
     }
@@ -74,11 +78,11 @@ public class Sound {
         System.out.println(UserInput.TURN_MUSIC.getUserPrompt());
         String musicOn = scanner.nextLine();
         if (musicOn.equalsIgnoreCase("y")) {
-            game.setPlaySound(true);
+            Game.setPlaySound(true);
             Sound.themeSound("sounds/background_music.wav");
         } else {
             Sound.stopSound();
-            game.setPlaySound(false);
+            Game.setPlaySound(false);
         }
     }
 
@@ -105,7 +109,8 @@ public class Sound {
     public static void ending(String filePath) {
         try {
             stopSound();
-            URL sound = Main.class.getClassLoader().getResource(filePath);
+            //noinspection ConstantConditions
+            InputStream sound = new BufferedInputStream(Main.class.getClassLoader().getResourceAsStream(filePath));
             AudioInputStream audiostream = AudioSystem.getAudioInputStream(sound);
             clip = AudioSystem.getClip();
             clip.open(audiostream);
@@ -124,7 +129,7 @@ public class Sound {
 
 
     public static void gameIntro(Game game) {
-        game.setPlaySound(true);
+        Game.setPlaySound(true);
         Sound.themeSound("sounds/background_music.wav");
     }
 

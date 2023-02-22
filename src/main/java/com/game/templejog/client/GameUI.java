@@ -24,11 +24,11 @@ public class GameUI {
     static FileLoader fileLoader = new FileLoader();
     static JFrame window;
     static Container container;
-    static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
+    static JPanel titleNamePanel, startButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
     static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel, settings, helpeventPanel, mapPanel, settingsPanel;
     static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel, blankLabel1, blankLabel3, blankLabel5, blankLabel7, blankLabel9;
     static JButton northButton, eastButton, southButton, westButton, getMapButton, VolumeDown, VolumeUp;
-    static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton, helpButton;
+    static JButton startButton, choice1, choice2, choice3, enterButton, settingsButton, helpButton;
     static JTextArea mainTextArea, encounterTextArea, helpMenuTextArea;
 
     static JComboBox musicStatus, soundFXStatus;
@@ -50,17 +50,16 @@ public class GameUI {
 
 
     public GameUI() throws InterruptedException {
+
         window = new JFrame("Temple Jog");
         window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // close when window is closed
         window.setContentPane(new JLabel(new ImageIcon
-                ((getClass().getClassLoader().getResource
-                        ("img/8_bit_ufo.png")))));
+                (fileLoader.imageLoader("img/8_bit_ufo.png"))));
         window.setLayout(null);
         window.setVisible(true);
         window.setResizable(false);
         container = window.getContentPane();
-
         setupTitleScreen();
 
     }

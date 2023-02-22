@@ -35,7 +35,20 @@ public class Room {
         this.curLocation = curLocation;
     }
 
-//  HELPER METHODS
+    public Room(Integer number, String name, String description, String west, String south, String north, String east){
+        this.number = number;
+        this.name = name;
+        this.description = description;
+        this.west = west;
+        this.south = south;
+        this.north = north;
+        this.east = east;
+
+
+    }
+
+
+    //  HELPER METHODS
     public String checkDirection(String noun) {
         HashMap<String, String> directions = new HashMap<>();
         directions.put("west", getWest());
@@ -45,17 +58,15 @@ public class Room {
         String dir = directions.get(noun);
         return dir;
     }
-    public Boolean directionBlockedByDoor(){ return getEncounters_to().contains("locked door"); }
+    public Boolean directionBlockedByDoor(){
+        return getEncounters_to().contains("locked door");
+    }
+
     public Boolean removeEncounter(String targetEncounter){
         if( getEncounters_to().contains(targetEncounter) ){
             Boolean removedEncounterTo = getEncounters_to().remove(targetEncounter);
             return removedEncounterTo;
         }
-//        if( getEncounters_from().contains(targetEncounter) ){
-//            Boolean removedEncounterFrom = getEncounters_from().remove(targetEncounter);
-//            return removedEncounterFrom;
-//        }
-        // else return false // if rooms encounter_to length is 0
         return false;
     }
 

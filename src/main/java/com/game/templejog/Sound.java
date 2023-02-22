@@ -5,7 +5,6 @@ import javax.sound.sampled.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Scanner;
 
 public class Sound {
@@ -146,6 +145,12 @@ public class Sound {
     public static void wrongItemSound() {
         if (soundFx) {
             Sound.onceSound("sounds/ineffective_item.wav");
+        }
+    }
+
+    public static void getToTheChopper(){
+        if (soundFx){
+            Sound.onceSound("sounds/get-to-chopper.wav");
         }
     }
 

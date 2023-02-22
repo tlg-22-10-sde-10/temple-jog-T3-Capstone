@@ -6,11 +6,9 @@ import com.game.templejog.Sound;
 import com.game.templejog.Temple;
 import com.game.templejog.animation.Animation;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 //import static com.game.templejog.Game.currentRoom;
@@ -28,19 +26,22 @@ public class GameUI {
     static Container container;
     static JPanel titleNamePanel, startButtonPanel, quitButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
     static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel, settings, helpeventPanel, mapPanel, settingsPanel;
-    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel, mapLabel;
+    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel, blankLabel1, blankLabel3, blankLabel5, blankLabel7, blankLabel9;
     static JButton northButton, eastButton, southButton, westButton, getMapButton, VolumeDown, VolumeUp;
     static JButton startButton, quitButton, choice1, choice2, choice3, enterButton, settingsButton, helpButton;
     static JTextArea mainTextArea, encounterTextArea, helpMenuTextArea;
 
     static JComboBox musicStatus, soundFXStatus;
 
-    static Font titleFont = new Font("Arial", Font.PLAIN, 90);//cutomize font
+    //static Font titleFont = new Font("Bauhaus 93", Font.PLAIN, 90);
+   // static Font titleFont = new Font("Broadway", Font.PLAIN, 90);
+    //static Font titleFont = new Font("Castellar", Font.PLAIN, 90);
+    static Font titleFont = new Font("Stencil", Font.PLAIN, 90);
     static Font standardFont = new Font("Times New Roman", Font.PLAIN, 30);
     static Font smallFont = new Font("Times New Roman", Font.PLAIN, 15);
     static Font normalFont = new Font("Times New Roman", Font.PLAIN, 20);
     static Font gameFont = new Font("Times New Roman", Font.PLAIN, 25);
-    static Font extraSmall =new Font ("Times New Roman", Font.PLAIN, 5);
+    static Font dPadBoldFont =new Font ("Arial", Font.BOLD, 15);
 
     static ActionHandler actionHandler = new ActionHandler();
     static Game game;
@@ -60,7 +61,7 @@ public class GameUI {
         container = window.getContentPane();
 
         titleNamePanel = new JPanel();
-        titleNamePanel.setBounds(100, 100, 600, 150); //x and y axis starting top left. width starting from xy axis. height starting from top.
+        titleNamePanel.setBounds(100, 190, 600, 150); //x and y axis starting top left. width starting from xy axis. height starting from top.
         titleNamePanel.setBackground(Color.BLUE);
         titleNamePanel.setOpaque(false);
         titleLabel = new JLabel("Temple Jog"); //text label
@@ -68,7 +69,7 @@ public class GameUI {
         titleLabel.setFont(titleFont);
 
         startButtonPanel = new JPanel();
-        startButtonPanel.setBounds(250, 300, 200, 75);
+        startButtonPanel.setBounds(290, 300, 200, 75);
         startButtonPanel.setBackground(Color.GREEN);
         startButtonPanel.setOpaque(false);
 
@@ -122,7 +123,7 @@ public class GameUI {
 //        quitButtonPanel.setVisible(false);
 
         difficultyPanel = new JPanel();
-        difficultyPanel.setBounds(250, 300, 300, 150);
+        difficultyPanel.setBounds(250, 250, 300, 150);
         difficultyPanel.setBackground(Color.GREEN);
         difficultyPanel.setLayout(new GridLayout(3, 1));
         difficultyPanel.setOpaque(false);
@@ -136,7 +137,8 @@ public class GameUI {
 
         mainTextArea = new JTextArea("Choose your difficulty: ");
         mainTextArea.setBounds(100, 0, 600, 400);
-        mainTextArea.setBackground(Color.BLACK);
+
+        mainTextArea.setOpaque(false);
         mainTextArea.setForeground(Color.WHITE);
         mainTextArea.setFont(standardFont);
         mainTextArea.setLineWrap(true);
@@ -172,7 +174,7 @@ public class GameUI {
     }
 
     public static void difficultySettings() {
-        mainTextArea.setText("Choose your difficulty: ");
+        mainTextArea.setText("\n\n\n\n\nChoose your difficulty: ");
         choice1.setText("Easy");
         choice2.setText("Medium");
         choice3.setText("Hard");
@@ -193,13 +195,16 @@ public class GameUI {
             Sound.stopSound();
             Sound.themeSound("sounds/landing_zone.wav");
         }
+        mainTextArea.setOpaque(true);
+        mainTextArea.setBackground(Color.BLACK);
         String intro = game.getGameText().get("intro");
         mainTextArea.setFont(smallFont);
         mainTextArea.setText(intro);
 
         enterPanel = new JPanel();
-        enterPanel.setBounds(350, 400, 100, 100);
-        enterPanel.setBackground(Color.RED);
+        enterPanel.setBounds(350, 365, 100, 100);
+        enterPanel.setOpaque(false);
+        //enterPanel.setBackground(Color.RED);
         container.add(enterPanel);
 
         enterButton = new JButton("Enter");
@@ -265,7 +270,8 @@ public class GameUI {
         directionalPanel = new JPanel();
         directionalPanel.setBounds(WINDOW_WIDTH - 200, 400, 150, 150);
         directionalPanel.setBackground(Color.BLACK);
-        directionalPanel.setLayout(new GridLayout(4, 1));
+        directionalPanel.setLayout(new GridLayout(3, 3));
+        directionalPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         container.add(directionalPanel);
 
         playerInventoryPanel = new JPanel();
@@ -289,37 +295,51 @@ public class GameUI {
 
         playerPanel.add(healthLabel);
 
-        northButton = new JButton("North");
-        northButton.setBackground(Color.BLACK);
-        northButton.setForeground(Color.WHITE);
+        blankLabel1 = new JLabel();
+        blankLabel3 = new JLabel();
+        blankLabel5 = new JLabel();
+        blankLabel7 = new JLabel();
+        blankLabel9 = new JLabel();
+        northButton = new JButton("N");
+        northButton.setBackground(Color.GREEN);
+        northButton.setForeground(Color.BLACK);
+        northButton.setFont(dPadBoldFont);
         northButton.addActionListener(actionHandler);
         northButton.setActionCommand("north");
-        eastButton = new JButton("East");
+        eastButton = new JButton("E");
         eastButton.setBackground(Color.GREEN);
         eastButton.setForeground(Color.BLACK);
+        eastButton.setFont(dPadBoldFont);
         eastButton.addActionListener(actionHandler);
         eastButton.setActionCommand("east");
-        southButton = new JButton("South");
-        southButton.setBackground(Color.BLACK);
-        southButton.setForeground(Color.WHITE);
+        southButton = new JButton("S");
+        southButton.setBackground(Color.GREEN);
+        southButton.setForeground(Color.BLACK);
+        southButton.setFont(dPadBoldFont);
         southButton.addActionListener(actionHandler);
         southButton.setActionCommand("south");
-        westButton = new JButton("West");
+        westButton = new JButton("W");
         westButton.setBackground(Color.GREEN);
         westButton.setForeground(Color.BLACK);
+        westButton.setFont(dPadBoldFont);
         westButton.addActionListener(actionHandler);
         westButton.setActionCommand("west");
 
+        directionalPanel.add(blankLabel1);
         directionalPanel.add(northButton);
-        directionalPanel.add(eastButton);
-        directionalPanel.add(southButton);
+        directionalPanel.add(blankLabel3);
         directionalPanel.add(westButton);
+        directionalPanel.add(blankLabel5);
+        directionalPanel.add(eastButton);
+        directionalPanel.add(blankLabel7);
+        directionalPanel.add(southButton);
+        directionalPanel.add(blankLabel9);
 
 
         //Setting Panel
         settingsPanel = new JPanel();
         settingsPanel.setLayout(new GridLayout(1, 3));
-        settingsPanel.setBounds(575, 310, 200, 100);
+        settingsPanel.setBounds(570, 320, 200, 100);
         settingsPanel.setBackground(Color.BLACK);
         settingsPanel.setOpaque(false);
         container.add(settingsPanel);

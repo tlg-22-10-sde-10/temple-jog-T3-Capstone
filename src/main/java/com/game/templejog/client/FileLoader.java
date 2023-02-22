@@ -18,8 +18,7 @@ public class FileLoader {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
                 gameFiles = mapper.readValue(inputStream,Temple.class);
-            return gameFiles;
-        }
+            return gameFiles;        }
 
 
     }

@@ -508,6 +508,8 @@ public class GameUI {
 
         } else if (action.contains("Success!!!")) {
             encounterTextArea.setText(action);
+            if (Game.getCurrentRoom().getName().equalsIgnoreCase("Alien Communication Room")){
+            Sound.getToTheChopper();}
         } else {
             Sound.wrongItemSound();
         }

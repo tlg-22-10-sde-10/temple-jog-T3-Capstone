@@ -9,7 +9,7 @@ public enum UserInput {
     ;
 
     private final String userPrompt;
-    private UserInput(String msg){this.userPrompt = msg; }
+    UserInput(String msg){this.userPrompt = msg; }
 
     public String getUserPrompt(){
         return this.userPrompt;

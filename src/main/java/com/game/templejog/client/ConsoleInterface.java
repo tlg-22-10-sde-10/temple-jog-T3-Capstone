@@ -55,7 +55,7 @@ public class ConsoleInterface { // Previously TitleScreen
 
     public int displayScene() {
         StringBuilder scene = new StringBuilder();
-        String currentRoom = game.getCurrentRoom().getName();
+        String currentRoom = Game.getCurrentRoom().getName();
         Integer health = game.getPlayer().getHealth();
         String[] colors;
 
@@ -72,7 +72,7 @@ public class ConsoleInterface { // Previously TitleScreen
         status = ansi().render(status).toString();
         String statusSpace = "%" + ((CONSOLE_WIDTH - 1 - (status.length() - 24)) / 2 + status.length()) + "s";
         String endSpace = "%" + ((CONSOLE_WIDTH - (status.length() - 24)) / 2) + "s"; // "%20s"
-        boolean hasEncounters = !getGame().getCurrentRoom().getEncounters_to().isEmpty();
+        boolean hasEncounters = !Game.getCurrentRoom().getEncounters_to().isEmpty();
 
         // Inventory Bar Setup v2
         String inventorySpaces;
@@ -96,14 +96,14 @@ public class ConsoleInterface { // Previously TitleScreen
         StringBuilder encounterDescription = null;
         if (hasEncounters) {
             encounterDescription = new StringBuilder();
-            for (String encounter : getGame().getCurrentRoom().getEncounters_to()) {
+            for (String encounter : Game.getCurrentRoom().getEncounters_to()) {
                 encounterDescription.append(formatDisplay(getGame().getEncounters().get(encounter).getDescription(), "encounter"));
             }
             encounterDescription.append("█").append(" ".repeat(78)).append("█").append("\n");
         }
 
         // Room Display Setup
-        String lineOne = getGame().getCurrentRoom().getDescription();
+        String lineOne = Game.getCurrentRoom().getDescription();
         String roomDescription = formatDisplay(lineOne, "room");
         roomDescription = roomDescription.concat("█" + " ".repeat(78) + "█" + "\n");
 
@@ -153,7 +153,7 @@ public class ConsoleInterface { // Previously TitleScreen
             lines.add(description);
         }
         // Add Items
-        List<String> itemList = getGame().getCurrentRoom().getItems();
+        List<String> itemList = Game.getCurrentRoom().getItems();
         if (!itemList.isEmpty() && type.equals("room")) {
             lines.add("");
             StringBuilder items = new StringBuilder();
@@ -246,7 +246,7 @@ public class ConsoleInterface { // Previously TitleScreen
                 displayResult("You manage to jog back to the landing zone just as the helicopter lands. You all take off, eager to get as much distance between yourselves and the temple as possible...",0);
                 clearScreen();
                 System.out.println(ansi().fgBrightGreen().render(getGame().getGameText().get("gameOver")).fgDefault());
-                if (game.getPlaySound()) {
+                if (Game.getPlaySound()) {
                     Sound.ending("sounds/victory.wav");
                 }
                 displayResult(getGame().getGameText().get("winText"), 7);
@@ -269,7 +269,7 @@ public class ConsoleInterface { // Previously TitleScreen
     }
 
     private void bombSound() throws InterruptedException {
-        if (game.getPlaySound()) {
+        if (Game.getPlaySound()) {
             clearScreen();
             Sound.ending("sounds/falling-bomb.wav");
             TimeUnit.SECONDS.sleep(3);

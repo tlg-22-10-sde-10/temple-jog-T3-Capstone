@@ -28,7 +28,7 @@ public class Animation extends JPanel implements ActionListener {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        icon = new ImageIcon("src/main/resources/car.jpg").getImage();
+        //icon = new ImageIcon("src/main/resources/car.jpg").getImage();
         timer = new Timer(10, this);
         timer.start();
     }
@@ -110,7 +110,7 @@ public class Animation extends JPanel implements ActionListener {
     }
 
     public void setxVelocity(int xVelocity) {
-        this.xVelocity = xVelocity;
+        Animation.xVelocity = xVelocity;
     }
 
     public int getyVelocity() {
@@ -118,7 +118,7 @@ public class Animation extends JPanel implements ActionListener {
     }
 
     public void setyVelocity(int yVelocity) {
-        this.yVelocity = yVelocity;
+        Animation.yVelocity = yVelocity;
     }
 
     @Override

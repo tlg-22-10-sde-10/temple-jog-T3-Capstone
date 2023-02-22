@@ -18,7 +18,7 @@ public class GameUI {
     private static final int WINDOW_WIDTH = 800;
     private static final Color PRIMARY_COLOR = new Color(0, 0, 0);
     private static final Color SECONDARY_COLOR = new Color(0, 0, 0);
-    static Animation animation;
+    private static Animation animation;
     static String currentLocationMap;
     static Image icon;
     static FileLoader fileLoader = new FileLoader();
@@ -42,6 +42,7 @@ public class GameUI {
     static Font normalFont = new Font("Times New Roman", Font.PLAIN, 20);
     static Font gameFont = new Font("Times New Roman", Font.PLAIN, 25);
     static Font dPadBoldFont =new Font ("Arial", Font.BOLD, 15);
+    static Font helpFont =new Font ("Arial", Font.BOLD, 12);
 
     static ActionHandler actionHandler = new ActionHandler();
     static Game game;
@@ -54,12 +55,19 @@ public class GameUI {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // close when window is closed
         window.setContentPane(new JLabel(new ImageIcon
                 ((getClass().getClassLoader().getResource
-                        ("img/8_bit_ufo.png")))));;
+                        ("img/8_bit_ufo.png")))));
         window.setLayout(null);
         window.setVisible(true);
         window.setResizable(false);
         container = window.getContentPane();
 
+        setupTitleScreen();
+
+    }
+
+
+
+    private void setupTitleScreen() {
         titleNamePanel = new JPanel();
         titleNamePanel.setBounds(100, 190, 600, 150); //x and y axis starting top left. width starting from xy axis. height starting from top.
         titleNamePanel.setBackground(Color.BLUE);
@@ -67,12 +75,13 @@ public class GameUI {
         titleLabel = new JLabel("Temple Jog"); //text label
         titleLabel.setForeground(Color.WHITE);// text color
         titleLabel.setFont(titleFont);
+        titleNamePanel.add(titleLabel);
+        container.add(titleNamePanel);
 
         startButtonPanel = new JPanel();
         startButtonPanel.setBounds(290, 300, 200, 75);
         startButtonPanel.setBackground(Color.GREEN);
         startButtonPanel.setOpaque(false);
-
         startButton = new JButton("New Game");
         startButton.setBackground(Color.BLACK);
         startButton.setForeground(Color.WHITE);
@@ -81,26 +90,9 @@ public class GameUI {
         startButton.setActionCommand("start");
         startButton.addActionListener(actionHandler);
         startButton.setFocusPainted(false);
-
-//        quitButtonPanel = new JPanel();
-//        quitButtonPanel.setBounds(450, 300, 100, 75);
-//        quitButtonPanel.setBackground(Color.RED);
-//        quitButtonPanel.setOpaque(false);
-
-//        quitButton = new JButton("Quit");
-//        quitButton.setBackground(Color.BLACK);
-//        quitButton.setForeground(Color.WHITE);
-//        quitButton.setFont(standardFont);
-//        quitButton.setFocusPainted(false);
-
-        titleNamePanel.add(titleLabel);
         startButtonPanel.add(startButton);
-//        quitButtonPanel.add(quitButton);
-
-
-        container.add(titleNamePanel);
         container.add(startButtonPanel);
-//        container.add(quitButtonPanel);
+
 
 
         Sound.Title();
@@ -108,7 +100,7 @@ public class GameUI {
         settings.setVisible(false);
         settingMenuOption();
 
-        helpeventPanel = eventPanel(200, 150, 400, 200, "help");
+        helpeventPanel = eventPanel(150, 150, 450, 300, "help");
         helpeventPanel.setVisible(false);
 
         mapPanel = eventPanel(0, 0, 780, 550, "getMap");
@@ -191,7 +183,7 @@ public class GameUI {
         Sound.stopSound();
         Sound.gameIntro(game);
         /* Stop the background music when entering landing zone */
-        if (game.getPlaySound()) {
+        if (Game.getPlaySound()) {
             Sound.stopSound();
             Sound.themeSound("sounds/landing_zone.wav");
         }
@@ -223,7 +215,6 @@ public class GameUI {
         easyGame();
         game.getPlayer().setHealth(5);
         game.getPlayer().setSteps(4);
-        ;
     }
 
     public static void hardGame() throws IOException, InterruptedException {
@@ -243,7 +234,7 @@ public class GameUI {
         mainGamePanel.setOpaque(false);
         container.add(mainGamePanel);
 
-        mainTextArea = new JTextArea(String.valueOf(game.getCurrentRoom().getDescription()));
+        mainTextArea = new JTextArea(String.valueOf(Game.getCurrentRoom().getDescription()));
         mainTextArea.setBounds(0, 50, WINDOW_WIDTH, 100);
         mainTextArea.setBackground(Color.BLACK);
         mainTextArea.setForeground(Color.GREEN);
@@ -251,7 +242,7 @@ public class GameUI {
         mainTextArea.setLineWrap(true);
         mainGamePanel.add(mainTextArea);
 
-        encounterTextArea = new JTextArea(String.valueOf(game.getCurrentRoom().getEncounters_to()));
+        encounterTextArea = new JTextArea(String.valueOf(Game.getCurrentRoom().getEncounters_to()));
         encounterTextArea.setBounds(0, 150, WINDOW_WIDTH, 100);
         encounterTextArea.setBackground(Color.BLACK);
         encounterTextArea.setForeground(Color.RED);
@@ -288,7 +279,7 @@ public class GameUI {
         playerPanel.setLayout(new GridLayout(1, 4));
         container.add(playerPanel);
 
-        healthLabel = new JLabel("Location: " + game.getCurrentRoom().getName() + "         " +
+        healthLabel = new JLabel("Location: " + Game.getCurrentRoom().getName() + "         " +
                 "HP: " + game.getPlayer().getHealth() + "             TIME: " + time());
         healthLabel.setForeground(Color.GREEN);
         healthLabel.setFont(normalFont);
@@ -356,7 +347,6 @@ public class GameUI {
         settingsButton.setActionCommand("settings");
         settingsPanel.add(settingsButton);
 
-        //HelpPanel
 
 
         //help button
@@ -371,6 +361,20 @@ public class GameUI {
         helpButton.setActionCommand("help");
         settingsPanel.add(helpButton);
 
+        //HelpPanel
+        helpMenuTextArea = new JTextArea();
+        helpMenuTextArea.setBounds(0, 35, 450, 265);
+        helpMenuTextArea.setOpaque(false);
+        helpMenuTextArea.setForeground(Color.BLACK);
+        helpMenuTextArea.setFont(helpFont);
+        helpMenuTextArea.setLineWrap(true);
+        String gameHelp = game.getGameText().get("guiGameHelp");
+        helpMenuTextArea.setText(gameHelp);
+
+        helpeventPanel.add(helpMenuTextArea);
+
+
+
 
         ImageIcon mapIcon = new ImageIcon(fileLoader.imageLoader("radar4.png"));
         getMapButton = new JButton();
@@ -384,7 +388,7 @@ public class GameUI {
         settingsPanel.add(getMapButton);
 
 
-        currentLocationMap = game.getCurrentRoom().getCurLocation();
+        currentLocationMap = Game.getCurrentRoom().getCurLocation();
         icon = fileLoader.imageLoader(currentLocationMap);
         ImageIcon roomIcon = new ImageIcon(icon);
         JLabel locationMap = new JLabel();
@@ -440,11 +444,11 @@ public class GameUI {
     }
 
     private static String encounterDescription() {
-        boolean hasEncounters = !game.getCurrentRoom().getEncounters_to().isEmpty();
+        boolean hasEncounters = !Game.getCurrentRoom().getEncounters_to().isEmpty();
         StringBuilder encounterDescription = new StringBuilder();
         if (hasEncounters) {
-            for (String encounter : game.getCurrentRoom().getEncounters_to()) {
-                encounterDescription.append(game.getEncounters().get(encounter).getDescription().toString());
+            for (String encounter : Game.getCurrentRoom().getEncounters_to()) {
+                encounterDescription.append(game.getEncounters().get(encounter).getDescription());
             }
         } else {
             encounterDescription = new StringBuilder().append("nothing here");
@@ -454,7 +458,7 @@ public class GameUI {
 
     public static void showAreaItems() {
         areaItemPanel.removeAll();
-        List<String> itemList = game.getCurrentRoom().getItems();
+        List<String> itemList = Game.getCurrentRoom().getItems();
         if (!itemList.isEmpty()) {
             for (String item : itemList) {
                 JButton areaItem = new JButton(item);
@@ -514,9 +518,9 @@ public class GameUI {
 
     static void updateGameScreen(String direction) {
         if (game.processNavigating(direction).contains("Traveling")) {
-            mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
+            mainTextArea.setText(String.valueOf(Game.getCurrentRoom().getDescription()));
             mapPanel.removeAll();
-            String newMap = game.getCurrentRoom().getCurLocation();
+            String newMap = Game.getCurrentRoom().getCurLocation();
             icon = fileLoader.imageLoader(newMap);
             ImageIcon roomIcon = new ImageIcon(icon);
             JLabel locationMap = new JLabel();
@@ -538,13 +542,9 @@ public class GameUI {
             encounterTextArea.setText(encounterDescription());
             showAreaItems();
 
-            healthLabel.setText("Location: " + game.getCurrentRoom().getName() + "         " +
+            healthLabel.setText("Location: " + Game.getCurrentRoom().getName() + "         " +
                     "HP: " + game.getPlayer().getHealth() + "             TIME: " + time());
-            if (encounterDescription().equals("nothing here")) {
-                encounterTextArea.setVisible(false);
-            } else {
-                encounterTextArea.setVisible(true);
-            }
+            encounterTextArea.setVisible(!encounterDescription().equals("nothing here"));
         } else {
             Sound.wrongWaySound();
         }
@@ -552,9 +552,9 @@ public class GameUI {
     }
 
     private static void updateGameScreen() {
-        mainTextArea.setText(String.valueOf(game.getCurrentRoom().getDescription()));
+        mainTextArea.setText(String.valueOf(Game.getCurrentRoom().getDescription()));
         showAreaItems();
-        healthLabel.setText("Location: " + game.getCurrentRoom().getName() + "         " +
+        healthLabel.setText("Location: " + Game.getCurrentRoom().getName() + "         " +
                 "HP: " + game.getPlayer().getHealth() + "             TIME: " + time());
     }
 
@@ -568,7 +568,7 @@ public class GameUI {
             mainGamePanel.add(mainTextArea);
 
 
-        } else if (game.getCommunicatorOff() && game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")) {
+        } else if (game.getCommunicatorOff() && Game.getCurrentRoom().getName().equalsIgnoreCase("landing zone")) {
             //TODO showWinScreen();
             mainGamePanel.removeAll();
             directionalPanel.setVisible(false);
@@ -579,9 +579,9 @@ public class GameUI {
             mainGamePanel.setOpaque(false);
             mainGamePanel.add(mainTextArea);
             Image heliIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("helicopter.jpg")).getImage();
-            animation = new Animation(heliIcon);
-            animation.setBounds(200, 100, 400, 400);
-            container.add(animation);
+            setAnimation(new Animation(heliIcon));
+            getAnimation().setBounds(200, 100, 400, 400);
+            container.add(getAnimation());
         } else {
         }
     }
@@ -592,7 +592,7 @@ public class GameUI {
         setMusicPanel(new JPanel());
         getMusicPanel().setBounds(25, 5, 340, 180);
         getMusicPanel().setBackground(Color.white);
-        String select[] = {"ON", "OFF"};
+        String[] select = {"ON", "OFF"};
 
         setMusicStatus(new JComboBox(select));
         getMusicStatus().addActionListener(actionHandler);
@@ -681,7 +681,7 @@ public class GameUI {
     }
 
     public void setSettings(JPanel settings) {
-        this.settings = settings;
+        GameUI.settings = settings;
     }
 
     public static JPanel getSettings() {
@@ -702,5 +702,12 @@ public class GameUI {
 
     public static void setMapPanel(JPanel mapPanel) {
         GameUI.mapPanel = mapPanel;
+    }
+    public static Animation getAnimation() {
+        return animation;
+    }
+
+    public static void setAnimation(Animation animation) {
+        GameUI.animation = animation;
     }
 }

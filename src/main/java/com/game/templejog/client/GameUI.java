@@ -8,6 +8,8 @@ import com.game.templejog.animation.Animation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,17 +21,17 @@ public class GameUI {
     private static final Color PRIMARY_COLOR = new Color(0, 0, 0);
     private static final Color SECONDARY_COLOR = new Color(0, 0, 0);
     private static Animation animation;
-    static String currentLocationMap;
+    private static String currentLocationMap;
     static Image icon;
     static FileLoader fileLoader = new FileLoader();
     static JFrame window;
     static Container container;
-    static JPanel titleNamePanel, startButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel;
+    static JPanel titleNamePanel, startButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel, inventoryDescriptionPanel;
     static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel, settings, helpeventPanel, mapPanel, settingsPanel;
-    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel, blankLabel1, blankLabel3, blankLabel5, blankLabel7, blankLabel9;
-    static JButton northButton, eastButton, southButton, westButton, getMapButton, VolumeDown, VolumeUp;
+    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel, blankLabel1, blankLabel3, blankLabel5, blankLabel7, blankLabel9, descriptionLabel;
+    static JButton northButton, eastButton, southButton, westButton, getMapButton, VolumeDown, VolumeUp ;
     static JButton startButton, choice1, choice2, choice3, enterButton, settingsButton, helpButton;
-    static JTextArea mainTextArea, encounterTextArea, helpMenuTextArea;
+    static JTextArea mainTextArea, encounterTextArea, helpMenuTextArea, itemDescriptionTextArea;
 
     static JComboBox musicStatus, soundFXStatus;
 
@@ -51,6 +53,20 @@ public class GameUI {
 
     public GameUI() throws InterruptedException {
 
+        setupJFrameWindow();
+        setupTitleScreen();
+
+    }
+
+    public static String getCurrentLocationMap() {
+        return currentLocationMap;
+    }
+
+    public static void setCurrentLocationMap(String currentLocationMap) {
+        GameUI.currentLocationMap = currentLocationMap;
+    }
+
+    private void setupJFrameWindow() {
         window = new JFrame("Temple Jog");
         window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // close when window is closed
@@ -60,10 +76,7 @@ public class GameUI {
         window.setVisible(true);
         window.setResizable(false);
         container = window.getContentPane();
-        setupTitleScreen();
-
     }
-
 
 
     private void setupTitleScreen() {
@@ -193,7 +206,7 @@ public class GameUI {
         mainTextArea.setText(intro);
 
         enterPanel = new JPanel();
-        enterPanel.setBounds(350, 365, 100, 100);
+        enterPanel.setBounds(350, 380, 100, 100);
         enterPanel.setOpaque(false);
         //enterPanel.setBackground(Color.RED);
         container.add(enterPanel);
@@ -256,6 +269,13 @@ public class GameUI {
         areaItemPanel.setLayout(new GridLayout(1, 4));
         mainGamePanel.add(areaItemPanel);
         areaItemPanel.setVisible(false);
+
+        inventoryDescriptionPanel = new JPanel();
+        inventoryDescriptionPanel.setLayout(new GridLayout(1, 1));
+        inventoryDescriptionPanel.setBounds(250, 375, 275, 150);
+        inventoryDescriptionPanel.setBackground(Color.WHITE);
+        inventoryDescriptionPanel.setVisible(false);
+        container.add(inventoryDescriptionPanel);
 
         directionalPanel = new JPanel();
         directionalPanel.setBounds(WINDOW_WIDTH - 200, 400, 150, 150);
@@ -387,8 +407,8 @@ public class GameUI {
         settingsPanel.add(getMapButton);
 
 
-        currentLocationMap = Game.getCurrentRoom().getCurLocation();
-        icon = fileLoader.imageLoader(currentLocationMap);
+        setCurrentLocationMap(Game.getCurrentRoom().getCurLocation());
+        icon = fileLoader.imageLoader(getCurrentLocationMap());
         ImageIcon roomIcon = new ImageIcon(icon);
         JLabel locationMap = new JLabel();
         locationMap.setIcon(roomIcon);
@@ -485,6 +505,24 @@ public class GameUI {
             inventoryItem.setActionCommand("use " + item.getName());
             inventoryItem.setBackground(Color.WHITE);
             inventoryItem.setForeground(Color.BLACK);
+            inventoryItem.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent evt) {
+                    Color c = inventoryItem.getBackground(); // When the mouse moves over a label, the background color changed.
+                    inventoryItem.setBackground(inventoryItem.getForeground());
+                    inventoryItem.setForeground(c);
+                    itemDescriptionTextArea = new JTextArea(item.getDescription());
+                    itemDescriptionTextArea.setLineWrap(true);
+                    inventoryDescriptionPanel.add(itemDescriptionTextArea);
+                    inventoryDescriptionPanel.setVisible(true);
+                }
+                public void mouseExited(MouseEvent evt) {
+                    Color c = inventoryItem.getBackground();
+                    inventoryItem.setBackground(inventoryItem.getForeground());
+                    inventoryItem.setForeground(c);
+                    inventoryDescriptionPanel.setVisible(false);
+                    inventoryDescriptionPanel.removeAll();
+                }
+            });
             inventoryItem.addActionListener(actionHandler);
             playerInventoryPanel.add(inventoryItem);
             if (item.getReuse() < 1) {

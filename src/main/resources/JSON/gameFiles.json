@@ -272,55 +272,55 @@
       "name": "desert eagle",
       "room": "room02",
       "damage": 5,
-      "description": "The Mark XIX Desert Eagle is a gas-operated, semi-automatic pistol with a 7 round capacity. The gun measures 10.75” in length with a 6” barrel. Width is 1.25”, height 6.25” and the weight with an empty magazine is approximately 72 ounces. It has a trigger reach of 2.75” and a sight radius of 8.5” with the 6” barrel. - magnum research",
+      "description": "Description:\n\nThe Mark XIX Desert Eagle is a gas-operated, semi-automatic pistol with a 7 round capacity. The gun measures 10.75” in length with a 6” barrel. Width is 1.25”, height 6.25” and the weight with an empty \nmagazine is approximately 72 ounces. It has a \ntrigger reach of 2.75” and a sight radius of 8.5” with the 6” barrel. - magnum research",
       "reuse": 2
     },
     "grenade": {
       "name": "grenade",
       "room": "room04",
       "damage": 5,
-      "description": "A hand thrown explosive fragmentation grenade...",
+      "description": "Description:\n\nA hand thrown explosive fragmentation grenade...",
       "reuse": 1
     },
     "machete": {
       "name": "machete",
       "room": "room04",
       "damage": 5,
-      "description": "It looks like this machete has seen better days. It looks rusty, has a bent blade and is missing a proper grip...",
+      "description": "Description:\n\nIt looks like this machete has seen better days. It \nlooks rusty, has a bent blade and is missing a \nproper grip...",
       "reuse": 2
     },
     "flamethrower": {
       "name": "flamethrower",
       "room": "room06",
       "damage": 5,
-      "description": "A sawed-off, hip operated, WWI era, five cylinder inert propellant (nitrogen gas) Flamethrower that is 90% spent. Capable of spitting a violent ball of Red Holy Fire in a 180 degree cone of fiery destruction... and it looks heavy...",
+      "description": "Description:\n\nA sawed-off, hip operated, WWI era, five cylinder \ninert propellant (nitrogen gas) Flamethrower that is 90% spent. Capable of spitting a violent ball of Red Holy Fire in a 180 degree cone of fiery destruction... and it looks heavy...",
       "reuse": 1
     },
     "key": {
       "name": "key",
       "room": "room07",
       "damage": 0,
-      "description": "Honestly, it looks like a typical house key... probably not that important.",
+      "description": "Description:\n\nHonestly, it looks like a typical house key... \nprobably not that important.",
       "reuse": 1
     },
     "crystal femur": {
       "name": "crystal femur",
       "room": "room08",
       "damage": 0,
-      "description": "It is painfully clear that this Amethyst Crystal Femur is shaped like a human femur, it is also painfully clear that these aliens must be cheap because Amethyst crystals are some of the cheapest crystals you can get in the market these days.",
+      "description": "Description:\n\nIt is painfully clear that this Amethyst Crystal Femur is shaped like a human femur, it is also painfully \nclear that these aliens must be cheap because \nAmethyst crystals are some of the cheapest crystals you can get in the market these days.",
       "reuse": 99
     },
     "ball o yarn": {
       "name": "ball o yarn",
       "room": "room09",
       "damage": 0,
-      "description": "An irresistible basketball-sized ball of yarn.",
+      "description": "Description:\n\nAn irresistible basketball-sized ball of yarn.",
       "reuse": 1
     }
   },
   "gameText": {
     "title": "Temple Jog",
-    "intro": "\n The year is 20XX...\n\n A major government power has learned of an alien race that wants to invade\nEarth and enslave the human race.\n They have discovered a secret alien ship that has been here for centuries.\n It has been disguised as a lost hidden temple the whole time!\n Their plan is to nuke the temple from orbit. As it's\n\"@|cyan The only way to be sure.|@\"\n From intel gained, your special ops team has learned that even if the ship\nis destroyed, a signal will still be sent to the alien home-world!\n Your mission, that you already chose to accept, is to:\n@|bold,yellow    -Infiltrate the temple and gain access to the communication device.\n    -Find a way to shut it down.\n    -Get back to the landing zone for extraction before the bomb drops!\n    -You have until sun-down at 18:00 local time.|@ \n\n\n\n Press <Enter> to parachute into the LZ...",
+    "intro": "\n The year is 20XX...\n\n A major government power has learned of an alien race that wants to invade\n Earth and enslave the human race.\n They have discovered a secret alien ship that has been here for centuries.\n It has been disguised as a lost hidden temple the whole time!\n Their plan is to nuke the temple from orbit. As it's\n\n \"The only way to be sure.\"\n\n From intel gained, your special ops team has learned that even if the ship\n is destroyed, a signal will still be sent to the alien home-world!\n Your mission, that you already chose to accept, is to:\n    -Infiltrate the temple and gain access to the communication device.\n    -Find a way to shut it down.\n    -Get back to the landing zone for extraction before the bomb drops!\n    -You have until sun-down at 18:00 local time. \n\n\n Press <Enter> to parachute into the LZ...",
     "gameOver": "████████████████████████████████████████████████████████████████████████████████\n█                                                                              █\n█     ████     ████ ██     ██ ███████    ███████  ██    ██ ███████ ██████      █\n█    ██████   ██ ██ ███   ███ ███████   █████████ ██    ██ ███████ ████████    █\n█   ██       ██  ██ ████ ████ ██        ███   ███ ██    ██ ██      ██    ██    █\n█   ██       ██  ██ █████████ ██        ██     ██ ██    ██ ██      ██    ██    █\n█   ██       ██  ██ ██ ███ ██ █████     ██     ██ ██    ██ █████   ████████    █\n█   ██  ████ ██████ ██  █  ██ █████     ██     ██ ██    ██ █████   ███████     █\n█   ██  ████ ██████ ██     ██ ██        ███   ███ ███  ███ ██      ██  ██      █\n█   ██   ██  ██  ██ ██     ██ ███████   █████████   ████   ███████ ██   ██     █\n█    █████   ██  ██ ██     ██ ███████    ███████     ██    ███████ ██    ██    █\n█                                                                              █\n████████████████████████████████████████████████████████████████████████████████",
     "winText": "YOU WIN: You managed to infiltrate the alien temple, disable the device and get out before the bomb dropped. As you look back from the helicopter, you see the nuke go off on the horizon. Earth has been spared!",
     "sortOfWin": "YOU (sort of) WIN: Earth commends you and is forever in your debt! You managed to thwart the alien threat! But unfortunately you did not get out in time to escape the nuke! You will be remembered...",

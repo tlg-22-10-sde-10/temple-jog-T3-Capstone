@@ -66,4 +66,5 @@ public class Item {
     public void setReuse(Integer reuse) {
         this.reuse = reuse;
     }
+
 }

@@ -35,10 +35,8 @@ public class GameUI {
 
     static JComboBox musicStatus, soundFXStatus;
 
-    //static Font titleFont = new Font("Bauhaus 93", Font.PLAIN, 90);
-   // static Font titleFont = new Font("Broadway", Font.PLAIN, 90);
-    //static Font titleFont = new Font("Castellar", Font.PLAIN, 90);
-    static Font titleFont = new Font("Stencil", Font.PLAIN, 90);
+    static Font titleFont = new Font("Castellar", Font.PLAIN, 90);
+
     static Font standardFont = new Font("Times New Roman", Font.PLAIN, 30);
     static Font smallFont = new Font("Times New Roman", Font.PLAIN, 15);
     static Font normalFont = new Font("Times New Roman", Font.PLAIN, 20);
@@ -109,11 +107,13 @@ public class GameUI {
 
         Sound.Title();
         settings = eventPanel(200, 150, 400, 200, "settings");
+        settings.setBackground(Color.BLACK);
         settings.setVisible(false);
         settingMenuOption();
 
         helpeventPanel = eventPanel(150, 150, 450, 300, "help");
         helpeventPanel.setVisible(false);
+        helpeventPanel.setBackground(Color.BLACK);
 
         mapPanel = eventPanel(0, 0, 780, 550, "getMap");
         mapPanel.setVisible(false);
@@ -279,18 +279,21 @@ public class GameUI {
 
         directionalPanel = new JPanel();
         directionalPanel.setBounds(WINDOW_WIDTH - 200, 400, 150, 150);
-        directionalPanel.setBackground(Color.BLACK);
+        //directionalPanel.setBackground(Color.BLACK);
         directionalPanel.setLayout(new GridLayout(3, 3));
+        directionalPanel.setOpaque(false);
         directionalPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         container.add(directionalPanel);
 
+
         playerInventoryPanel = new JPanel();
-        playerInventoryPanel.setBounds(0, 400, 200, 160);
+        playerInventoryPanel.setBounds(0, 375, 200, 180);
         playerInventoryPanel.setBackground(Color.LIGHT_GRAY);
-        playerInventoryPanel.setLayout(new GridLayout(7, 1));
+        playerInventoryPanel.setLayout(new GridLayout(8, 1));
         playerInventoryPanel.setOpaque(false);
         container.add(playerInventoryPanel);
         playerInventoryPanel.setVisible(false);
+
 
         playerPanel = new JPanel();
         playerPanel.setBounds(0, 0, WINDOW_WIDTH, 50);
@@ -350,7 +353,7 @@ public class GameUI {
         settingsPanel = new JPanel();
         settingsPanel.setLayout(new GridLayout(1, 3));
         settingsPanel.setBounds(570, 320, 200, 100);
-        settingsPanel.setBackground(Color.BLACK);
+        settingsPanel.setBackground(Color.WHITE);
         settingsPanel.setOpaque(false);
         container.add(settingsPanel);
 
@@ -384,7 +387,8 @@ public class GameUI {
         helpMenuTextArea = new JTextArea();
         helpMenuTextArea.setBounds(0, 35, 450, 265);
         helpMenuTextArea.setOpaque(false);
-        helpMenuTextArea.setForeground(Color.BLACK);
+        helpMenuTextArea.setForeground(Color.GREEN);
+        helpMenuTextArea.setBackground(Color.BLACK);
         helpMenuTextArea.setFont(helpFont);
         helpMenuTextArea.setLineWrap(true);
         String gameHelp = game.getGameText().get("guiGameHelp");
@@ -499,12 +503,15 @@ public class GameUI {
 
     private static void updateItemPanel() {
         playerInventoryPanel.removeAll();
+        JButton inventory = new JButton("Inventory");
+        inventory.setBackground(Color.GREEN);
+        playerInventoryPanel.add(inventory);
         List<Item> items = game.getPlayer().getInventory();
         for (Item item : items) {
             JButton inventoryItem = new JButton(item.getName());
             inventoryItem.setActionCommand("use " + item.getName());
-            inventoryItem.setBackground(Color.WHITE);
-            inventoryItem.setForeground(Color.BLACK);
+            inventoryItem.setBackground(Color.BLACK);
+            inventoryItem.setForeground(Color.WHITE);
             inventoryItem.addMouseListener(new MouseAdapter() {
                 public void mouseEntered(MouseEvent evt) {
                     Color c = inventoryItem.getBackground(); // When the mouse moves over a label, the background color changed.
@@ -512,6 +519,8 @@ public class GameUI {
                     inventoryItem.setForeground(c);
                     itemDescriptionTextArea = new JTextArea(item.getDescription());
                     itemDescriptionTextArea.setLineWrap(true);
+                    itemDescriptionTextArea.setBackground(Color.BLACK);
+                    itemDescriptionTextArea.setForeground(Color.YELLOW);
                     inventoryDescriptionPanel.add(itemDescriptionTextArea);
                     inventoryDescriptionPanel.setVisible(true);
                 }
@@ -527,6 +536,7 @@ public class GameUI {
             playerInventoryPanel.add(inventoryItem);
             if (item.getReuse() < 1) {
                 inventoryItem.setVisible(false);
+                inventoryDescriptionPanel.setVisible(false);
             }
             if (items.size() > 0) {
                 playerInventoryPanel.setVisible(true);
@@ -630,23 +640,31 @@ public class GameUI {
         //holds setting options for musix and sfx
         setMusicPanel(new JPanel());
         getMusicPanel().setBounds(25, 5, 340, 180);
-        getMusicPanel().setBackground(Color.white);
+        getMusicPanel().setBackground(Color.GRAY);
         String[] select = {"ON", "OFF"};
 
         setMusicStatus(new JComboBox(select));
+        getMusicStatus().setBackground(Color.BLACK);
+        getMusicStatus().setForeground(Color.GREEN);
         getMusicStatus().addActionListener(actionHandler);
         getMusicStatus().setActionCommand("toggle sound");
         setSoundFXStatus(new JComboBox(select));
         setMusicLabel(new JLabel("Music"));
         setSoundFxLabel(new JLabel("SoundFX"));
         getSoundFXStatus().addActionListener(actionHandler);
+        getSoundFXStatus().setBackground(Color.BLACK);
+        getSoundFXStatus().setForeground(Color.GREEN);
         getSoundFXStatus().setActionCommand("toggle fx");
         setVolumeDown(new JButton("volume down"));
         getVolumeDown().addActionListener(actionHandler);
+        getVolumeDown().setBackground(Color.BLACK);
+        getVolumeDown().setForeground(Color.RED);
         getVolumeDown().setActionCommand("volume down");
         setVolumeUp(new JButton("Volume Up"));
         getVolumeUp().addActionListener(actionHandler);
         getVolumeUp().setActionCommand("volume up");
+        getVolumeUp().setBackground(Color.BLACK);
+        getVolumeUp().setForeground(Color.GREEN);
         getVolumeDown().setBounds(80, 120, 150, 25);
         getVolumeUp().setBounds(80, 90, 150, 25);
         getMusicLabel().setBounds(80, 30, 75, 25);

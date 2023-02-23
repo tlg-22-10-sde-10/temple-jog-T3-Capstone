@@ -628,9 +628,9 @@ public class GameUI {
             mainGamePanel.setOpaque(false);
             mainGamePanel.add(mainTextArea);
             //Image heliIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("chopper.png")).getImage();
-           Image heliIcon = new ImageIcon(fileLoader.imageLoader("chopper.png")).getImage();
+            Image heliIcon = new ImageIcon(fileLoader.imageLoader("chopper.png")).getImage();
             setAnimation(new Animation(heliIcon));
-            getAnimation().setBounds(200, 100, 400, 400);
+            getAnimation().setBounds(200, 100, WINDOW_WIDTH, 400);
             container.add(getAnimation());
 
         } else {

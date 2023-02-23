@@ -53,22 +53,23 @@ class GameTest {
 
     //NAVIGATING
     @Test
-    @Disabled
     void processNavigating_given_SubsequentValidInputs_playerCanTraverseAllRoomsInGame_LoadedFromJSON() throws IOException {
         Game gameJSON = generateGameFromJSON();
+        Game.setPlaySound(false);
         String[] fastPath = new String[]{"north", "north", "north", "east", "south", "east", "north", "south", "west", "north", "west", "south", "south", "south","end"};
-        String[] fastPathRooms = new String[]{"room02", "room03", "room04", "room07", "room06", "room09", "room10", "room09", "room06", "room07", "room04", "room03", "room02", "room01", InvalidNounInput.BAD_NAV.getWarning()};
+        String[] fastPathRooms = new String[]{"Jungle Path", "Jungle Clearing", "Base of Temple", "Temple Entrance", "Central Chamber", "Temple Store room", "Alien Communication Room", "Temple Store room", "Central Chamber", "Temple Entrance", "Base of Temple", "Jungle Clearing", "Jungle Path", "Landing Zone", "Landing Zone"};
         List<String> roundTrip = new ArrayList<>(Arrays.asList(fastPath));
         List<String> expectedRooms = new ArrayList<>(Arrays.asList(fastPathRooms));
         String expectedRoom = "";
         String[] choice = new String[]{"go",""};
         while(  choice[1] != "end" ){
             choice[1] = roundTrip.remove(0);
-            String actualRoom = gameJSON.processChoice(choice);
+            gameJSON.processChoice(choice);
+            String actualRoom = String.valueOf(gameJSON.getCurrentRoom().getName());
+
             expectedRoom = expectedRooms.remove(0);
             assertEquals(expectedRoom,actualRoom);
         }
-
         // completed successfully
         String expected = "end";
         String actual = choice[1];
@@ -84,7 +85,6 @@ class GameTest {
         assertEquals(expect,actual);
     }
     @Test
-    @Disabled
     void processNavigating_given_emptyInputString_shouldReturnEnum_BAD_NAV(){
         String expect = InvalidNounInput.BAD_NAV.getWarning();
         String emptyTestString = "";
@@ -122,7 +122,6 @@ class GameTest {
         assertEquals(expect,actual);
     }
     @Test
-    @Disabled
     void processLooking_Given_ValidInputString_ShouldReturnItemDescription_WhenItemIsPresentInCurrentRoom(){
         playerInventory.clear();
         String expect = "test description";
@@ -138,14 +137,6 @@ class GameTest {
         String actual = game.processChoice(test);
         assertEquals( expect, actual );
     }
-
-    //QUITTING
-    @Test
-    void processQuitting_Given_InputStringToQuit_ShouldReturnSameInputString(){}
-    @Test
-    void processQuitting_Given_BadInputStringToQuit_ShouldReturnInvalidInputString(){}
-
-
     //HELPER METHODS
     @Test
     void popItemFromMap_GivenValidNounString_ShouldReturnValidItem(){

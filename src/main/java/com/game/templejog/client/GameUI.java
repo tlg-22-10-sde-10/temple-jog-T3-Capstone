@@ -627,10 +627,12 @@ public class GameUI {
             mainTextArea.setText("You Win!!!");
             mainGamePanel.setOpaque(false);
             mainGamePanel.add(mainTextArea);
-            Image heliIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("helicopter.jpg")).getImage();
+            //Image heliIcon = new ImageIcon(GameUI.class.getClassLoader().getResource("chopper.png")).getImage();
+           Image heliIcon = new ImageIcon(fileLoader.imageLoader("chopper.png")).getImage();
             setAnimation(new Animation(heliIcon));
             getAnimation().setBounds(200, 100, 400, 400);
             container.add(getAnimation());
+
         } else {
         }
     }

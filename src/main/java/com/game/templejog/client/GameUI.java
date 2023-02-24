@@ -26,9 +26,9 @@ public class GameUI {
     static FileLoader fileLoader = new FileLoader();
     static JFrame window;
     static Container container;
-    static JPanel titleNamePanel, startButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel, inventoryDescriptionPanel;
+    static JPanel titleNamePanel, startButtonPanel, mainTextPanel, difficultyPanel, enterPanel, musicPanel, inventoryDescriptionPanel,encountersImagePanel;
     static JPanel playerPanel, mainGamePanel, directionalPanel, areaItemPanel, playerInventoryPanel, settings, helpeventPanel, mapPanel, settingsPanel;
-    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel, blankLabel1, blankLabel3, blankLabel5, blankLabel7, blankLabel9, descriptionLabel;
+    static JLabel healthLabel, titleLabel, musicLabel, soundFxLabel, blankLabel1, blankLabel3, blankLabel5, blankLabel7, blankLabel9, encountersLabel;
     static JButton northButton, eastButton, southButton, westButton, getMapButton, VolumeDown, VolumeUp ;
     static JButton startButton, choice1, choice2, choice3, enterButton, settingsButton, helpButton;
     static JTextArea mainTextArea, encounterTextArea, helpMenuTextArea, itemDescriptionTextArea;
@@ -270,6 +270,15 @@ public class GameUI {
         mainGamePanel.add(areaItemPanel);
         areaItemPanel.setVisible(false);
 
+        encountersImagePanel = new JPanel();
+        encountersImagePanel.setBounds(0, 350, WINDOW_WIDTH, 100);
+        encountersImagePanel.setBackground(Color.PINK);
+        encountersImagePanel.setVisible(false);
+        mainGamePanel.add(encountersImagePanel);
+        encountersLabel = new JLabel();
+        encountersImagePanel.add(encountersLabel);
+
+
         inventoryDescriptionPanel = new JPanel();
         inventoryDescriptionPanel.setLayout(new GridLayout(1, 1));
         inventoryDescriptionPanel.setBounds(250, 375, 275, 150);
@@ -478,6 +487,19 @@ public class GameUI {
         }
         return String.valueOf(encounterDescription);
     }
+    private static Image encountersPicture() {
+        boolean hasEncounters = !Game.getCurrentRoom().getEncounters_to().isEmpty();
+        Image encountersImage = null;
+        if (hasEncounters) {
+            for (String encounter : Game.getCurrentRoom().getEncounters_to()) {
+                String image = game.getEncounters().get(encounter).getImage();
+                Image picture = new ImageIcon(fileLoader.imageLoader(image)).getImage();
+                encountersImage = picture;
+            }
+        }
+        return encountersImage;
+        }
+
 
     public static void showAreaItems() {
         areaItemPanel.removeAll();
@@ -553,9 +575,11 @@ public class GameUI {
 
         if (action.contains("is EFFECTIVE against")) {
             encounterTextArea.setText(action);
+            encountersImagePanel.setVisible(false);
 
         } else if (action.contains("Success!!!")) {
             encounterTextArea.setText(action);
+            encountersImagePanel.setVisible(false);
             if (Game.getCurrentRoom().getName().equalsIgnoreCase("Alien Communication Room")){
             Sound.getToTheChopper();}
         } else {
@@ -591,9 +615,16 @@ public class GameUI {
             encounterTextArea.setText(encounterDescription());
             showAreaItems();
 
+
             healthLabel.setText("Location: " + Game.getCurrentRoom().getName() + "         " +
                     "HP: " + game.getPlayer().getHealth() + "             TIME: " + time());
             encounterTextArea.setVisible(!encounterDescription().equals("nothing here"));
+            if(encountersPicture()!= null){
+                encountersLabel.setIcon(new ImageIcon(encountersPicture()));
+                encountersImagePanel.setVisible(true);
+            }else{
+                encountersImagePanel.setVisible(false);
+            }
         } else {
             Sound.wrongWaySound();
         }

@@ -559,6 +559,7 @@ public class GameUI {
             if (item.getReuse() < 1) {
                 inventoryItem.setVisible(false);
                 inventoryDescriptionPanel.setVisible(false);
+                inventoryDescriptionPanel.removeAll();
             }
             if (items.size() > 0) {
                 playerInventoryPanel.setVisible(true);
@@ -622,6 +623,7 @@ public class GameUI {
             if(encountersPicture()!= null){
                 encountersLabel.setIcon(new ImageIcon(encountersPicture()));
                 encountersImagePanel.setVisible(true);
+                encountersImagePanel.setOpaque(false);
             }else{
                 encountersImagePanel.setVisible(false);
             }

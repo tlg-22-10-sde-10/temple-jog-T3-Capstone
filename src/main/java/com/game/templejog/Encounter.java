@@ -24,49 +24,21 @@ public class Encounter {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public String getSuccess() {
         return success;
     }
 
-    public void setSuccess(String success) {
-        this.success = success;
-    }
 
     public List<String> getWeakness() {
         return weakness;
     }
 
-    public void setWeakness(List<String> weakness) {
-        this.weakness = weakness;
-    }
-
-    public Integer getFailure() {
-        return failure;
-    }
-
-    public void setFailure(Integer failure) {
-        this.failure = failure;
-    }
-
-    public Integer getOutcome() {
-        return outcome;
-    }
-
-    public void setOutcome(Integer outcome) {
-        this.outcome = outcome;
-    }
 
     public String getImage() {
         return image;

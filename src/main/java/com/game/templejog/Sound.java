@@ -11,13 +11,8 @@ public class Sound {
     private static Clip clip;
     private static Clip fx;
     public static float currentVolume = 0;
-    private static FloatControl floatControl;
     private static boolean soundFx = true;
 
-    void Sound() {
-        volumeUp();
-        volumeDown();
-    }
 
     /* Handles the background theme music */
     public static void themeSound(String file) {

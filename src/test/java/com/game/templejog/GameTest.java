@@ -65,7 +65,7 @@ class GameTest {
         while(  choice[1] != "end" ){
             choice[1] = roundTrip.remove(0);
             gameJSON.processChoice(choice);
-            String actualRoom = String.valueOf(gameJSON.getCurrentRoom().getName());
+            String actualRoom = String.valueOf(Game.getCurrentRoom().getName());
 
             expectedRoom = expectedRooms.remove(0);
             assertEquals(expectedRoom,actualRoom);

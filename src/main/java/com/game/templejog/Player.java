@@ -24,7 +24,6 @@ public class Player {
 
     /*              ACCESSOR METHODS                    */
     public List<Item> getInventory() { return inventory; }
-    public void setInventory(List<Item> inventory) {this.inventory = inventory;}
     public Integer getHealth() {return health;}
     public void setHealth(Integer health) {this.health = health;}
     public Integer getSteps() {return steps;}

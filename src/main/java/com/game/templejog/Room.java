@@ -1,7 +1,6 @@
 package com.game.templejog;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,8 +70,7 @@ public class Room {
     }
 
 //  ACCESSOR METHODS
-    public Integer getNumber() { return number; }
-    public void setNumber(Integer number) { this.number = number;}
+
     public String getName() { return name; }
 
     public void setName(String name) {
@@ -83,49 +81,31 @@ public class Room {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public String getWest() {
         return west;
     }
 
-    public void setWest(String west) {
-        this.west = west;
-    }
 
     public String getSouth() {
         return south;
     }
 
-    public void setSouth(String south) {
-        this.south = south;
-    }
 
     public String getNorth() {
         return north;
     }
 
-    public void setNorth(String north) {
-        this.north = north;
-    }
 
     public String getEast() {
         return east;
     }
 
-    public void setEast(String east) {
-        this.east = east;
-    }
 
     public List<String> getItems() {
         return items;
     }
 
-    public void setItems(List<String> items) {
-        this.items = items;
-    }
 
     public List<String> getEncounters_to() {
         return encounters_to;
@@ -139,9 +119,6 @@ public class Room {
         return encounters_from;
     }
 
-    public void setEncounters_from(List<String> encounters_from) {
-        this.encounters_from = encounters_from;
-    }
 
     public boolean getHasBeenVisited() {
         return hasBeenVisited;
@@ -153,20 +130,13 @@ public class Room {
 
     public Boolean getIsLocked() { return isLocked; }
 
-    public void setIsLocked(Boolean locked) { isLocked = locked; }
 
     public String getSound() {
         return sound;
-    }
-    public void setSound(String sound) {
-        this.sound = sound;
     }
 
     public String getCurLocation() {
         return curLocation;
     }
 
-    public void setCurLocation(String curLocation) {
-        this.curLocation = curLocation;
-    }
 }

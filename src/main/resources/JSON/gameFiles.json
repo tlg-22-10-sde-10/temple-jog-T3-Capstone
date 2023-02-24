@@ -149,7 +149,7 @@
       "isLocked": false,
       "number": 10,
       "name": "Alien Communication Room",
-      "description": "You found the communications room. \nA large metallic device sits in the center of the room.\na web of cables extend upward into the ceiling, \nallowing the device to send off world messages",
+      "description": "A large metallic device sits in the center of the room.\na web of cables extend upward into the ceiling.",
       "west": "",
       "south": "room09",
       "north": "",
@@ -166,7 +166,7 @@
       "name": "alien guard",
       "type": "enemy",
       "description": "An Alien Guard leaps across the altar and braces itself for combat.",
-      "image": "xeno.png",
+      "image": "alien_guard.png",
       "weakness": [
         "desert eagle",
         "grenade",
@@ -189,7 +189,7 @@
     "cougar": {
       "name": "cougar",
       "type": "enemy",
-      "description": "A giant cougar jumps out from the jungle and attacks you!",
+      "description": "A HUMONGOUS cougar jumps out from the jungle and attacks you!",
       "image": "doge.png",
       "weakness": ["desert eagle",
                     "ball o yarn"],
@@ -200,7 +200,7 @@
       "name": "lion",
       "type": "enemy",
       "description": "One of the statues has come to life! \nA ripped and shredded lion with a taste for intruders leaps into action.",
-      "image": "golem.png",
+      "image": "lion_image.png",
       "weakness": ["ball o yarn"],
       "success": "You throw the ball O yarn at the lion.\nIt bats it around like a kitten. \nIt's way too distracted to care about you now.",
       "failure": -1
@@ -209,7 +209,7 @@
       "name": "mummy",
       "type": "enemy",
       "description": "Uh-oh, now you've done it. \nYou have awakened an evil, vengeful, murderous mummy.",
-      "image": "zombie.png",
+      "image": "mummy.png",
       "weakness": [
         "desert eagle",
         "flamethrower",
@@ -239,7 +239,7 @@
         "crystal femur"
       ],
       "success": "Not taking any chances, you bludgeon the alien with the Crystal Femur! \nThe alien leader is knocked unconscious.",
-      "failure": -1
+      "failure": -2
     },
     "anaconda": {
       "name": "anaconda",

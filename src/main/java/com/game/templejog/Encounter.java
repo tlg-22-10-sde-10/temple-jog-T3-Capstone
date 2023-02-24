@@ -6,7 +6,7 @@ import java.util.List;
  * Created by dev0 on 2/2/23.
  */
 public class Encounter {
-    String name,type,description,success;
+    String name,type,description,success, image;
     List<String> weakness;
     Integer failure,outcome;
 
@@ -66,5 +66,13 @@ public class Encounter {
 
     public void setOutcome(Integer outcome) {
         this.outcome = outcome;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

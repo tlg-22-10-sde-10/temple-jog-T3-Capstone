@@ -75,7 +75,7 @@
       "north": "room06",
       "east": "",
       "items": [],
-      "encounters_to": [ "face mugger", "pit" ],
+      "encounters_to": [ "face mugger" ],
       "encounters_from": [],
       "sound": "sounds/face_mugging_torment.wav",
       "curLocation": "pitOfMug.png"
@@ -166,6 +166,7 @@
       "name": "alien guard",
       "type": "enemy",
       "description": "An Alien Guard leaps across the altar and braces itself for combat.",
+      "image": "xeno.png",
       "weakness": [
         "desert eagle",
         "grenade",
@@ -178,6 +179,7 @@
       "name": "bald eagle",
       "type": "enemy",
       "description": "A Bald Eagle screams as it dives toward you!",
+      "image": "eagle.png",
       "weakness": [
         "desert eagle"
       ],
@@ -188,6 +190,7 @@
       "name": "cougar",
       "type": "enemy",
       "description": "A giant cougar jumps out from the jungle and attacks you!",
+      "image": "doge.png",
       "weakness": ["desert eagle",
                     "ball o yarn"],
       "success": "After everything you've been through, a cougar? \nNot even a challenge.",
@@ -197,6 +200,7 @@
       "name": "lion",
       "type": "enemy",
       "description": "One of the statues has come to life! \nA ripped and shredded lion with a taste for intruders leaps into action.",
+      "image": "golem.png",
       "weakness": ["ball o yarn"],
       "success": "You throw the ball O yarn at the lion.\nIt bats it around like a kitten. \nIt's way too distracted to care about you now.",
       "failure": -1
@@ -205,6 +209,7 @@
       "name": "mummy",
       "type": "enemy",
       "description": "Uh-oh, now you've done it. \nYou have awakened an evil, vengeful, murderous mummy.",
+      "image": "zombie.png",
       "weakness": [
         "desert eagle",
         "flamethrower",
@@ -217,6 +222,7 @@
       "name": "face mugger",
       "type": "enemy",
       "description": "A face-mugger tries to mug your face, attempting to wrap its \ncreepy-crawly legs around your cranium. \nit obviously wants to re-arrange your lungs from your face!",
+      "image": "spider.png",
       "weakness": [
         "desert eagle",
         "flamethrower"
@@ -228,6 +234,7 @@
       "name": "alien boss",
       "type": "enemy",
       "description": "A very large roided-out-extraterrestrial being stands at the center of the room! It screams something you can't make out,\"^&@%# @&^#*(!( $^$#*(@!!!!\"",
+      "image": "mech-godzilla.png",
       "weakness": [
         "crystal femur"
       ],
@@ -238,6 +245,7 @@
       "name": "anaconda",
       "type": "enemy",
       "description": "A giant Anaconda coils itself up, poised to strike at a moment's notice!",
+      "image": "pirplant.png",
       "weakness": [ "grenade",  "desert eagle",  "machete" ],
       "success": "You quickly deal with the Anaconda before it can wrap itself around you. \nInjured, it slithers back into its hole.",
       "failure": -1
@@ -245,6 +253,7 @@
     "communicator": {
       "name": "communicator",
       "type": "environment",
+      "image": "bmo.png",
       "description": "This is the communication device! \nI mean, imagine the technology these aliens have, man. \nAble to travel across the universe, talking with each other and stuff. \nStrangely, there is an outline that is the perfect shape of a femur. \nTheres also Some alien guy sleeping on the job" ,
       "weakness": ["crystal femur"],
       "success": "\nYou found a way to destroy the communication device, \nby carefully using the crystal femur to bash the console! \nYou should probably start jogging to the landing zone before you get nuked! \nAlso be careful of the alien you just woke up",
@@ -254,6 +263,7 @@
       "name": "pit",
       "type": "environment",
       "description": "Ahhhhhh!! You have fallen into a black pit at least 10 feet deep!",
+      "image": "pit.png",
       "weakness": [],
       "success": "pop",
       "outcome": -1
@@ -262,6 +272,7 @@
       "name": "locked door",
       "type": "environment",
       "description": "...Strange, the south door is locked.",
+      "image": "lock.png",
       "weakness": ["key"],
       "success": "..Or is it? \nThe door creaks open, revealing a dark and mysterious chamber beyond. \nThe air is thick with the smell of metal and ozone. \nThe walls are covered with alien ectoplasm, and strange markings.",
       "outcome": -1

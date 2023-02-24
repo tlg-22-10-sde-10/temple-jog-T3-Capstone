@@ -281,7 +281,7 @@ public class Game {
 
 //  ACCESSOR METHODS
     public static Room getCurrentRoom() { return currentRoom;}
-    public void setCurrentRoom(Room currentRoom) { this.currentRoom = currentRoom;}
+    public void setCurrentRoom(Room currentRoom) { Game.currentRoom = currentRoom;}
     public Player getPlayer() { return player; }
     public void setPlayer(Player player) { this.player = player; }
     public Map<String, Room> getRooms() { return rooms; }
@@ -299,11 +299,5 @@ public class Game {
     public static Boolean getPlaySound() { return playSound; }
     public static void setPlaySound(Boolean playSound) { Game.playSound = playSound; }
     public HashMap<String, String> getGameText() { return gameText; }
-    public static Boolean getPlayFxSound() {
-        return playFxSound;
-    }
-    public static void setPlayFxSound(Boolean playFxSound) {
-        Game.playFxSound = playFxSound;
-    }
     public void setGameText(HashMap<String, String> gameText) { this.gameText = gameText; }
 }

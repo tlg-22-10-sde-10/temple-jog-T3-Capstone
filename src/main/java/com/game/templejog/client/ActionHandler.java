@@ -13,8 +13,7 @@ public class ActionHandler implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String userChoice = e.getActionCommand();
-        List<String> navList = Arrays.asList(new String[]{"north", "east", "south", "west"});
-        boolean direction = navList.contains(userChoice);
+        List<String> navList = Arrays.asList("north", "east", "south", "west");
 
         switch (userChoice) {
             case "start":
@@ -86,55 +85,55 @@ public class ActionHandler implements ActionListener {
             case "close help":
             case "close getMap":
                 GameUI.eventPanelClose(userChoice);
-                GameUI.areaItemPanel.setVisible(true);
-                GameUI.playerInventoryPanel.setVisible(true);
-                GameUI.directionalPanel.setVisible(true);
-                GameUI.mainGamePanel.setVisible(true);
+                GameUI.getAreaItemPanel().setVisible(true);
+                GameUI.getPlayerInventoryPanel().setVisible(true);
+                GameUI.getDirectionalPanel().setVisible(true);
+                GameUI.getMainGamePanel().setVisible(true);
                 break;
             case "settings":
                 if (GameUI.getSettings().isVisible()) {
                     GameUI.getSettings().setVisible(false);
-                    GameUI.areaItemPanel.setVisible(true);
-                    GameUI.playerInventoryPanel.setVisible(true);
-                    GameUI.directionalPanel.setVisible(true);;
-                    GameUI.mainGamePanel.setVisible(true);
+                    GameUI.getAreaItemPanel().setVisible(true);
+                    GameUI.getPlayerInventoryPanel().setVisible(true);
+                    GameUI.getDirectionalPanel().setVisible(true);
+                    GameUI.getMainGamePanel().setVisible(true);
                 } else {
                     GameUI.getSettings().setVisible(true);
-                    GameUI.areaItemPanel.setVisible(false);
-                    GameUI.playerInventoryPanel.setVisible(false);
-                    GameUI.directionalPanel.setVisible(false);
-                    GameUI.mainGamePanel.setVisible(false);
+                    GameUI.getAreaItemPanel().setVisible(false);
+                    GameUI.getPlayerInventoryPanel().setVisible(false);
+                    GameUI.getDirectionalPanel().setVisible(false);
+                    GameUI.getMainGamePanel().setVisible(false);
                 }
                 break;
             case "help":
                 if (GameUI.getHelpeventPanel().isVisible()) {
                     GameUI.getHelpeventPanel().setVisible(false);
-                    GameUI.areaItemPanel.setVisible(true);
-                    GameUI.playerInventoryPanel.setVisible(true);
-                    GameUI.directionalPanel.setVisible(true);
-                    GameUI.mainGamePanel.setVisible(true);
+                    GameUI.getAreaItemPanel().setVisible(true);
+                    GameUI.getPlayerInventoryPanel().setVisible(true);
+                    GameUI.getDirectionalPanel().setVisible(true);
+                    GameUI.getMainGamePanel().setVisible(true);
                 } else {
                     GameUI.getHelpeventPanel().setVisible(true);
-                    GameUI.areaItemPanel.setVisible(false);
-                    GameUI.playerInventoryPanel.setVisible(false);
-                    GameUI.directionalPanel.setVisible(false);
-                    GameUI.mainGamePanel.setVisible(false);
+                    GameUI.getAreaItemPanel().setVisible(false);
+                    GameUI.getPlayerInventoryPanel().setVisible(false);
+                    GameUI.getDirectionalPanel().setVisible(false);
+                    GameUI.getMainGamePanel().setVisible(false);
 
                 }
                 break;
             case "getMap":
                 if (GameUI.getMapPanel().isVisible()) {
                     GameUI.getMapPanel().setVisible(false);
-                    GameUI.areaItemPanel.setVisible(true);
-                    GameUI.playerInventoryPanel.setVisible(true);
-                    GameUI.directionalPanel.setVisible(true);
-                    GameUI.mainGamePanel.setVisible(true);
+                    GameUI.getAreaItemPanel().setVisible(true);
+                    GameUI.getPlayerInventoryPanel().setVisible(true);
+                    GameUI.getDirectionalPanel().setVisible(true);
+                    GameUI.getMainGamePanel().setVisible(true);
                 } else {
                     GameUI.getMapPanel().setVisible(true);
-                    GameUI.areaItemPanel.setVisible(false);
-                    GameUI.playerInventoryPanel.setVisible(false);
-                    GameUI.directionalPanel.setVisible(false);
-                    GameUI.mainGamePanel.setVisible(false);
+                    GameUI.getAreaItemPanel().setVisible(false);
+                    GameUI.getPlayerInventoryPanel().setVisible(false);
+                    GameUI.getDirectionalPanel().setVisible(false);
+                    GameUI.getMainGamePanel().setVisible(false);
                 }
                 break;
             case "volume up":
@@ -156,12 +155,7 @@ public class ActionHandler implements ActionListener {
                 }
                 break;
             case "toggle fx":
-                if (GameUI.getSoundFXStatus().getSelectedItem().equals("ON")) {
-                    Sound.setSoundFx(true);
-                }
-                else{
-                    Sound.setSoundFx(false);
-                }
+                Sound.setSoundFx(GameUI.getSoundFXStatus().getSelectedItem().equals("ON"));
                 break;
         }
     }
